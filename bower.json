@@ -1,22 +1,26 @@
 {
-    "name": "pbw-django",
-    "version": "0.1",
-    "dependencies": {
-        "almond": null,
-        "jquery": null,
-        "foundation-sites": null,
-        "font-awesome": null,
-        "motion-ui": null,
-        "r.js": null,
-        "requirejs": null,
-        "requirejs-babel": null
-    },
-    "main": "assets/js/main.js",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ]
+  "name": "pbw-django",
+  "version": "0.1",
+  "dependencies": {
+    "almond": null,
+    "jquery": "^3.0.0",
+    "foundation-sites": "^6.2.3",
+    "font-awesome": null,
+    "motion-ui": null,
+    "r.js": null,
+    "requirejs": "^2.2.0",
+    "requirejs-babel": null,
+    "foundation": "^5.5.3"
+  },
+  "main": "assets/js/main.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "jquery": "^3.0.0"
+  }
 }
