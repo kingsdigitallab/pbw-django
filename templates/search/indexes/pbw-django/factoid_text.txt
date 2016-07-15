@@ -1,0 +1,1 @@
+{{object.engDesc}} {{object.factoidtype.typename}}
