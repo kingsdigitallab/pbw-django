@@ -1,9 +1,10 @@
 # pbw-django
-Start up configuration for Django based projects.
 
-The new Django application for the Prosopography of the Byzantine World (PBW)
+The new Django application for the Prosopography of the Byzantine World (PBW).
 
 #Technology
-1. Django 1.8
+1. Django 1.10
 2. JQuery
 3. MySQL
+4. Haystack
+5. Solr

@@ -9,4 +9,5 @@ django-require
 MySQL-python
 redis
 django-haystack
-elasticsearch
+pysolr
+flake8
