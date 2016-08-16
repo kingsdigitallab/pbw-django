@@ -2,17 +2,16 @@
 #     ddhldap_register_signal_handlers
 
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 
 admin.autodiscover()
 # ddhldap_register_signal_handlers()
 
-urlpatterns = patterns('',
-                       url(r'^grappelli/', include('grappelli.urls')),
+urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       (r'^search/', include('haystack.urls')),
-                       )
+                       url(r'^search/', include('haystack.urls')),
+                       ]
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS
@@ -20,10 +19,7 @@ urlpatterns = patterns('',
 try:
     if settings.DEBUG:
         import debug_toolbar
-        urlpatterns += patterns('',
-                                url(r'^__debug__/',
-                                    include(debug_toolbar.urls)),
-                                )
+        urlpatterns.append(url(r'^__debug__/',include(debug_toolbar.urls)),)
 
 except ImportError:
     pass

@@ -162,48 +162,34 @@
 #    tags:
 #      - db
 
-  handlers:
-  - name: postgresql | restart postgres
-    become: yes
-    service:
-      name: postgresql
-      state: restarted
-    tags:
-      - db
+#  handlers:
+#  - name: postgresql | restart postgres
+#    become: yes
+#    service:
+#      name: postgresql
+#      state: restarted
+#    tags:
+#      - db
 
-  - name: elasticsearch | restart elasticsearch
-    become: yes
-    service:
-      name: elasticsearch
-      state: started
-    tags:
-      - db
 
+
+
+
+
+
+#MySQL
 - hosts: all
   vars_files:
     - vars.yml
   tasks:
+
   - name: mysql | create user
-    become_user: "{{ mysql.admin_user }}"
     mysql_user:
+      login_user: "{{ mysql.admin_user }}"
+      login_password: ""
       user: "{{ mysql.user }}"
       password: "{{ app.name }}"
-      role_attr_flags: CREATEDB # NOSUPERUSER NOCREATEROLE
-    tags:
-      - db
-
-  - name: mysql | create db
-    become_user: "{{ mysqll.admin_user }}"
-    mysql_db:
-      name: "{{ app.name }}"
-      encoding: "{{mysql.encoding}}"
-      lc_collate: "{{mysql.locale}}"
-      lc_ctype: "{{mysql.locale}}"
-      template: "template0"
-      state: present
-      owner: "{{ mysql.user }}"
-    notify:
-      - mysql | apply privileges
+      priv: "*.*:ALL"
     tags:
       - db
 
@@ -214,48 +200,213 @@
     tags:
       - db
       - data
-#login_user={{ mysql.user }} login_password={{app.name}}
-  - name: mysql | load initial data file
-    command: mysql_db: state=import encoding={{mysql.encoding}}  name={{ app.name }} target={{ project_root }}/.vagrant_provisioning/{{ mysql.initial_data_file }}
+
+  - name: mysql | create db
     when: idf.stat.exists
+    mysql_db:
+      name: "{{ app.name }}"
+      encoding: "{{mysql.encoding}}"
+      login_user: "{{ mysql.admin_user }}"
+      login_password: ""
+    notify:
+      - mysql | apply privileges
+    tags:
+      - db
+
+
+
+  - name: mysql | load initial data file
+    mysql_db: login_user={{ mysql.admin_user }} login_password= state=import encoding={{mysql.encoding}}  name={{ app.name }} target={{ project_root }}/.vagrant_provisioning/{{ mysql.initial_data_file }}
+
     notify:
       - mysql | apply privileges after data import
     tags:
       - db
       - data
 
-  handlers:
-  - name: mysql | apply privileges
-    become_user: "{{ mysql.admin_user }}"
-    mysql_user:
-      db: "{{ app.name }}"
-      privs: ALL
-      roles: "{{ mysql.user }}"
-      state: present
-      type: database
-    tags:
-      - db
-      - data
 
-  - name: postgresql | apply privileges after data import
-    become_user: "{{ postgresql.admin_user }}"
-    postgresql_privs:
-      db: "{{ app.name }}"
-      objs: ALL_IN_SCHEMA
-      privs: ALL
-      roles: "{{ postgresql.user }}"
-      state: present
-      type: table
+
+
+
+# become_user: "{{ mysql.admin_user }}"
+#  - name: postgresql | apply privileges after data import
+#    become_user: "{{ postgresql.admin_user }}"
+#    postgresql_privs:
+#      db: "{{ app.name }}"
+#      objs: ALL_IN_SCHEMA
+#      privs: ALL
+#      roles: "{{ postgresql.user }}"
+#      state: present
+#      type: table
+#    tags:
+#      - db
+#      - data
+
+
+  # SOLR installation
+  # based on https://github.com/geerlingguy/ansible-for-devops/blob/master/solr/
+- hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: Install Tomcat 7.
+    become: yes
+    apt: "name={{ item }} state=present"
+    with_items:
+      - tomcat7
+      - tomcat7-admin
     tags:
-      - db
-      - data
+      - tomcat
+      - solr
+
+  - name: Ensure Tomcat 7 is started and enabled on boot.
+    become: yes
+    service: name=tomcat7 state=started enabled=yes
+    tags:
+      - tomcat
+      - solr
+
+  - name: Download Solr.
+    get_url:
+      url: "https://archive.apache.org/dist/lucene/solr/{{ solr.version }}/solr-{{ solr.version }}.tgz"
+      dest: "{{ solr.download_dir }}/solr-{{ solr.version }}.tgz"
+      sha256sum: "{{ solr.sha256sum }}"
+    tags:
+      - solr
+
+  - name: Expand Solr
+    command: >
+      tar -C /tmp -xvzf {{ solr.download_dir }}/solr-{{ solr.version }}.tgz
+      creates={{ solr.download_dir }}/solr-{{ solr.version }}/dist/solr-{{ solr.version }}.war
+    tags:
+      - solr
+
+  - name: Copy Solr into place.
+    become: yes
+    command: >
+      cp -r {{ solr.download_dir }}/solr-{{ solr.version }} {{ solr.dir }}
+      creates={{ solr.dir }}/dist/solr-{{ solr.version }}.war
+    tags:
+      - solr
+
+  # Use shell so commands are passed in correctly.
+  - name: Copy Solr components into place.
+    become: yes
+    shell: >
+      cp -r {{ item.src }} {{ item.dest }}
+      creates={{ item.creates }}
+    with_items:
+      # Solr example configuration and war file.
+      - src: "{{ solr.dir }}/example/webapps/solr.war"
+        dest: "{{ solr.dir }}/solr.war"
+        creates: "{{ solr.dir }}/solr.war"
+
+      - src: "{{ solr.dir }}/example/solr/*"
+        dest: "{{ solr.dir }}/"
+        creates: "{{ solr.dir }}/solr.xml"
+
+      # Solr log4j logging configuration.
+      - src: "{{ solr.dir }}/example/lib/ext/*"
+        dest: "/var/lib/tomcat7/shared/"
+        creates: "/var/lib/tomcat7/shared/log4j-1.2.16.jar"
+
+      - src: "{{ solr.dir }}/example/resources/log4j.properties"
+        dest: "/var/lib/tomcat7/shared/classes"
+        creates: "/var/lib/tomcat7/shared/classes/log4j.properties"
+
+    notify: restart tomcat
+    # TODO: needed because on the next task we delete the example folder
+    ignore_errors: yes
+    tags:
+      - solr
+
+  # TODO: folder needs to be deleted, but this means that
+  # previous task cannot run again...
+  - name: Ensure solr example directory is absent.
+    become: yes
+    file:
+      path: "{{ solr.dir }}/example"
+      state: absent
+    tags:
+      - solr
+
+  - name: Set up solr data directory.
+    become: yes
+    file:
+      path: "{{ solr.dir }}/data"
+      state: directory
+      owner: tomcat7
+      group: tomcat7
+    tags:
+      - solr
+
+  - name: Configure solrconfig.xml for new data directory.
+    become: yes
+    lineinfile:
+      dest: "{{ solr.dir }}/collection1/conf/solrconfig.xml"
+      regexp: "^.*<dataDir.+$"
+      line: "<dataDir>${solr.data.dir:{{ solr.dir }}/data}</dataDir>"
+      state: present
+    tags:
+      - solr
+
+  - name: Set permissions for Solr home.
+    become: yes
+    file:
+      path: "{{ solr.dir }}"
+      recurse: yes
+      owner: tomcat7
+      group: tomcat7
+    tags:
+      - solr
+
+  - name: Add Catalina configuration for solr.
+    become: yes
+    template:
+      src: solr.xml.j2
+      dest: /etc/tomcat7/Catalina/localhost/solr.xml
+      owner: root
+      group: tomcat7
+      mode: 0644
+    notify: restart tomcat
+    tags:
+      - solr
+
+
+# haystack schema
+  # TODO: we should ensure Solr is running correctly
+  - name: haystack | build solr schema
+    shell: >
+      {{ user_home }}/venv/bin/python {{ project_root }}/manage.py build_solr_schema > {{ project_root }}/schema.xml
+    tags:
+      - django
+      - haystack
+      - solr
+
+  - name: haystack | move schema to solr dir
+    become: yes
+    command: mv {{ project_root }}/schema.xml {{ solr.dir }}/collection1/conf/
+    notify: restart tomcat
+    tags:
+      - django
+      - haystack
+      - solr
+
+
+#  - name: elasticsearch | restart elasticsearch
+#    become: yes
+#    service:
+#      name: elasticsearch
+#      state: started
+#    tags:
+#      - db
 
 - hosts: all
   vars_files:
     - vars.yml
   tasks:
   - name: django | default local settings
-    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local.py owner=vagrant
+    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local_settings.py owner=vagrant
     tags:
       - django
 
@@ -276,12 +427,12 @@
     tags:
       - git
 
-  - name: git | flake8 pre-commit hook
-    command: "{{ user_home }}/venv/bin/flake8 --install-hook"
-    args:
-      chdir: "{{ project_root }}"
-  - command: "git config flake8.strict True"
-    args:
-      chdir: "{{ project_root }}"
-    tags:
-      - git
+#  - name: git | flake8 pre-commit hook
+#    command: "{{ user_home }}/venv/bin/flake8 --install-hook"
+#    args:
+#      chdir: "{{ project_root }}"
+#  - command: "git config flake8.strict True"
+#    args:
+#      chdir: "{{ project_root }}"
+#    tags:
+#      - git

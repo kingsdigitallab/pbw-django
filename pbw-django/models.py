@@ -321,8 +321,9 @@ class Ethnicityfactoid(models.Model):
 
 
 class Factoid(models.Model):
-    factoidkey = models.AutoField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
     sourcekey = models.SmallIntegerField(db_column='sourceKey')  # Field name made lowercase.
+    source = models.ForeignKey('Source',db_column='sourceKey')
     sourceref = models.CharField(db_column='sourceRef', max_length=250)  # Field name made lowercase.
     factoidtype = models.ForeignKey('FactoidType', blank=False, null=False, default=1,db_column='factoidTypeKey' ) # Field name made lowercase.
     engdesc = models.TextField(db_column='engDesc')  # Field name made lowercase.
@@ -370,6 +371,10 @@ class Factoidperson(models.Model):
     factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
     personkey = models.IntegerField(db_column='personKey')  # Field name made lowercase.
     fptypekey = models.IntegerField(db_column='fpTypeKey')  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid', blank=False, null=False, default=1,db_column='factoidkey' ) # Field name made lowercase.
+    factoidpersontype = models.ForeignKey('Factoidpersontype', blank=False, null=False, default=1,db_column='fpTypeKey' ) # Field name made lowercase.
+    person = models.ForeignKey('Person', blank=False, null=False, default=1,db_column='personKey' ) # Field name made lowercase.
+
 
     class Meta:
         managed = False
@@ -581,7 +586,7 @@ class Origlangauth(models.Model):
 
 
 class Person(models.Model):
-    personkey = models.AutoField(db_column='personKey', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='personKey', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=30)
     mdbcode = models.IntegerField(db_column='mdbCode')  # Field name made lowercase.
     descname = models.CharField(db_column='descName', max_length=100)  # Field name made lowercase.
@@ -714,7 +719,7 @@ class Sexauth(models.Model):
 
 
 class Source(models.Model):
-    sourcekey = models.SmallIntegerField(db_column='sourceKey', primary_key=True)  # Field name made lowercase.
+    id = models.SmallIntegerField(db_column='sourceKey', primary_key=True)  # Field name made lowercase.
     sourceid = models.CharField(db_column='sourceID', max_length=50)  # Field name made lowercase.
     sourcebib = models.TextField(db_column='sourceBib')  # Field name made lowercase.
 

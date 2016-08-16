@@ -8,7 +8,9 @@ from __future__ import absolute_import
 
 import logging
 
-from django.db.models.loading import get_model
+
+from django.apps import apps
+
 from haystack.backends import EmptyResults
 from haystack.backends.solr_backend import (SolrEngine, SolrSearchBackend,
                                             SolrSearchQuery)
@@ -107,7 +109,7 @@ class GroupedSearchResult(object):
         for raw_result in doclist:
             app_label, model_name = raw_result[DJANGO_CT].split('.')
             additional_fields = {}
-            model = get_model(app_label, model_name)
+            model = apps.get_model(app_label, model_name)
 
             if model and model in indexed_models:
                 for key, value in raw_result.items():

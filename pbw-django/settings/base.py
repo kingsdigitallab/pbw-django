@@ -122,11 +122,7 @@ LOGGING = {
             'level': LOGGING_LEVEL,
             'propagate': True
         },
-        'elasticsearch': {
-            'handlers': ['file'],
-            'level': LOGGING_LEVEL,
-            'propagate': True
-        },
+
     }
 }
 
@@ -304,9 +300,10 @@ FABRIC_USER = getpass.getuser()
 GA_ID = ''
 
 HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': PROJECT_NAME,
+     'default': {
+        'ENGINE':
+        ('pbw-django.'
+         'solr_backends.solr_backend_field_collapsing.GroupedSolrEngine'),
+        'URL': 'http://127.0.0.1:8182/solr'
     },
 }

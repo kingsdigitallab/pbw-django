@@ -2,3 +2,5 @@
 {{object.descname}}
 {{object.floruit}}
 {{object.nameOL}}
+{{object.bibliography}}
+
