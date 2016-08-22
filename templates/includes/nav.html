@@ -1,0 +1,64 @@
+
+<div class="contain-to-grid">
+	<nav class="top-bar" data-topbar role="navigation">
+		<ul class="title-area">
+			<li class="name">
+			</li>
+			<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+			<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+		</ul>
+
+		<section class="top-bar-section">
+			<!-- Right Nav Section -->
+			<!-- Generic search -->
+			<!-- <ul class="right">
+				<li class="has-form">
+					<div class="row collapse">
+						<div class="large-8 small-9 columns">
+							<input type="text" placeholder="Search...">
+						</div>
+						<div class="large-4 small-3 columns">
+						<a href="#" class="button secondary expand"><i class="fa fa-search"></i></a>
+						</div>
+					</div>
+				</li>
+			</ul> -->
+			<!-- Left Nav Section -->
+			{% block main_menu %}
+            <ul class="left">
+				<li class="active"><a href="/">Home</a></li>
+				<li class="has-dropdown">
+					<a href="/project/">Project </a>
+					<ul class="dropdown">
+						<li><a href="/project/dprr-database-explained/">DPRR database explained</a></li>
+						<li><a href="/project/project-team">Project team</a></li>
+						<li><a href="/project/bibliographical-sources/">Bibliographical sources</a></li>
+						<li><a href="/project/copyright-and-sharing-work/">Copyright and sharing the work</a></li>
+					</ul>
+				</li>
+				<li><a href="/events/">Events</a></li>
+				<li><a href="/blog/">Blog</a></li><li class="greyed-out"><a href="/browse/">Browse</a></li>
+				<li><a href="/contact/">Contact</a></li>
+			</ul>
+            {% endblock %}
+
+            {% comment %}
+			<ul class="left">
+				<li class="active"><a href="/">Home</a></li>
+				<li class="has-dropdown">
+					<a href="/project/">Project </a>
+					<ul class="dropdown">
+						<li><a href="/project/dprr-database-explained/">DPRR database explained</a></li>
+						<li><a href="/project/project-team">Project team</a></li>
+						<li><a href="/project/bibliographical-sources/">Bibliographical sources</a></li>
+						<li><a href="/project/copyright-and-sharing-work/">Copyright and sharing the work</a></li>
+					</ul>
+				</li>
+				<li><a href="/events/">Events</a></li>
+				<li><a href="/blog/">Blog</a></li><li class="greyed-out"><a href="/browse/">Browse</a></li>
+				<li><a href="/contact/">Contact</a></li>
+			</ul>
+			{% endcomment %}
+		</section>
+	</nav>
+</div>

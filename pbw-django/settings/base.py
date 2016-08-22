@@ -43,6 +43,11 @@ CACHES = {
     }
 }
 
+#Not all factoids from the previous phase are currently being displayed
+#This is an array of factoidtypekeys to control which types
+# are displayed and indexed
+DISPLAYED_FACTOID_TYPES =[8, 9, 10, 12, 13, 11, 15]
+
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 
@@ -64,6 +69,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'haystack',
     'require',
+    'compressor',
+    'pbw-django'
 )
 
 INSTALLED_APPS += (
@@ -304,6 +311,6 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE':
         ('pbw-django.'
          'solr_backends.solr_backend_field_collapsing.GroupedSolrEngine'),
-        'URL': 'http://127.0.0.1:8182/solr'
+        'URL': 'http://127.0.0.1:8080/solr'
     },
 }

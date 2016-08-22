@@ -27,6 +27,7 @@
     "commit": "2dd98b8ddbc48c94b758f2b5b0c01392e840dda3"
   },
   "_source": "https://github.com/mikach/requirejs-babel.git",
-  "_target": "*",
-  "_originalSource": "requirejs-babel"
+  "_target": "^0.0.9",
+  "_originalSource": "requirejs-babel",
+  "_direct": true
 }

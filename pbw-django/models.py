@@ -322,10 +322,9 @@ class Ethnicityfactoid(models.Model):
 
 class Factoid(models.Model):
     id = models.AutoField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    sourcekey = models.SmallIntegerField(db_column='sourceKey')  # Field name made lowercase.
     source = models.ForeignKey('Source',db_column='sourceKey')
     sourceref = models.CharField(db_column='sourceRef', max_length=250)  # Field name made lowercase.
-    factoidtype = models.ForeignKey('FactoidType', blank=False, null=False, default=1,db_column='factoidTypeKey' ) # Field name made lowercase.
+    factoidtype = models.ForeignKey('Factoidtype', blank=False, null=False, default=1,db_column='factoidTypeKey' ) # Field name made lowercase.
     engdesc = models.TextField(db_column='engDesc')  # Field name made lowercase.
     olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
     origldesc = models.TextField(db_column='origLDesc')  # Field name made lowercase.
@@ -367,10 +366,7 @@ class Factoidlocation(models.Model):
 
 
 class Factoidperson(models.Model):
-    fpkey = models.AutoField(db_column='fpKey', primary_key=True)  # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
-    personkey = models.IntegerField(db_column='personKey')  # Field name made lowercase.
-    fptypekey = models.IntegerField(db_column='fpTypeKey')  # Field name made lowercase.
+    id = models.AutoField(db_column='fpKey', primary_key=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', blank=False, null=False, default=1,db_column='factoidkey' ) # Field name made lowercase.
     factoidpersontype = models.ForeignKey('Factoidpersontype', blank=False, null=False, default=1,db_column='fpTypeKey' ) # Field name made lowercase.
     person = models.ForeignKey('Person', blank=False, null=False, default=1,db_column='personKey' ) # Field name made lowercase.
@@ -391,7 +387,7 @@ class Factoidpersontype(models.Model):
 
 
 class Factoidtype(models.Model):
-    factoidtypekey = models.AutoField(db_column='factoidTypeKey', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='factoidTypeKey', primary_key=True)  # Field name made lowercase.
     typename = models.CharField(db_column='typeName', max_length=20)  # Field name made lowercase.
 
     class Meta:
@@ -606,6 +602,13 @@ class Person(models.Model):
     class Meta:
         managed = False
         db_table = 'Person'
+        ordering = ['name','mdbcode']
+
+    def getFactoids(self):
+        Factoid.objects.filter(factoidperson__person=self).order_by('factoidtype')
+
+
+
 
 
 class Personcolldb(models.Model):

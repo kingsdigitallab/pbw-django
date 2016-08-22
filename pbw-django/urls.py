@@ -4,13 +4,22 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from views import PBWFacetedSearchView,PersonDetailView
+
+
 
 admin.autodiscover()
 # ddhldap_register_signal_handlers()
 
+
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^search/', include('haystack.urls')),
+                       url(r'^search/',
+                           PBWFacetedSearchView.as_view(),
+                           name='pbw_haystack_search'),
+                       url(r'^person/(?P<pk>\d+)/$',
+                            PersonDetailView.as_view(),
+                            name='person-detail')
                        ]
 
 # -----------------------------------------------------------------------------

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block meta_title %}Person Details{% endblock %}
+
+{% block main %}
+
+<div class="row">
+    <div class="large-12 columns">
+
+        <h1>{{ person.name }}, {{ person.descname }}</h1>
+        <h2>{{ person.nameol }}</h2>
+
+        <p>
+            ID: {{ person.name }} {{ person.mdbcode }} <br />
+
+        </p>
+
+
+        {%  for factoidtype,factoids in factoidGroups %}
+        <h2>{{ factoidtype }}</h2>
+        <ul class="timeline no-bullet bottom-margin">
+            {% for f in factoids %}
+
+                <li>{{ f.engdesc }} <br/>
+                {{ f.origldesc }} {{ f.source }} {{ f.sourceref }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Temp link to d3js.org min and d3 stuff - TO BE REMOVED -->
+
+
+{% endblock %}
