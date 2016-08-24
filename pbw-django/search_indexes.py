@@ -8,12 +8,12 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     name = indexes.CharField(model_attr='name', faceted=True)
     letter = indexes.FacetCharField()
     person = indexes.FacetCharField()
-    person_id = indexes.IntegerField(model_attr='personkey')
+    person_id = indexes.IntegerField(model_attr='id')
     floruit = indexes.CharField(model_attr='floruit', faceted=True)
     mdbcode = indexes.IntegerField(model_attr='mdbcode')
     sexKey = indexes.IntegerField(model_attr='sexkey')
     oLangKey = indexes.IntegerField(model_attr='olangkey')
-    tstamp = indexes.DateTimeField(model_attr='stamp')
+    tstamp = indexes.DateTimeField(model_attr='tstamp')
 
     def get_model(self):
         return Person
@@ -26,6 +26,13 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_letter(self, obj):
         if len(obj.name) > 0:
             return obj.name[0]
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated.
+        Filter factoids by type for only those used in browser"""
+        factoidtypekeys = DISPLAYED_FACTOID_TYPES
+        return self.get_model().objects.filter(factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()
+
 
 
 class FactoidIndex(indexes.SearchIndex, indexes.Indexable):

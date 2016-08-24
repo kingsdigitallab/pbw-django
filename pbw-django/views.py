@@ -1,5 +1,6 @@
 #New faceted search for main PBW browse
 #Elliott Hall 16/8/2016
+#facet('name').facet('letter').
 from django.views.generic.detail import DetailView
 from haystack.generic_views import FacetedSearchView
 from models import Person
@@ -14,7 +15,7 @@ from models import Person,Factoid,Source
 
 class PBWFacetedSearchView(FacetedSearchView):
     queryset = GroupedSearchQuerySet().models(
-        Person, Factoid).facet('name').facet('letter').group_by('person_id')
+        Person, Factoid).group_by('person_id')
     load_all=True
     form_class=FacetedSearchForm
     facet_fields = ['name','letter']
@@ -36,16 +37,24 @@ class PBWFacetedSearchView(FacetedSearchView):
             page = paginator.page(paginator.num_pages)
         return (paginator, page)
 
-    # def get_queryset(self):
-    #     queryset = super(PBWFacetedSearchView, self).get_queryset()
-    #     all_facets =  self.facet_fields
-    #     #
-    #     for facet in all_facets:
-    #         # only return results with a mincount of 1
-    #         queryset = queryset.facet(
-    #             facet, sort='index', limit=-1, mincount=1)
-    #
-    #     return queryset
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            PBWFacetedSearchView, self).get_context_data(**kwargs)
+        context['querydict'] = self.request.GET
+
+        if self.request.GET.getlist('selected_facets'):
+            context['selected_facets'] = self.request.GET.getlist(
+                'selected_facets')
+
+    def get_queryset(self):
+        queryset = super(PBWFacetedSearchView, self).get_queryset()
+        all_facets =  self.facet_fields
+        #
+        for facet in all_facets:
+            # only return results with a mincount of 1
+            queryset = queryset.facet(facet, limit=-1, mincount=1)
+
+        return queryset
 
 
 # Conveneince class for person detail to group factoids by type for display
@@ -54,6 +63,7 @@ class FactoidGroup:
 
     def __init__(self,person,factoidtypes):
         self.person = person
+        self.groups={}
         factoids = Factoid.objects.filter(factoidperson__person=person).filter(factoidtype__in=factoidtypes)
         for f in factoids:
             try:

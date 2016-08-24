@@ -597,7 +597,7 @@ class Person(models.Model):
     bibliography = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
-    tstamp = models.DateTimeField()
+    tstamp = models.DateTimeField(db_column='tstamp')
 
     class Meta:
         managed = False

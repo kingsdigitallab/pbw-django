@@ -8,6 +8,6 @@ django-redis
 django-require
 MySQL-python
 redis
-django-haystack
+git+git://github.com/kingsdigitallab/django-haystack.git
 pysolr
 flake8
