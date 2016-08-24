@@ -392,6 +392,15 @@
       - haystack
       - solr
 
+  - name: haystack | chowm schema
+    become: yes
+    command: chown tomcat7:tomcat7 {{ solr.dir }}/collection1/conf/schema.xml
+    notify: restart tomcat
+    tags:
+      - django
+      - haystack
+      - solr
+
 
 #  - name: elasticsearch | restart elasticsearch
 #    become: yes

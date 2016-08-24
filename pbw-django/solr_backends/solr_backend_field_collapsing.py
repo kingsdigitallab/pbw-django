@@ -8,12 +8,9 @@ from __future__ import absolute_import
 
 import logging
 
-
 from django.apps import apps
-
 from haystack.backends import EmptyResults
-from haystack.backends.solr_backend import (SolrEngine, SolrSearchBackend,
-                                            SolrSearchQuery)
+from haystack.backends.solr_backend import (SolrEngine, SolrSearchBackend, SolrSearchQuery)
 from haystack.constants import DJANGO_CT, DJANGO_ID, ID
 from haystack.models import SearchResult
 from haystack.query import SearchQuerySet
@@ -72,7 +69,7 @@ class GroupedSearchQuery(SolrSearchQuery):
                         'group.field': self.grouping_field,
                         'group.ngroups': 'true',
                         'group.limit': 2,  # TODO: Don't hard-code this
-                        'group.sort': 'django_ct desc, score desc',
+                        'group.sort': 'score desc',
                         'group.facet': 'true',
                         'result_class': GroupedSearchResult})
         return res
@@ -188,7 +185,7 @@ class GroupedSolrSearchBackend(SolrSearchBackend):
 
         res.update(group_kwargs)
         if group_kwargs and 'sort' not in kwargs:
-            res['sort'] = 'score desc, item_id asc'
+            res['sort'] = 'score desc, person_id asc'
 
         return res
 

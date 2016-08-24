@@ -19,9 +19,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         return Person
 
     def prepare_person(self, obj):
-        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
-        if p.count() > 0:
-            return p[0].name + " " + str(p[0].mdbcode)
+       return obj.name + " " + str(obj.mdbcode)
 
     def prepare_letter(self, obj):
         if len(obj.name) > 0:

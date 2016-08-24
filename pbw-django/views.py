@@ -3,12 +3,12 @@
 #facet('name').facet('letter').
 from django.views.generic.detail import DetailView
 from haystack.generic_views import FacetedSearchView
-from models import Person
+from forms import PBWFacetedSearchForm
 from settings import DISPLAYED_FACTOID_TYPES
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from haystack.forms import FacetedSearchForm
+
 from models import Person,Factoid,Source
 
 
@@ -17,7 +17,7 @@ class PBWFacetedSearchView(FacetedSearchView):
     queryset = GroupedSearchQuerySet().models(
         Person, Factoid).group_by('person_id')
     load_all=True
-    form_class=FacetedSearchForm
+    form_class=PBWFacetedSearchForm
     facet_fields = ['name','letter']
 
     def build_page(self):
@@ -45,6 +45,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         if self.request.GET.getlist('selected_facets'):
             context['selected_facets'] = self.request.GET.getlist(
                 'selected_facets')
+        return context
 
     def get_queryset(self):
         queryset = super(PBWFacetedSearchView, self).get_queryset()
