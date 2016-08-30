@@ -16,7 +16,7 @@ DATABASES = {
 
 LOGGING_LEVEL = logging.DEBUG
 
-LOGGING['loggers']['pbw-django']['level'] = LOGGING_LEVEL
+LOGGING['loggers']['pbw']['level'] = LOGGING_LEVEL
 
 TEMPLATES[0]['OPTIONS']['debug'] = True
 

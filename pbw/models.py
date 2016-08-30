@@ -1,14 +1,9 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+
 from __future__ import unicode_literals
-
+from settings import DISPLAYED_FACTOID_TYPES,BASE_DIR
 from django.db import models
-
+import os
+from django.core import serializers
 
 class Accuracy(models.Model):
     acckey = models.AutoField(db_column='accKey', primary_key=True)  # Field name made lowercase.
@@ -604,8 +599,29 @@ class Person(models.Model):
         db_table = 'Person'
         ordering = ['name','mdbcode']
 
-    def getFactoids(self):
-        Factoid.objects.filter(factoidperson__person=self).order_by('factoidtype')
+    def getAllFactoids(self):
+        return Factoid.objects.filter(factoidperson__person=self).order_by('factoidtype')
+
+    #This returns only factoid types listed in settings under  DISPLAYED_FACTOID_TYPES
+    def getFilteredFactoids(self):
+        factoidtypekeys = DISPLAYED_FACTOID_TYPES
+        return Factoid.objects.filter(factoidperson__person=self).filter(factoidtype__in=factoidtypekeys).order_by('factoidtype')
+
+    #Make a complete "snapshot" of a person to use as a fixture
+    #This serializes no only the person, but their relevant factoids and their sub tables
+    def serialize_to_fixture(self):
+        person = self.get_object()
+        Serializer = serializers.get_serializer(self.format)
+        serializer=Serializer()
+        fixture_path=os.path.join(BASE_DIR,'pbw-django','fixtures')
+        person_fixture=os.path.join(fixture_path,"person_"+str(person.id)+"."+self.format)
+        with open(person_fixture, "w") as out:
+            serializer.serialize(Person.objects.filter(id=person.id),indent=2, stream=out)
+        factoid_person_fixture=os.path.join(fixture_path,"factoids_person_"+str(person.id)+"."+self.format)
+        with open(factoid_person_fixture, "w") as out:
+            factoids_complete=person.getFilteredFactoids()
+            serializer.serialize(factoids_complete, indent=2,stream=out)
+
 
 
 

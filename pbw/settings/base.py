@@ -13,7 +13,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
-PROJECT_NAME = 'pbw-django'
+PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
 
 # -----------------------------------------------------------------------------
@@ -48,6 +48,11 @@ CACHES = {
 # are displayed and indexed
 DISPLAYED_FACTOID_TYPES =[8, 9, 10, 12, 13, 11, 15]
 
+#Fixture options
+#Determines the person records used to make fixtures for unit testing
+FIXTURE_PERSON_IDS=[107447]
+
+
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 
@@ -70,7 +75,7 @@ INSTALLED_APPS = (
     'haystack',
     'require',
     'compressor',
-    'pbw-django'
+    'pbw'
 )
 
 INSTALLED_APPS += (
@@ -124,7 +129,7 @@ LOGGING = {
         #     'level': LOGGING_LEVEL,
         #     'propagate': True
         # },
-        'pbw-django': {
+        'pbw': {
             'handlers': ['file'],
             'level': LOGGING_LEVEL,
             'propagate': True
@@ -309,7 +314,7 @@ GA_ID = ''
 HAYSTACK_CONNECTIONS = {
      'default': {
         'ENGINE':
-        ('pbw-django.'
+        ('pbw.'
          'solr_backends.solr_backend_field_collapsing.GroupedSolrEngine'),
         'URL': 'http://127.0.0.1:8080/solr'
     },

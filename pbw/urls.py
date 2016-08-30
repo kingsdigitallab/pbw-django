@@ -4,7 +4,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from views import PBWFacetedSearchView,PersonDetailView
+from views import PBWFacetedSearchView,PersonDetailView,PersonJsonView
 
 
 
@@ -19,7 +19,10 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                            name='pbw_haystack_search'),
                        url(r'^person/(?P<pk>\d+)/$',
                             PersonDetailView.as_view(),
-                            name='person-detail')
+                            name='person-detail'),
+                       url(r'^person/json/(?P<pk>\d+)/$',
+                            PersonJsonView.as_view(),
+                            name='person-json')
                        ]
 
 # -----------------------------------------------------------------------------

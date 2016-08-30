@@ -4,13 +4,13 @@
 from django.views.generic.detail import DetailView
 from haystack.generic_views import FacetedSearchView
 from forms import PBWFacetedSearchForm
-from settings import DISPLAYED_FACTOID_TYPES
+from settings import DISPLAYED_FACTOID_TYPES,BASE_DIR
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-
+import os
 from models import Person,Factoid,Source
-
+from django.core import serializers
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -79,7 +79,7 @@ class FactoidGroup:
         # self.factoidtype_id= factoidtype.id
 
 
-
+#The detailed view of a single person in the Prosopography
 class PersonDetailView(DetailView):
     model = Person
     template_name = 'includes/person_detail.html'
@@ -90,4 +90,24 @@ class PersonDetailView(DetailView):
         person = self.get_object()
         group=FactoidGroup(person,DISPLAYED_FACTOID_TYPES).groups
         context['factoidGroups'] = group
+        return context
+
+#Output a person and their relevant(as in current displayed subset) factoids
+#Written to make test fixtures but may be useful later if we make an API
+class PersonJsonView(PersonDetailView):
+    template_name = "includes/tojson.html"
+    format='json'
+
+
+
+
+
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            PersonDetailView, self).get_context_data(**kwargs)
+        person = self.get_object()
+        person.serialize_to_fixture()
+        person_data = serializers.serialize(self.format, Person.objects.filter(id=person.id))
+        factoid_data = serializers.serialize(self.format, person.getFilteredFactoids())
+        context['toJSON'] = person_data+factoid_data
         return context
