@@ -292,7 +292,7 @@ class Dvsqlindxattr(models.Model):
 
 
 class Ethnicity(models.Model):
-    ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey', primary_key=True)  # Field name made lowercase.
+    ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey')  # Field name made lowercase.
     ethname = models.CharField(db_column='ethName', max_length=100)  # Field name made lowercase.
     olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
     ethnameol = models.CharField(db_column='ethNameOL', max_length=100)  # Field name made lowercase.
@@ -305,8 +305,10 @@ class Ethnicity(models.Model):
 
 
 class Ethnicityfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey')  # Field name made lowercase.
+    #factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',db_column='factoidKey')
+    ethnicity = models.ForeignKey('Ethnicity',db_column='ethnicityKey')
+    #ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey')  # Field name made lowercase.
     isdoubtful = models.IntegerField(db_column='isDoubtful')  # Field name made lowercase.
     tstamp = models.DateTimeField()
 
@@ -342,12 +344,13 @@ class Factoidcursus(models.Model):
     class Meta:
         managed = False
         db_table = 'FactoidCursus'
-        unique_together = (('factoidkey', 'cursuskey'),)
+
 
 
 class Factoidlocation(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
-    locationkey = models.IntegerField(db_column='locationKey')  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',db_column='factoidKey')
+    #locationkey = models.IntegerField(db_column='locationKey')  # Field name made lowercase.
+    location = models.ForeignKey('Location',db_column='locationKey')
     olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
     srcname = models.CharField(db_column='srcName', max_length=50)  # Field name made lowercase.
     notes = models.TextField(blank=True, null=True)
@@ -357,7 +360,7 @@ class Factoidlocation(models.Model):
     class Meta:
         managed = False
         db_table = 'FactoidLocation'
-        unique_together = (('factoidkey', 'locationkey'),)
+
 
 
 class Factoidperson(models.Model):
@@ -450,8 +453,9 @@ class Hierarchyunit(models.Model):
 
 
 class Kinfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    kinkey = models.SmallIntegerField(db_column='kinKey')  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',db_column='factoid_id')
+    #kinkey = models.SmallIntegerField(db_column='kinKey')  # Field name made lowercase.
+    kinship = models.ForeignKey('Kinshiptype',db_column='kinKey')
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -559,8 +563,8 @@ class Occupation(models.Model):
 
 
 class Occupationfactoid(models.Model):
-    occupationkey = models.SmallIntegerField(db_column='OccupationKey', blank=True, null=True)  # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',db_column='factoidKey')
+    occupation = models.ForeignKey('Occupation',db_column='OccupationKey')
 
     class Meta:
         managed = False
@@ -610,18 +614,68 @@ class Person(models.Model):
     #Make a complete "snapshot" of a person to use as a fixture
     #This serializes no only the person, but their relevant factoids and their sub tables
     def serialize_to_fixture(self):
-        person = self.get_object()
-        Serializer = serializers.get_serializer(self.format)
+        person = self
+        format="json"
+        Serializer = serializers.get_serializer(format)
         serializer=Serializer()
-        fixture_path=os.path.join(BASE_DIR,'pbw-django','fixtures')
-        person_fixture=os.path.join(fixture_path,"person_"+str(person.id)+"."+self.format)
+        fixture_path=os.path.join(BASE_DIR,'pbw','fixtures')
+        person_fixture=os.path.join(fixture_path,"person_"+str(person.id)+"."+format)
         with open(person_fixture, "w") as out:
             serializer.serialize(Person.objects.filter(id=person.id),indent=2, stream=out)
-        factoid_person_fixture=os.path.join(fixture_path,"factoids_person_"+str(person.id)+"."+self.format)
+            print "Serializing "+"person_"+str(person.id)+"."+format
+        factoid_person_fixture=os.path.join(fixture_path,"factoids_person_"+str(person.id)+"."+format)
         with open(factoid_person_fixture, "w") as out:
-            factoids_complete=person.getFilteredFactoids()
+            factoids_complete=self.collect_factoids()
             serializer.serialize(factoids_complete, indent=2,stream=out)
+            print "Serializing "+"factoid_"+str(person.id)+"."+format
 
+    #[8, 9, 10, 12, 13, 11, 15]
+    def collect_factoids(self):
+        factoids = self.getFilteredFactoids()
+        factoids_complete = list(factoids)
+        for f in factoids:
+            main = None
+            sub = None
+            if f.factoidtype.id == 8:
+                #Ethnicity
+                eth=Ethnicityfactoid.objects.filter(factoid=f)
+                if eth.count() > 0:
+                    main=eth[0]
+                    sub=main.ethnicity
+            #elif f.factoidtype.id == 9:
+                #Second Name
+            elif f.factoidtype.id == 10:
+                #Kinship
+                kinFactoids=Kinfactoid.objects.filter(factoid=f)
+                if kinFactoids.count() > 0:
+                    kinFactoid=kinFactoids[0]
+                    main = kinFactoid
+                    sub = main.kinship
+            # elif f.factoidtype.id == 11:
+                #Language Skill
+            elif f.factoidtype.id == 12:
+                #Location
+                fl= Factoidlocation.objects.filter(factoid=f)
+                if fl.count() > 0:
+                    main=fl[0]
+                    sub=main.location
+            elif f.factoidtype.id == 13:
+                #Occupation
+                ofs = Occupationfactoid.objects.filter(factoid=f)
+                if ofs.count() > 0:
+                    main=ofs[0]
+                    sub=main.occupation
+            elif f.factoidtype.id == 15:
+                #Religion
+                rs = Religion.objects.filter(factoid=f)
+                if rs.count() > 0:
+                    main = rs[0]
+                    sub = main.religion
+
+            if main != None:
+                factoids_complete.append(main)
+                factoids_complete.append(sub)
+        return factoids_complete
 
 
 
@@ -676,8 +730,10 @@ class Religion(models.Model):
 
 
 class Religionfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    religionkey = models.SmallIntegerField(db_column='religionKey')  # Field name made lowercase.
+    #factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    #religionkey = models.SmallIntegerField(db_column='religionKey')  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',db_column='factoidKey')
+    religion = models.ForeignKey('Religion',db_column='religionKey')
 
     class Meta:
         managed = False
