@@ -1,4 +1,4 @@
-app: {name: pbw-django}
+app: {name: pbw}
 mysql: {admin_user: root, cluster_name: main, cluster_reset: false, default_auth_method: trust,
   encoding: utf8, initial_data_file: data.sql.gz, locale: en_GB.UTF-8, user: app_pbw,
   version: 5.5}

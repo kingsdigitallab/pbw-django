@@ -9,7 +9,7 @@ SECRET_KEY = '%5@l_k_=161v!k7$oe%4hw6khybi5x@5ct32sx95+#keb-#x)j'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pbw-django',
+        'NAME': 'pbw',
         'USER': 'app_pbw',
         'PASSWORD': 'pbw',
        # 'HOST': 'my-stg-1.cch.kcl.ac.uk',
