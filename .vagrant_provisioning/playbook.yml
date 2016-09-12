@@ -27,7 +27,7 @@
     apt:
       pkg: apt-transport-https
       state: installed
-      # update_cache: yes
+      update_cache: yes
     tags:
       -system
 
@@ -41,14 +41,14 @@
 
   - name: apt | add nodejs sources
     apt_repository:
-      repo: 'deb https://deb.nodesource.com/node wheezy main'
+      repo: 'deb https://deb.nodesource.com/node jessie main'
       state: present
     tags:
       - system
 
   - name: apt | add nodejs sourcecode sources
     apt_repository:
-      repo: 'deb-src https://deb.nodesource.com/node wheezy main'
+      repo: 'deb-src https://deb.nodesource.com/node jessie main'
       state: present
     tags:
       - system
