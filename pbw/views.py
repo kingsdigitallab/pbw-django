@@ -99,9 +99,6 @@ class PersonJsonView(PersonDetailView):
     format='json'
 
 
-
-
-
     def get_context_data(self, **kwargs):  # noqa
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)

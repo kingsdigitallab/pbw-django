@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load highlight staticfiles %} {% block meta_title %}Search Results{% if query %} for {{ query }}{% endif %}{% endblock %} {% block headercss %}
+{% load highlight staticfiles pbw_tags %} {% block meta_title %}Search Results{% if query %} for {{ query }}{% endif %}{% endblock %} {% block headercss %}
 
 <!-- EasyAutocomplete CSS file -->
 <link rel="stylesheet" href="{% static 'vendor/EasyAutocomplete/dist/easy-autocomplete.min.css' %}"> {% endblock %} {% block main %}
@@ -26,15 +26,22 @@
                     <div class="row do-not-print">
                         <div class="large-12 columns">
                             <div class="panel callout">
+                                <div class="panel callout">
+                                <h3 class="panel-heading">Letter</h3>
+                                <ul class="no-bullet">
+                                    {% for term in facets.fields|get_item:"letter" %}{% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                        <li>{{ value }} ({{ count }}</li>
+                                        {% endif %}{% endwith %}
+                                    {% endfor %}
+                                </ul>
+
+
+                            </div>
                                 <h3 class="panel-heading">Name</h3>
                                 <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p>
 
                             </div>
-                            <div class="panel callout">
-                                <h3 class="panel-heading">Personal data</h3>
 
-
-                            </div>
                         </div>
                     </div>
                     <div class="row do-not-print">
@@ -112,7 +119,7 @@
             <li>
                 {% with doc=result.documents.0 %}
                 <h3>
-					<span class="label radius right{% if doc.uncertain == True %} gray-bg{% else %} green-bg{% endif %}">{{ doc.highest_office }}{% if doc.uncertain == True %} <i class="fa fa-minus-circle"></i>{% else %} <i class="fa fa-check-circle"></i>{% endif %}</span>
+					<span class="label radius right{% if doc.uncertain == True %} gray-bg{% else %} green-bg{% endif %}">{{ doc.highest_office }}</span>
 					<a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
 				</h3> {% for dd in result.documents %}
                 <p>
