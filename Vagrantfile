@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.ssh.insert_key = false
 
-  config.vm.box = "puphpet/debian75-x64"
+  config.vm.box = "debian/contrib-jessie64"
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = ".vagrant_provisioning/playbook.yml"
@@ -17,7 +17,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 8080, host: 8080
- # config.vm.network "forwarded_port", guest: 5432, host: 5432
   config.vm.network "forwarded_port", guest: 9200, host: 9200
   config.vm.network "forwarded_port", guest: 3306, host: 51524
 
@@ -31,11 +30,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     provider.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-
-
   # vagrant-hostupdater configuration
   config.vm.define "pbw-django" do |machine|
-    machine.vm.box = "puphpet/debian75-x64"
+    machine.vm.box = "debian/contrib-jessie64"
     machine.vm.hostname = "pbw-django.vagrant"
     machine.vm.network "private_network", ip: "192.168.33.99"
   end
