@@ -11,6 +11,7 @@ from solr_backends.solr_backend_field_collapsing import \
 import os
 from models import Person,Factoid,Source
 from django.core import serializers
+from django.core.urlresolvers import reverse
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -18,7 +19,8 @@ class PBWFacetedSearchView(FacetedSearchView):
         Person, Factoid).group_by('person_id')
     load_all=True
     form_class=PBWFacetedSearchForm
-    facet_fields = ['name','letter']
+    facet_fields = ['name','letter','sex','floruit','secondaryname']
+    autocomplete_facets = ['location','dignityoffice','ethnicity','language','occupation']
 
     def build_page(self):
         # Override Haystack's pagination logic so that invoking a
@@ -45,15 +47,30 @@ class PBWFacetedSearchView(FacetedSearchView):
         if self.request.GET.getlist('selected_facets'):
             context['selected_facets'] = self.request.GET.getlist(
                 'selected_facets')
+        # used to generate the lists for the autocomplete dictionary
+        context['autocomplete_facets'] = self.autocomplete_facets
+
+        for afacet in context['autocomplete_facets']:
+
+            if self.request.GET.get(afacet):
+                qs = self.request.GET.copy()
+                qs.pop(afacet)
+
+                url = reverse('haystack_search')
+
+                if len(qs):
+                    url = '?{0}'.format(qs.urlencode())
+
+                context[afacet] = (url, self.request.GET.get(afacet))
         return context
 
     def get_queryset(self):
         queryset = super(PBWFacetedSearchView, self).get_queryset()
-        all_facets =  self.facet_fields
+        all_facets = self.autocomplete_facets + self.facet_fields
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet, limit=-1, mincount=1)
+            queryset = queryset.facet(facet, limit=30, mincount=1,sort='index')
 
         return queryset
 
