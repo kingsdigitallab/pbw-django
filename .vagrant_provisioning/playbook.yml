@@ -307,7 +307,9 @@
 
       # Solr log4j logging configuration.
       - src: "{{ solr.dir }}/example/lib/ext/*"
-        dest: "/var/lib/tomcat7/shared/"
+      #Changed becasue tomcat vagrant appears to be looking at /usr/share
+        #dest: "/var/lib/tomcat7/shared/"
+        dest: "/usr/share/tomcat7/lib"
         creates: "/var/lib/tomcat7/shared/log4j-1.2.17.jar"
 
       - src: "{{ solr.dir }}/example/resources/log4j.properties"
