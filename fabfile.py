@@ -13,14 +13,14 @@ import os.path
 project_root = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(project_root)
 
-django.project('pbw-django')
+django.project('pbw')
 from django.conf import settings
 
 REPOSITORY = ''
 
 env.user = settings.FABRIC_USER
 env.hosts = ['']
-env.root_path = '/vol/pbw-django/webroot/'
+env.root_path = '/vol/pbw/webroot/'
 env.envs_path = os.path.join(env.root_path, 'envs')
 
 

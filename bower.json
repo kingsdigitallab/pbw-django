@@ -1,5 +1,5 @@
 {
-  "name": "pbw-django",
+  "name": "pbw",
   "version": "0.1",
   "dependencies": {
     "almond": null,
