@@ -10,7 +10,7 @@ class Accuracy(models.Model):
     accuracyname = models.CharField(db_column='accuracyName', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        app_label = 'pbw'
         db_table = 'Accuracy'
 
 
@@ -22,7 +22,7 @@ class Activityfactoid(models.Model):
     tstanp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'ActivityFactoid'
 
 
@@ -31,7 +31,7 @@ class Attrdatetype(models.Model):
     adtname = models.CharField(db_column='aDTName', max_length=20)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'AttrDateType'
 
 
@@ -46,7 +46,7 @@ class Audit(models.Model):
     problem = models.IntegerField()
 
     class Meta:
-        managed = False
+        
         db_table = 'Audit'
 
 
@@ -60,7 +60,7 @@ class Bibliography(models.Model):
     shortname = models.TextField(db_column='shortName', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Bibliography'
 
 
@@ -80,7 +80,7 @@ class Boulloterion(models.Model):
     hasimage = models.IntegerField(db_column='hasImage', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Boulloterion'
 
 
@@ -90,7 +90,7 @@ class Boulloterionfigure(models.Model):
     figurekey = models.IntegerField(db_column='figureKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'BoulloterionFigure'
 
 
@@ -107,7 +107,7 @@ class Chronitem(models.Model):
     datingelement = models.CharField(db_column='datingElement', max_length=100, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'ChronItem'
 
 
@@ -117,7 +117,7 @@ class Chronitemfactoid(models.Model):
     chronorder = models.SmallIntegerField(db_column='chronOrder', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'ChronItemFactoid'
 
 
@@ -129,7 +129,7 @@ class Chronsource(models.Model):
     datetypekey = models.SmallIntegerField(db_column='dateTypeKey', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'ChronSource'
 
 
@@ -139,7 +139,7 @@ class Chrontree(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        
         db_table = 'ChronTree'
 
 
@@ -156,7 +156,7 @@ class Colldb(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'CollDB'
 
 
@@ -168,7 +168,7 @@ class Collection(models.Model):
     suppress = models.IntegerField()
 
     class Meta:
-        managed = False
+        
         db_table = 'Collection'
 
 
@@ -177,7 +177,7 @@ class Country(models.Model):
     countryname = models.TextField(db_column='countryName')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Country'
 
 
@@ -188,7 +188,7 @@ class Cursus(models.Model):
     cursusorder = models.SmallIntegerField(db_column='cursusOrder')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Cursus'
 
 
@@ -197,7 +197,7 @@ class Datetypes(models.Model):
     datetype = models.CharField(db_column='dateType', max_length=200, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'DateTypes'
 
 
@@ -209,7 +209,7 @@ class Deathfactoid(models.Model):
     tstamp = models.DateTimeField(db_column='tStamp')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'DeathFactoid'
 
 
@@ -225,7 +225,7 @@ class Dignityfactoid(models.Model):
     dignityoffice=models.ForeignKey('Dignityoffice',db_column='doKey')
 
     class Meta:
-        managed = False
+        
         db_table = 'DignityFactoid'
 
 
@@ -243,7 +243,7 @@ class Dignityoffice(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'DignityOffice'
 
 
@@ -252,7 +252,7 @@ class Dignityofficetype(models.Model):
     dotname = models.CharField(db_column='dotName', max_length=20)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'DignityOfficeType'
 
 
@@ -264,7 +264,7 @@ class Dvsqlauth(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'DvSqlAuth'
 
 
@@ -277,7 +277,7 @@ class Dvsqlindex(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'DvSqlIndex'
 
 
@@ -288,7 +288,7 @@ class Dvsqlindxattr(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'DvSqlIndxAttr'
         unique_together = (('indexkey', 'attrkey'),)
 
@@ -302,7 +302,7 @@ class Ethnicity(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'Ethnicity'
 
 
@@ -315,7 +315,7 @@ class Ethnicityfactoid(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'EthnicityFactoid'
 
 
@@ -335,7 +335,7 @@ class Factoid(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'Factoid'
 
 
@@ -344,7 +344,7 @@ class Factoidcursus(models.Model):
     factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'FactoidCursus'
 
 
@@ -361,7 +361,7 @@ class Factoidlocation(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'FactoidLocation'
 
 
@@ -374,7 +374,7 @@ class Factoidperson(models.Model):
 
 
     class Meta:
-        managed = False
+        
         db_table = 'FactoidPerson'
 
 
@@ -383,7 +383,7 @@ class Factoidpersontype(models.Model):
     fptypename = models.CharField(db_column='fpTypeName', max_length=15)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'FactoidPersonType'
 
 
@@ -392,7 +392,7 @@ class Factoidtype(models.Model):
     typename = models.CharField(db_column='typeName', max_length=20)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'FactoidType'
 
 
@@ -402,7 +402,7 @@ class Famnamefactoid(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'FamNameFactoid'
 
 
@@ -415,7 +415,7 @@ class Familyname(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'FamilyName'
 
 
@@ -424,7 +424,7 @@ class Figure(models.Model):
     figurename = models.TextField(db_column='figureName')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Figure'
 
 
@@ -437,7 +437,7 @@ class Found(models.Model):
     bibref = models.TextField(db_column='bibRef', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Found'
 
 
@@ -451,7 +451,7 @@ class Hierarchyunit(models.Model):
     treeid = models.IntegerField(db_column='treeID', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'HierarchyUnit'
 
 
@@ -462,7 +462,7 @@ class Kinfactoid(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'KinFactoid'
 
 
@@ -474,7 +474,7 @@ class Kinshiptype(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'KinshipType'
 
 
@@ -485,7 +485,7 @@ class Langfactoid(models.Model):
     #langkey = models.SmallIntegerField(db_column='langKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'LangFactoid'
 
 
@@ -494,7 +494,7 @@ class Languageskill(models.Model):
     languagename = models.CharField(db_column='languageName', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'LanguageSkill'
 
 
@@ -510,7 +510,7 @@ class Location(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'Location'
 
 
@@ -520,7 +520,7 @@ class Locationselector(models.Model):
     locselname = models.CharField(db_column='locSelName', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'LocationSelector'
 
 
@@ -532,7 +532,7 @@ class Narrativefactoid(models.Model):
     fmkey = models.IntegerField(db_column='fmKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'NarrativeFactoid'
         unique_together = (('factoidkey', 'narrativeunitid'),)
 
@@ -555,7 +555,7 @@ class Narrativeunit(models.Model):
     heading = models.IntegerField()
 
     class Meta:
-        managed = False
+        
         db_table = 'NarrativeUnit'
 
 
@@ -564,7 +564,7 @@ class Occupation(models.Model):
     occupationname = models.CharField(db_column='occupationName', max_length=50)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Occupation'
 
 
@@ -573,7 +573,7 @@ class Occupationfactoid(models.Model):
     occupation = models.ForeignKey('Occupation',db_column='OccupationKey')
 
     class Meta:
-        managed = False
+        
         db_table = 'OccupationFactoid'
 
 
@@ -582,7 +582,7 @@ class Origlangauth(models.Model):
     olanguage = models.CharField(db_column='oLanguage', max_length=20, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'OrigLangAuth'
 
 
@@ -605,7 +605,7 @@ class Person(models.Model):
     tstamp = models.DateTimeField(db_column='tstamp')
 
     class Meta:
-        managed = False
+        
         db_table = 'Person'
         ordering = ['name','mdbcode']
 
@@ -699,7 +699,7 @@ class Personcolldb(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'PersonCollDB'
 
 
@@ -709,7 +709,7 @@ class Possessionfactoid(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'PossessionFactoid'
 
 
@@ -722,7 +722,7 @@ class Published(models.Model):
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Published'
 
 
@@ -731,7 +731,7 @@ class Religion(models.Model):
     religionname = models.CharField(db_column='religionName', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Religion'
 
 
@@ -742,7 +742,7 @@ class Religionfactoid(models.Model):
     religion = models.ForeignKey('Religion',db_column='religionKey')
 
     class Meta:
-        managed = False
+        
         db_table = 'ReligionFactoid'
 
 
@@ -761,7 +761,7 @@ class Scdate(models.Model):
     yeargivenform = models.CharField(db_column='yearGivenForm', max_length=25, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'ScDate'
 
 
@@ -774,7 +774,7 @@ class Scsource(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'ScSource'
 
 
@@ -786,7 +786,7 @@ class Seal(models.Model):
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Seal'
 
 
@@ -795,7 +795,7 @@ class Sexauth(models.Model):
     sexvalue = models.CharField(db_column='sexValue', max_length=25)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'SexAuth'
 
 
@@ -805,7 +805,7 @@ class Source(models.Model):
     sourcebib = models.TextField(db_column='sourceBib')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Source'
 
 
@@ -814,7 +814,7 @@ class Type(models.Model):
     typename = models.TextField(db_column='typeName')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        
         db_table = 'Type'
 
 
@@ -826,7 +826,7 @@ class User(models.Model):
     initials = models.CharField(max_length=5)
 
     class Meta:
-        managed = False
+        
         db_table = 'User'
 
 
@@ -837,7 +837,7 @@ class Vnamefactoid(models.Model):
     variantname = models.ForeignKey('Variantname',db_column='vnamekey')
 
     class Meta:
-        managed = False
+        
         db_table = 'VNameFactoid'
 
 
@@ -849,5 +849,5 @@ class Variantname(models.Model):
     tstamp = models.DateTimeField()
 
     class Meta:
-        managed = False
+        
         db_table = 'VariantName'

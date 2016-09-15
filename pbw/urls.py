@@ -1,11 +1,11 @@
 # from ddhldap.signal_handlers import register_signal_handlers as \
-#     ddhldap_register_signal_handlers
+# ddhldap_register_signal_handlers
 
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from views import PBWFacetedSearchView,PersonDetailView,PersonJsonView
 
+from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView
 
 
 admin.autodiscover()
@@ -13,17 +13,20 @@ admin.autodiscover()
 
 
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
-                       url(r'^admin/', include(admin.site.urls)),
-                       url(r'^search/',
-                           PBWFacetedSearchView.as_view(),
-                           name='pbw_haystack_search'),
-                       url(r'^person/(?P<pk>\d+)/$',
-                            PersonDetailView.as_view(),
-                            name='person-detail'),
-                       url(r'^person/json/(?P<pk>\d+)/$',
-                            PersonJsonView.as_view(),
-                            name='person-json')
-                       ]
+               url(r'^admin/', include(admin.site.urls)),
+               url(r'^browse/',
+                   PBWFacetedSearchView.as_view(),
+                   name='pbw_haystack_search'),
+               url(r'^person/(?P<pk>\d+)/$',
+                   PersonDetailView.as_view(),
+                   name='person-detail'),
+               url(r'^person/json/(?P<pk>\d+)/$',
+                   PersonJsonView.as_view(),
+                   name='person-json'),
+
+               url(r'^autocomplete/',
+                   AutoCompleteView.as_view(),
+                   name='pbw_autocomplete')]
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS
@@ -31,7 +34,8 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
 try:
     if settings.DEBUG:
         import debug_toolbar
-        urlpatterns.append(url(r'^__debug__/',include(debug_toolbar.urls)),)
+
+        urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)), )
 
 except ImportError:
     pass

@@ -6,9 +6,11 @@ from models import Person, Factoid, Location, Ethnicity,Dignityoffice, Variantna
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
+    description = indexes.CharField(model_attr='descname',default='')
     name = indexes.CharField(model_attr='name', faceted=True)
     letter = indexes.FacetCharField()
-    person = indexes.FacetCharField()
+    source = indexes.FacetMultiValueField()
+    person = indexes.CharField()
     sex = indexes.FacetCharField(model_attr='sex__sexvalue')
     person_id = indexes.IntegerField(model_attr='id')
     floruit = indexes.CharField(model_attr='floruit', faceted=True)
@@ -26,6 +28,18 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         if len(obj.name) > 0:
             return obj.name[0].upper()
 
+    def prepare_source(self, obj):
+        factoids = Factoid.objects.filter(factoidperson__person=obj,factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
+        sources=[]
+        for f in factoids:
+            try:
+                sources.append(f.source.sourceid)
+            except Exception as e:
+                print "No source found for factoid "+f.id+" "+e.message
+        return set(sources)
+
+
+
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
@@ -36,14 +50,16 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
 # The base class for the the various factoid types
 class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    engDesc = indexes.EdgeNgramField(model_attr='engdesc')
+    description = indexes.CharField(model_attr='engdesc',default='')
+    name = indexes.FacetCharField()
     factoidtype = indexes.CharField(model_attr='factoidtype__typename')
     factoidtypekey = indexes.IntegerField(
         model_attr='factoidtype__id', faceted=True)
     person = indexes.CharField()
     person_id = indexes.IntegerField()
     source_id = indexes.IntegerField(model_attr='source__id')
-    source = indexes.FacetCharField(model_attr='source__sourceid')
+    source = indexes.FacetMultiValueField(model_attr='source__sourceid')
+    sourceref = indexes.CharField(model_attr='sourceref')
     #Factoid Types
     location = indexes.FacetCharField()
     ethnicity = indexes.FacetCharField()
@@ -51,6 +67,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     language = indexes.FacetCharField()
     secondaryname = indexes.FacetCharField()
     occupation = indexes.FacetCharField()
+    letter = indexes.FacetCharField()
+
 
     def get_model(self):
         return Factoid
@@ -65,7 +83,17 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         if p.count() > 0:
             return p[0].id
 
-            # #Each type has specific values in their authority list sub tables: location,ethnic etc.
+    def prepare_name(self,obj):
+        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
+        if p.count() > 0:
+            return p[0].name
+        return ""
+
+    def prepare_letter(self, obj):
+        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
+        if p.count() > 0 and len(p[0].name) > 0:
+            return p[0].name[0].upper()
+        return ""
 
     def prepare_location(self, obj):
         #Location

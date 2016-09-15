@@ -11,8 +11,7 @@ from pbw.models import Person, Factoid
 
 class HaystackTest(TestCase):
     fixtures = ['person_107447.json','factoids_person_107447.json']
-    def setUp(self):
-        pass
+
 
     #Test Letter Facet
     #Find the letter I, count 1

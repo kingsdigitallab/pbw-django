@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 
 
 class PBWFacetedSearchView(FacetedSearchView):
+    template_name = 'search/browse.html'
     queryset = GroupedSearchQuerySet().models(
         Person, Factoid).group_by('person_id')
     load_all=True
@@ -50,18 +51,18 @@ class PBWFacetedSearchView(FacetedSearchView):
         # used to generate the lists for the autocomplete dictionary
         context['autocomplete_facets'] = self.autocomplete_facets
 
-        for afacet in context['autocomplete_facets']:
-
-            if self.request.GET.get(afacet):
-                qs = self.request.GET.copy()
-                qs.pop(afacet)
-
-                url = reverse('haystack_search')
-
-                if len(qs):
-                    url = '?{0}'.format(qs.urlencode())
-
-                context[afacet] = (url, self.request.GET.get(afacet))
+        # for afacet in context['autocomplete_facets']:
+        #
+        #     if self.request.GET.get(afacet):
+        #         qs = self.request.GET.copy()
+        #         qs.pop(afacet)
+        #
+        #         url = reverse('pbw_haystack_search')
+        #
+        #         if len(qs):
+        #             url = '?{0}'.format(qs.urlencode())
+        #
+        #         context[afacet] = (url, self.request.GET.get(afacet))
         return context
 
     def get_queryset(self):
@@ -70,9 +71,10 @@ class PBWFacetedSearchView(FacetedSearchView):
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet, limit=30, mincount=1,sort='index')
+            queryset = queryset.facet(facet, mincount=1,sort='index')
 
         return queryset
+
 
 
 # Conveneince class for person detail to group factoids by type for display
@@ -125,3 +127,22 @@ class PersonJsonView(PersonDetailView):
         factoid_data = serializers.serialize(self.format, person.getFilteredFactoids())
         context['toJSON'] = person_data+factoid_data
         return context
+
+class AutoCompleteView(PBWFacetedSearchView):
+    template_name = "ajax/autocomplete.html"
+
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            PBWFacetedSearchView, self).get_context_data(**kwargs)
+        if self.request.GET.get("facet"):
+            facet=self.request.GET.get("facet")
+            search=self.request.GET.get("search")
+            qs=self.get_queryset()
+            #Apply other facets currently selected
+            #if self.request.GET.getlist('selected_facets'):
+                #for f
+            qs=qs.query_facet(facet, search+'*')
+            context["ajax_facet"] = facet
+            context["qs"] = qs
+        return context
+
