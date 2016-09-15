@@ -8,201 +8,215 @@
 {% endblock %}
 {% block main %}
     <div class="row">
-        <div class="large-12 columns" id="search">
-            <header>
-                <h1 id="search-box">Search</h1>
-                <button class="small button secondary options"><i class="fa fa-cog"></i> <span id="showhide">Hide</span>
-                    search settings
-                </button>
-                <a href="/browse/" class="right options"><span class="small button"><i class="fa fa-refresh"></i> Start new search</span></a>
-            </header>
-            <form method="get" action=".">
-                <div class="search-box">
-                    <section data-section="non-expandable" data-expandable-group-member="facets" id="dprr-filter">
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <h4>Refine your search</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="large-12 columns">
+    <div class="large-12 columns" id="search">
+    <header>
+        <h1 id="search-box">Search</h1>
+        <button class="small button secondary options"><i class="fa fa-cog"></i> <span id="showhide">Hide</span>
+            search settings
+        </button>
+        <a href="/browse/" class="right options"><span class="small button"><i class="fa fa-refresh"></i> Start new search</span></a>
+    </header>
+    <form method="get" action=".">
+        <div class="search-box">
+            <section data-section="non-expandable" data-expandable-group-member="facets" id="dprr-filter">
+                <div class="row do-not-print">
+                    <div class="large-12 columns">
+                        <h4>Refine your search</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+
+                    </div>
+                </div>
+                <div class="row do-not-print">
+                    <div class="large-12 columns">
+                        <div class="panel callout">
+                            <div class="panel callout">
+                                <h3 class="panel-heading">Letter</h3>
+                                <ul class="button-group">
+                                    {% for term in facets.fields|get_item:"letter" %}
+                                        {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                            <li>
+                                                <a href="
+
+
+
+
+
+                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=letter:{{ value }}">{{ value }}</a>
+                                                <span class="label radius">{{ count }}</span></li>
+                                        {% endif %}{% endwith %}
+                                    {% endfor %}
+                                </ul>
+
 
                             </div>
+                            <h3 class="panel-heading">Name</h3>
+
+                            <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p>
+
+                            <div class="panel radius fixed-height">
+                                <ul class="no-bullet">
+                                    {% for term in facets.fields|get_item:"name" %}
+                                        {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                            <li>
+                                                <a href="
+
+
+
+
+
+                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=name:{{ value }}">{{ value }}</a>
+                                                <span class="label radius">{{ count }}</span></li>
+                                        {% endif %}{% endwith %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
                         </div>
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <div class="panel callout">
-                                    <div class="panel callout">
-                                        <h3 class="panel-heading">Letter</h3>
-                                        <ul class="button-group">
-                                            {% for term in facets.fields|get_item:"letter" %}
+                        {#Dignity/Office.#}
+                        {#Ethnic label #}
+                        {#Secondary names (= second names + alternative names)#}
+                        {#Location#}
+                        {#Occupation/Vocation#}
+                        {#Language Skill #}
+
+                    </div>
+                </div>
+                <div class="row do-not-print">
+                    <div class="large-12 columns">
+                        <div class="panel callout">
+                            <h2 class="panel-heading">Factoids</h2>
+
+                            <div class="row">
+                                <div class="large-6 columns">
+                                    <h4>Dignity / Office</h4>
+                                    {{ form.dignityoffice }}
+
+                                    <div class="panel radius fixed-height">
+                                        <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"dignityoffice" %}
                                                 {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                                     <li>
                                                         <a href="
 
 
 
-                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=letter:{{ value }}">{{ value }}</a>
+
+                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=dignityoffice:{{ value }}">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="large-6 columns">
+                                    <h4>Location</h4>
+                                    {{ form.location }}
+
+
+                                    <div class="panel radius fixed-height">
+
+                                        <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"location" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
+
+
+
+
+                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=location:{{ value }}">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
                                                 {% endif %}{% endwith %}
                                             {% endfor %}
                                         </ul>
-
-
-                                    </div>
-                                    <h3 class="panel-heading">Name</h3>
-
-                                    <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p>
-                                    <ul class="no-bullet">
-                                        {% for term in facets.fields|get_item:"name" %}
-                                            {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                                <li>
-                                                    <a href="
-
-
-
-                                                            {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=letter:{{ value }}">{{ value }}</a>
-                                                    <span class="label radius">{{ count }}</span></li>
-                                            {% endif %}{% endwith %}
-                                        {% endfor %}
-                                    </ul>
-
-                                </div>
-                                {#Dignity/Office.#}
-                                {#Ethnic label #}
-                                {#Secondary names (= second names + alternative names)#}
-                                {#Location#}
-                                {#Occupation/Vocation#}
-                                {#Language Skill #}
-
-                            </div>
-                        </div>
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <div class="panel callout">
-                                    <h2 class="panel-heading">Factoids</h2>
-
-                                    <div class="row">
-                                        <div class="large-6 columns">
-                                            <h4>Dignity / Office</h4>
-                                            <input class="autocomplete" id="id_dignityoffice" name="dignityoffice"
-                                                   type="text" placeholder="dignity" autocomplete="off">
-
-                                            <div class="panel radius fixed-height">
-                                                <ul class="no-bullet">
-                                                    {% for term in facets.fields|get_item:"dignityoffice" %}
-                                                        {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-
-                                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=dignityoffice:{{ value }}">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span></li>
-                                                        {% endif %}{% endwith %}
-                                                    {% endfor %}
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="large-6 columns">
-                                            <h4>Location</h4>
-
-                                            <div class="panel radius fixed-height">
-
-                                                <ul class="no-bullet">
-                                                    {% for term in facets.fields|get_item:"location" %}
-                                                        {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-
-                                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=location:{{ value }}">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span></li>
-                                                        {% endif %}{% endwith %}
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="large-6 columns">
-                                            <h4>Ethnicity</h4>
-
-                                            <div class="panel radius fixed-height">
-
-                                                <ul class="no-bullet">
-                                                    {% for term in facets.fields|get_item:"ethnicity" %}
-                                                        {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-
-                                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=ethnicity:{{ value }}">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span></li>
-                                                        {% endif %}{% endwith %}
-                                                    {% endfor %}
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="large-6 columns">
-                                            <div class="panel radius fixed-height">
-                                                <h4>Secondary names</h4>
-                                                <ul class="no-bullet">
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="large-6 columns">
-                                            <div class="panel radius fixed-height">
-                                                <h4>Occupation</h4>
-                                                <ul class="no-bullet">
-
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="large-6 columns">
-                                            <div class="panel radius fixed-height">
-                                                <h4>Province</h4>
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row do-not-print">
-                            <div class="large-6 columns">
-                                <h4>Text search</h4>
-
-                                <div class="row collapse">
-                                    <div class="small-9 columns">
-                                        {{ form.q }}
-                                    </div>
-                                    <div class="small-3 columns">
-                                        <button type="submit" class="postfix button"><i class="fa fa-search"></i>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="large-3 large-offset-3 columns">
-                                <h4>&nbsp;</h4>
-                                <a href="#search-results-box" class="less-padding expand button">Show
-                                    <strong>{{ paginator.count }}</strong> results</a>
+
+                            <div class="row">
+                                <div class="large-6 columns">
+                                    <h4>Ethnicity</h4>
+
+                                    <div class="panel radius fixed-height">
+
+                                        <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"ethnicity" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
+
+
+
+
+                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=ethnicity:{{ value }}">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="large-6 columns">
+                                    <div class="panel radius fixed-height">
+                                        <h4>Secondary names</h4>
+                                        <ul class="no-bullet">
+
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="row">
+                                <div class="large-6 columns">
+                                    <div class="panel radius fixed-height">
+                                        <h4>Occupation</h4>
+                                        <ul class="no-bullet">
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="large-6 columns">
+                                    <div class="panel radius fixed-height">
+                                        <h4>Province</h4>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                    </section>
+                    </div>
                 </div>
-            </form>
+                <div class="row do-not-print">
+                    <div class="large-6 columns">
+                        <h4>Text search</h4>
+
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                {{ form.q }}
+                            </div>
+                            <div class="small-3 columns">
+                                <button type="submit" class="postfix button"><i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-3 large-offset-3 columns">
+                        <h4>&nbsp;</h4>
+                        <a href="#search-results-box" class="less-padding expand button">Show
+                            <strong>{{ paginator.count }}</strong> results</a>
+                    </div>
+                </div>
+            </section>
         </div>
+    </form>
+    </div>
     </div>
     <div class="row extra-margin" id="search-results-box">
         <div class="large-12 columns">
@@ -228,45 +242,23 @@
             {#                <li><span class="label radius gray-bg">Uncertain <i class="fa fa-minus-circle"></i></span></li>#}
             {#            </ul>#}
             <hr>
+
             <ol start="{{ page_obj.start_index }}" class="search-results">
                 {% for result in object_list %}
                     <li>
                         {% with doc=result.documents.0 %}
                             <h3>
                                 <a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
-                            </h3> {% for dd in result.documents %}
+                            </h3>
+                            <p>{{ doc.description }}</p>
+                            {% for dd in result.documents %}
                             <p>
                                 {% highlight dd.text with query html_tag 'strong' max_length 120 %}
                             </p>
                         {% endfor %}
-                           <!-- <a href="#" class="expander">Expand <i class="fa fa-caret-right fa-lg"></i></a>
-                            <div class="row hide collapsible">
-                                <div class="large-6 columns">
-                                    <p>Placeholder</p>
 
-                                    <p><em>&lt;List of offices held&gt;</em></p>
 
-						<h4>Offices held</h4>
-						<ul class="no-bullet list-offices">
-							{# for #}
-							<li><span class="label radius secondary">87 B.C. Flamen Dialis</span></li>
-							<li><span class="label radius secondary">81 B.C. Legatus (Envoy)</span></li>
-							<li><span class="label radius secondary">73-44 B.C. Pontifex</span></li>
-							<li><span class="label radius secondary">71 B.C. Tribunus Militum</span></li>
-							<li><span class="label radius secondary">69 B.C. Quaestor</span></li>
-							<li><span class="label radius secondary">68-49 B.C. Promagistrate</span></li>
-							<li><span class="label radius secondary">65 B.C. Aedilis Curulis</span></li>
-							<li><span class="label radius secondary">64 B.C. Iudex Quaestionis</span></li>
-							<li><span class="label radius secondary">63 B.C. Duumvir Perduellionis</span></li>
-							<li><span class="label radius secondary">62 B.C. Praetor</span></li>
-							<li><span class="label radius secondary">59-44 B.C. Consul</span></li>
-							<li><span class="label radius secondary">49-44 B.C. Dictator</span></li>
-							{# endfor #}
-						</ul>
 
-                                </div>-->
-
-                            </div>
                         {% endwith %}
                     </li>
                 {% empty %}
@@ -276,24 +268,9 @@
 
         </div>
     </div>
-{% endblock main %} {% block footerscripts %}
 
-    <script type="text/javascript">
-        var autocompleteDict = {
-            {% for item in autocomplete_facets %}
-                "{{ item }}": [
-                    {% for term in facets.fields|get_item:item %}
-                        {% with value=term.0 count=term.1 %}
-                            {"name": "{{ value.strip }}", "count": "{{count}}"}
-                            {% if not forloop.last %}, {% endif %} {% endwith %}
-                    {% endfor %}
-                ]
-                {% if not forloop.last %},{% endif %}
-            {% endfor %}
-        }
-    </script>
+{% endblock main %}
+{% block footer_scripts %}
 
-    <!-- EasyAutocomplete -->
-    <script src="{% static 'vendor/EasyAutocomplete/dist/jquery.easy-autocomplete.js' %}"></script>
-    <script src="{% static 'javascripts/search.js' %}"></script>
+
 {% endblock %}

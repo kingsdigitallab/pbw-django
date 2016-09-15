@@ -1,1 +1,7 @@
-{{object.engDesc}} {{object.factoidtype.typename}}
+{{ location }}
+{{ ethnicity}}
+{{ dignityoffice }}
+{{ language }}
+{{ secondaryname }}
+{{ occupation}}
+{{ object.engdesc }}

@@ -11,8 +11,9 @@
       <div class="top-bar-left">
 
         {% block main_menu %}
-        {% get_site_root as site_root %}
-        {% main_menu root=site_root current_page=self %}
+            {% include 'includes/nav.html' %}
+{#        {% get_site_root as site_root %}#}
+{#        {% main_menu root=site_root current_page=self %}#}
         {% endblock %}
 
       </div>

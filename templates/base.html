@@ -1,48 +1,55 @@
+{% load staticfiles compress require %}
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-
-{% load compress staticfiles %}
-
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8">
-    <!-- <meta name="keywords" content="{# block meta_keywords #}{# endblock #}"> -->
-    <!-- <meta name="description" content="{# block meta_description #}{# endblock #}"> -->
-    <title>{% block meta_title %}{% endblock %} | DPRR</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block meta_title %}{% endblock %} | PROJECT_TITLE</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" /> -->
-
-    {% compress css %}
-    {# SCSS compilation relies on django compressor #}
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/app.scss' %}" />
-    {% endcompress %}
-
-    <script src="{% static 'vendor/modernizr/modernizr.js' %}"></script>
+  {% compress css %}
+  {# SCSS compilation relies on django compressor #}
+  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}">
+  <!-- FontAwesome -->
+  {#
+    Copy _variable.scss and font-awesome.scss and change the @import paths
+    to point to the project ones rather than to the vendor folder
+  #}
+  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/font-awesome.scss' %}">
+  {% endcompress %}
 </head>
-<body id="body"{% block pageclass %}{% endblock %}>
+<body>
+  <header>
+    {% include 'includes/header.html' %}
+  </header>
 
-    {% include "includes/header.html" %}
+  <nav>
+    {% include 'includes/navigation.html' %}
+  </nav>
 
-    {% include "includes/nav.html" %}
-
-    <div class="contain-to-grid content-area">
-        <section class="main">
+  <div class="row">
+    <div class="large-12 columns">
+      <section class="main">
+        {% block title %}{% endblock %}
         {% block main %}
         {% endblock %}
-        </section>
+      </section>
     </div>
+  </div>
 
-    {% include "includes/footer.html" %}
+  <footer>
+    {% block footer %}
+    {% include 'includes/footer.html' %}
+    {% endblock %}
+  </footer>
 
-    <script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/foundation/js/foundation.min.js' %}"></script>
-    <script src="{% static 'javascripts/config.js' %}"></script>
-
-    <script>
-        $(document).foundation();
-    </script>
-
+  <!-- define requirejs config settings. -->
+  <script type="text/javascript">
+    {% include 'includes/config.js' %}
+  </script>
+{#  {% require_module 'config' %}#}
+<script data-main="{% static 'javascripts/browse-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>
+  {% block footer_scripts %}{% endblock %}
 </body>
 </html>
