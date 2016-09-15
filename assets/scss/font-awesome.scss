@@ -4,15 +4,15 @@
  */
 
 @import "variables";
-@import "mixins";
-@import "path";
-@import "core";
-@import "larger";
-@import "fixed-width";
-@import "list";
-@import "bordered-pulled";
-@import "animated";
-@import "rotated-flipped";
-@import "stacked";
-@import "icons";
-@import "screen-reader";
+@import "../vendor/font-awesome/scss/mixins";
+@import "../vendor/font-awesome/scss/path";
+@import "../vendor/font-awesome/scss/core";
+@import "../vendor/font-awesome/scss/larger";
+@import "../vendor/font-awesome/scss/fixed-width";
+@import "../vendor/font-awesome/scss/list";
+@import "../vendor/font-awesome/scss/bordered-pulled";
+@import "../vendor/font-awesome/scss/animated";
+@import "../vendor/font-awesome/scss/rotated-flipped";
+@import "../vendor/font-awesome/scss/stacked";
+@import "../vendor/font-awesome/scss/icons";
+@import "../vendor/font-awesome/scss/screen-reader";
