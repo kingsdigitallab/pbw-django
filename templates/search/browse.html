@@ -11,12 +11,13 @@
     <div class="large-12 columns" id="search">
     <header>
         <h1 id="search-box">Search</h1>
-        <button class="small button secondary options"><i class="fa fa-cog"></i> <span id="showhide">Hide</span>
+        <button class="small button secondary options showhide"><i class="fa fa-cog"></i> <span id="showhide">Hide</span>
             search settings
         </button>
         <a href="/browse/" class="right options"><span class="small button"><i class="fa fa-refresh"></i> Start new search</span></a>
     </header>
     <form method="get" action=".">
+       {{ form.letter }}
         <div class="search-box">
             <section data-section="non-expandable" data-expandable-group-member="facets" id="dprr-filter">
                 <div class="row do-not-print">
@@ -44,7 +45,7 @@
 
 
 
-                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=letter:{{ value }}">{{ value }}</a>
+                                                        {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}letter={{ value }}">{{ value }}</a>
                                                 <span class="label radius">{{ count }}</span></li>
                                         {% endif %}{% endwith %}
                                     {% endfor %}
@@ -53,7 +54,7 @@
 
                             </div>
                             <h3 class="panel-heading">Name</h3>
-
+                        {{ form.name }}
                             <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p>
 
                             <div class="panel radius fixed-height">
@@ -67,7 +68,7 @@
 
 
 
-                                                        {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=name:{{ value }}">{{ value }}</a>
+                                                        {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}name={{ value }}">{{ value }}</a>
                                                 <span class="label radius">{{ count }}</span></li>
                                         {% endif %}{% endwith %}
                                     {% endfor %}
@@ -75,12 +76,6 @@
                             </div>
 
                         </div>
-                        {#Dignity/Office.#}
-                        {#Ethnic label #}
-                        {#Secondary names (= second names + alternative names)#}
-                        {#Location#}
-                        {#Occupation/Vocation#}
-                        {#Language Skill #}
 
                     </div>
                 </div>
@@ -104,7 +99,7 @@
 
 
 
-                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=dignityoffice:{{ value }}">{{ value }}</a>
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}dignityoffice={{ value }}">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
                                                 {% endif %}{% endwith %}
                                             {% endfor %}
@@ -115,10 +110,7 @@
                                 <div class="large-6 columns">
                                     <h4>Location</h4>
                                     {{ form.location }}
-
-
                                     <div class="panel radius fixed-height">
-
                                         <ul class="no-bullet">
                                             {% for term in facets.fields|get_item:"location" %}
                                                 {% with value=term.0 count=term.1 %} {% if count > 0 %}
@@ -128,7 +120,7 @@
 
 
 
-                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=location:{{ value }}">{{ value }}</a>
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}location={{ value }}">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
                                                 {% endif %}{% endwith %}
                                             {% endfor %}
@@ -140,7 +132,7 @@
                             <div class="row">
                                 <div class="large-6 columns">
                                     <h4>Ethnicity</h4>
-
+                                    {{ form.ethnicity }}
                                     <div class="panel radius fixed-height">
 
                                         <ul class="no-bullet">
@@ -152,7 +144,7 @@
 
 
 
-                                                                {{ request.get_full_path }}{% if q %}&amp;{% else %}?{% endif %}selected_facets=ethnicity:{{ value }}">{{ value }}</a>
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}ethnicity={{ value }}">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
                                                 {% endif %}{% endwith %}
                                             {% endfor %}
@@ -161,9 +153,23 @@
                                     </div>
                                 </div>
                                 <div class="large-6 columns">
+                                    <h4>Secondary names</h4>
+                                {{ form.secondaryname }}
                                     <div class="panel radius fixed-height">
-                                        <h4>Secondary names</h4>
+
                                         <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"secondaryname" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
+
+
+
+
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}secondaryname={{ value }}">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
 
                                         </ul>
                                     </div>
@@ -172,17 +178,44 @@
 
                             <div class="row">
                                 <div class="large-6 columns">
+                                    <h4>Occupation</h4>
+                                {{ form.occupation }}
                                     <div class="panel radius fixed-height">
-                                        <h4>Occupation</h4>
+
                                         <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"occupation" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
 
 
+
+
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}occupation={{ value }}">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="large-6 columns">
+                                    <h4>Language</h4>
+                                {{ form.language }}
                                     <div class="panel radius fixed-height">
-                                        <h4>Province</h4>
+
+                                        <ul class="no-bullet">
+                                            {% for term in facets.fields|get_item:"language" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
+
+
+
+
+                                                                {{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}language={{ value }}">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
 
                                         </ul>
                                     </div>
@@ -250,7 +283,7 @@
                             <h3>
                                 <a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
                             </h3>
-                            <p>{{ doc.description }}</p>
+
                             {% for dd in result.documents %}
                             <p>
                                 {% highlight dd.text with query html_tag 'strong' max_length 120 %}

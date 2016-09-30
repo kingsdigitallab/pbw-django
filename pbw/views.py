@@ -77,6 +77,8 @@ class PBWFacetedSearchView(FacetedSearchView):
 
 
 
+
+
 # Conveneince class for person detail to group factoids by type for display
 class FactoidGroup:
     groups={}

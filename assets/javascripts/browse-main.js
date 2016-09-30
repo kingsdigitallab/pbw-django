@@ -34,7 +34,6 @@ requirejs.config({
         'foundation.util.timerAndImageLoader': '../vendor/foundation-sites/js/foundation.util.timerAndImageLoader',
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
-
         'requirejs': '../vendor/requirejs/require'
     },
     shim: {
@@ -51,9 +50,9 @@ requirejs.config({
 var autocomplete = {
     // options for the EasyAutocomplete API
     setUp: function (input) {
-        $input = $(input);
-        qs = $input.data("qs");
-        options = {
+        var $input = $(input);
+        var qs = $input.data("qs");
+        var options = {
             //data: autocompleteDict[$input.attr("name")],
             url: function (search) {
                 if (search.length > 1) {
@@ -77,7 +76,7 @@ var autocomplete = {
                     enabled: true
                 },
                 onChooseEvent: function () {
-
+                    var sf=jQuery('input[name="selected_facets"]').val();
                     $input.closest('form').submit();
                 },
                 match: {
@@ -97,11 +96,9 @@ var autocomplete = {
         $input.easyAutocomplete(options);
     },
 
-    init: function () {
-        self = this;
-        jQuery('input.autocomplete').each(function () {
-            self.setUp(this);
-        })
+    init: function (element) {
+        self = element;
+        this.setUp(element);
     }
 }
 
@@ -113,7 +110,13 @@ require(["requirejs", "jquery", "easyautocomplete"], function (jQuery, eAuto) {
     'use strict';
 
     $(document).ready(function () {
-        autocomplete.init();
+        $('input.autocomplete').each(function () {
+            autocomplete.init(this);
+        });
+        $('button.showhide').click(function(){
+            $('.search-box').slideToggle();
+        });
+
     });
 
 

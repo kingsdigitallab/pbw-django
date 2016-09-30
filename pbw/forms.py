@@ -1,13 +1,33 @@
 from django import forms
-from django.utils.safestring import mark_safe
 from haystack.forms import FacetedSearchForm
 
+
 class PBWFacetedSearchForm(FacetedSearchForm):
+
+    name = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
+    letter = forms.CharField(required=False, widget=forms.HiddenInput(
+        attrs={}))
+
     dignityoffice = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 
     location = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
+
+    ethnicity = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
+    language = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
+    secondaryname = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
+    occupation = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
 
 
     def no_query_found(self):
@@ -21,12 +41,18 @@ class PBWFacetedSearchForm(FacetedSearchForm):
         if not self.is_valid():
             return self.no_query_found()
 
-        if self.is_bound:
-            data = self.cleaned_data
-            for field in ('dignityoffice', 'location'):
-                    if field in data:
-                        if data.get(field):
-                            sqs = sqs.narrow('{}:{}'.format(
-                                field, data.get(field)))
+        data = self.cleaned_data
+        if "selected_facets" in data:
+            if data.get("selected_facets"):
+                print data.get("selected_facets")
+
+        for field in (
+                'dignityoffice', 'location', 'ethnicity', 'language', 'secondaryname', 'occupation', 'name', 'letter',
+                'sex', 'floruit'):
+            if field in data:
+                if data.get(field):
+                    print data.get(field)
+                    sqs = sqs.narrow('{}:{}'.format(
+                        field, data.get(field)))
 
         return sqs
