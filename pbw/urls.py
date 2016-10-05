@@ -4,6 +4,10 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from wagtail.wagtailcore import urls as wagtail_urls
+from wagtail.wagtailadmin import urls as wagtailadmin_urls
+from wagtail.wagtaildocs import urls as wagtaildocs_urls
+from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
 from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView
 
@@ -14,6 +18,11 @@ admin.autodiscover()
 
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^admin/', include(admin.site.urls)),
+               #url(r'^admin/', include(wagtailadmin_urls)),
+               url(r'^wagtail/', include(wagtailadmin_urls)),
+               url(r'^search/', include(wagtailsearch_frontend_urls)),
+               url(r'^documents/', include(wagtaildocs_urls)),
+
                url(r'^browse/',
                    PBWFacetedSearchView.as_view(),
                    name='pbw_haystack_search'),
@@ -26,7 +35,11 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
 
                url(r'^autocomplete/',
                    AutoCompleteView.as_view(),
-                   name='pbw_autocomplete')]
+                   name='pbw_autocomplete'),
+               # For anything not caught by a more specific rule above, hand over to
+               # Wagtail's serving mechanism
+               url(r'^', include(wagtail_urls)),
+]
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS

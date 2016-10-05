@@ -10,6 +10,9 @@ class PBWFacetedSearchForm(FacetedSearchForm):
     letter = forms.CharField(required=False, widget=forms.HiddenInput(
         attrs={}))
 
+    source = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'class': 'autocomplete'}))
+
     dignityoffice = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 

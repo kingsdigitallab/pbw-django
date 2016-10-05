@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load pbw_tags %}
 
 {% block meta_title %}Person Details{% endblock %}
 
@@ -17,16 +17,14 @@
         <h2>{{ factoidtype }}</h2>
         <ul>
             {% for f in factoids %}
-                <li>{{ f.engdesc }}
-                {{ f.origldesc }} {{ f.source.sourceid }} {{ f.sourceref }}
+                <li>
+                   <dl><dt> {{ f | get_authority_list }}</dt>
+                <dd>{{ f.engdesc | add_persref_links}} {{ f.origldesc }} {{ f.source.sourceid }} {{ f.sourceref }}</dd>
+                       </dl>
                 </li>
             {% endfor %}
         </ul>
         {% endfor %}
     </div>
 </div>
-
-<!-- Temp link to d3js.org min and d3 stuff - TO BE REMOVED -->
-
-
 {% endblock %}

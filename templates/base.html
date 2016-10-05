@@ -28,15 +28,14 @@
     {% include 'includes/navigation.html' %}
   </nav>
 
-  <div class="row">
-    <div class="large-12 columns">
+  <div class="contain-to-grid content-area">
       <section class="main">
         {% block title %}{% endblock %}
         {% block main %}
         {% endblock %}
       </section>
     </div>
-  </div>
+
 
   <footer>
     {% block footer %}

@@ -1,7 +1,7 @@
 from haystack import indexes
 
 from settings import DISPLAYED_FACTOID_TYPES
-from models import Person, Factoid, Location, Ethnicity,Dignityoffice, Variantname, Languageskill, Occupation
+from models import Person, Factoid, Location, Ethnicity,Dignityoffice, Variantname, Languageskill, Occupation,Source
 
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
@@ -58,7 +58,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     person = indexes.CharField()
     person_id = indexes.IntegerField()
     source_id = indexes.IntegerField(model_attr='source__id')
-    source = indexes.FacetMultiValueField(model_attr='source__sourceid')
+    source = indexes.FacetMultiValueField()
     sourceref = indexes.CharField(model_attr='sourceref')
     #Factoid Types
     location = indexes.FacetCharField()
@@ -77,6 +77,10 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         p = Person.objects.filter(factoidperson__factoid__id=obj.id)
         if p.count() > 0:
             return p[0].name + " " + str(p[0].mdbcode)
+
+    def prepare_source(self, obj):
+        #model_attr='source__sourceid'
+        return [obj.source.sourceid]
 
     def prepare_person_id(self, obj):
         p = Person.objects.filter(factoidperson__factoid__id=obj.id)

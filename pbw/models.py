@@ -4,6 +4,10 @@ from settings import DISPLAYED_FACTOID_TYPES,BASE_DIR
 from django.db import models
 import os
 from django.core import serializers
+from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.fields import RichTextField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
+
 
 class Accuracy(models.Model):
     acckey = models.AutoField(db_column='accKey', primary_key=True)  # Field name made lowercase.
@@ -222,7 +226,7 @@ class Dignityfactoid(models.Model):
     tstamp = models.DateTimeField()
     cursusorder = models.SmallIntegerField(db_column='cursusOrder')  # Field name made lowercase.
     appointedby = models.TextField(db_column='AppointedBy', blank=True, null=True)  # Field name made lowercase.
-    dignityoffice=models.ForeignKey('Dignityoffice',db_column='doKey')
+    dignityoffice=models.ForeignKey('Dignityoffice')
 
     class Meta:
         
@@ -851,3 +855,11 @@ class Variantname(models.Model):
     class Meta:
         
         db_table = 'VariantName'
+
+#Wagtail
+class HomePage(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('body', classname="full")
+    ]

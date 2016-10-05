@@ -10,4 +10,5 @@ MySQL-python
 redis
 git+git://github.com/kingsdigitallab/django-haystack.git
 pysolr
+wagtail
 flake8

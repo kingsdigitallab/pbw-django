@@ -75,6 +75,18 @@ INSTALLED_APPS = (
     'haystack',
     'require',
     'compressor',
+    'taggit',
+    'modelcluster',
+    'wagtail.wagtailcore',
+  'wagtail.wagtailadmin',
+  'wagtail.wagtaildocs',
+  'wagtail.wagtailsnippets',
+  'wagtail.wagtailusers',
+  'wagtail.wagtailimages',
+  'wagtail.wagtailembeds',
+  'wagtail.wagtailsearch',
+  'wagtail.wagtailredirects',
+  'wagtail.wagtailforms',
     'pbw'
 )
 
@@ -153,6 +165,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wagtail.wagtailcore.middleware.SiteMiddleware',
+    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 )
 
 ROOT_URLCONF = PROJECT_NAME + '.urls'
@@ -324,3 +338,13 @@ HAYSTACK_CONNECTIONS = {
         'URL': 'http://127.0.0.1:8080/solr'
     },
 }
+
+# Auth settings
+LOGIN_URL = 'wagtailadmin_login'
+LOGIN_REDIRECT_URL = 'wagtailadmin_home'
+
+# WAGTAIL SETTINGS
+
+# This is the human-readable name of your Wagtail install
+# which welcomes users upon login to the Wagtail admin.
+WAGTAIL_SITE_NAME = 'Prosopography of the Byzantine World'

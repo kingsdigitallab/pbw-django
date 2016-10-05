@@ -20,7 +20,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         Person, Factoid).group_by('person_id')
     load_all=True
     form_class=PBWFacetedSearchForm
-    facet_fields = ['name','letter','sex','floruit','secondaryname']
+    facet_fields = ['name','letter','sex','floruit','secondaryname','source']
     autocomplete_facets = ['location','dignityoffice','ethnicity','language','occupation']
 
     def build_page(self):
@@ -50,7 +50,15 @@ class PBWFacetedSearchView(FacetedSearchView):
                 'selected_facets')
         # used to generate the lists for the autocomplete dictionary
         context['autocomplete_facets'] = self.autocomplete_facets
+        #{{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}
+        fullURL=self.request.path+"?"
+        try:
+            if self.request.META['QUERY_STRING'] and len(self.request.META['QUERY_STRING']) > 0:
+                fullURL+=self.request.META['QUERY_STRING']+"&"
+        except AttributeError:
+            pass
 
+        context['fullURL']=fullURL
         # for afacet in context['autocomplete_facets']:
         #
         #     if self.request.GET.get(afacet):
