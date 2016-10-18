@@ -1,0 +1,10 @@
+{% extends "/templates/base.html" %}
+{% load wagtailcore_tags  %}
+
+{% block title %}{% endblock %}
+
+{% block local_menu %}{% endblock %}
+
+{% block content %}
+{% block main %}{{ self.content|richtext }}{% endblock %}
+{% endblock %}
