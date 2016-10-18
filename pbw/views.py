@@ -51,14 +51,16 @@ class PBWFacetedSearchView(FacetedSearchView):
         # used to generate the lists for the autocomplete dictionary
         context['autocomplete_facets'] = self.autocomplete_facets
         #{{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}
-        fullURL=self.request.path+"?"
-        try:
-            if self.request.META['QUERY_STRING'] and len(self.request.META['QUERY_STRING']) > 0:
-                fullURL+=self.request.META['QUERY_STRING']+"&"
-        except AttributeError:
-            pass
+        # fullURL=self.request.path+"?"
+        # try:
+        #     if self.request.META['QUERY_STRING'] and len(self.request.META['QUERY_STRING']) > 0:
+        #         fullURL+=self.request.META['QUERY_STRING']+"&"
+        # except AttributeError:
+        #     pass
 
-        context['fullURL']=fullURL
+
+
+        #context['fullURL']=fullURL
         # for afacet in context['autocomplete_facets']:
         #
         #     if self.request.GET.get(afacet):
