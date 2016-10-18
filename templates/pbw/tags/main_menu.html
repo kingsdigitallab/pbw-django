@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% load wagtailcore_tags %}
 
-</body>
-</html>
+
+<div class="contain-to-grid">
+    <nav class="top-bar" data-topbar role="navigation">
+
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <!-- Generic search -->
+            <!-- <ul class="right">
+                <li class="has-form">
+                    <div class="row collapse">
+                        <div class="large-8 small-9 columns">
+                            <input type="text" placeholder="Search...">
+                        </div>
+                        <div class="large-4 small-3 columns">
+                        <a href="#" class="button secondary expand"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </li>
+            </ul> -->
+            <!-- Left Nav Section -->
+            {% block main_menu %}
+                <ul class="left">
+                    <li{% if root.active %} class="active" {% endif %}>
+                        <a href="{% pageurl root %}">{{ root.title }}</a>
+                    </li>
+                <li{% if root.active %} class="active" {% endif %}>
+                <a href="{% url 'pbw_browse' %}">Browse</a>
+                </li>
+                    {% for page in menu_pages %}
+
+                        {% if page.get_children %}
+                            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
+                                <a href="#">{{ page.title }}</a>
+                                <ul class="dropdown">
+                                    {% for child in page.get_children %}
+                                        <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                        {% else %}
+                            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
+                            <a href="{% pageurl page %}">{{ page.title }}</a>
+                        {% endif %}
+
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            {% endblock %}
+
+
+        </section>
+    </nav>
+</div>

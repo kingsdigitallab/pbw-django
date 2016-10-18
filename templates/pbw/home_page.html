@@ -1,10 +1,14 @@
-{% extends "/templates/base.html" %}
+{% extends "base.html" %}
 {% load wagtailcore_tags  %}
 
 {% block title %}{% endblock %}
 
 {% block local_menu %}{% endblock %}
 
-{% block content %}
-{% block main %}{{ self.content|richtext }}{% endblock %}
+{% block main %}
+    <div class="row">
+    <div class="large-12 columns" id="content">
+    {{ self.body|richtext }}
+        </div>
+    </div>
 {% endblock %}

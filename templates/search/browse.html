@@ -20,22 +20,39 @@
     <form method="get" action=".">
     {{ form.letter }}
     <div class="search-box">
-    <section data-section="non-expandable" data-expandable-group-member="facets" id="dprr-filter">
+    <section data-section="non-expandable" data-expandable-group-member="facets" id="pbw-filter">
     <div class="row do-not-print">
         <div class="large-12 columns">
             <h4>Refine your search</h4>
         </div>
     </div>
     <div class="row">
-        <div class="large-12 columns">
+        <div class="large-12 columns" data-sticky-container>
 
+            <div class="panel results-preview sticky">
+                <h4>Results preview
+                    <a href="#search-results-box" class="less-padding button right do-not-print">Show
+                        <strong>{{ paginator.count }}</strong> results</a></h4>
+
+                <p class="info"><i class="fa fa-info-circle"></i> Some info on this section.</p>
+
+                <h3>
+                    <strong>3608</strong> records available based on your filters <a href="{% url 'pbw_browse' %}"
+                                                                                     class="do-not-print"><i
+                        class="fa fa-trash"></i> Clear all</a>
+                </h3>
+
+
+            </div>
         </div>
+
     </div>
 
     <div class="row do-not-print">
         <div class="large-12 columns">
             <div class="panel callout">
-            <h2 class="panel-heading">Name</h2>
+                <h2 class="panel-heading">Name</h2>
+
                 <div class="panel callout">
 
                     <ul class="button-group">
@@ -59,7 +76,7 @@
                         {% for term in facets.fields|get_item:"name" %}
                             {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                 <li>
-                                    <a href="{{ fullURL }}name={{ value }}">{{ value }}</a>
+                                    <a href="{{ fullURL }}name=%22{{ value }}%22">{{ value }}</a>
                                     <span class="label radius">{{ count }}</span></li>
                             {% endif %}{% endwith %}
                         {% endfor %}
@@ -74,25 +91,19 @@
         <div class="large-12 columns">
             <div class="panel callout">
                 <h2 class="panel-heading">Sources</h2>
-            {{ form.source }}
+                {{ form.source }}
                 <div class="panel radius fixed-height">
-                            <ul class="no-bullet">
-                                {% for term in facets.fields|get_item:"source" %}
-                                    {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                        <li>
-                                            <a href="
+                    <ul class="no-bullet">
+                        {% for term in facets.fields|get_item:"source" %}
+                            {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                <li>
+                                    <a href="{{ fullURL }}source=%22{{ value }}%22">{{ value }}</a>
+                                    <span class="label radius">{{ count }}</span></li>
+                            {% endif %}{% endwith %}
+                        {% endfor %}
 
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}source={{ value }}">{{ value }}</a>
-                                            <span class="label radius">{{ count }}</span></li>
-                                    {% endif %}{% endwith %}
-                                {% endfor %}
-
-                            </ul>
-                        </div>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -112,13 +123,7 @@
                                 {% for term in facets.fields|get_item:"dignityoffice" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}dignityoffice={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}dignityoffice=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}
@@ -134,13 +139,7 @@
                                 {% for term in facets.fields|get_item:"location" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}location={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}location=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}
@@ -159,13 +158,7 @@
                                 {% for term in facets.fields|get_item:"ethnicity" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}ethnicity={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}ethnicity=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}
@@ -182,13 +175,7 @@
                                 {% for term in facets.fields|get_item:"secondaryname" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}secondaryname={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}secondaryname=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}
@@ -208,13 +195,7 @@
                                 {% for term in facets.fields|get_item:"occupation" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}occupation={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}occupation=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}
@@ -230,13 +211,7 @@
                                 {% for term in facets.fields|get_item:"language" %}
                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                         <li>
-                                            <a href="
-
-
-
-
-                                                                {{ request.path }}?
-                                                    {% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}language={{ value }}">{{ value }}</a>
+                                            <a href="{{ fullURL }}language=%22{{ value }}%22">{{ value }}</a>
                                             <span class="label radius">{{ count }}</span></li>
                                     {% endif %}{% endwith %}
                                 {% endfor %}

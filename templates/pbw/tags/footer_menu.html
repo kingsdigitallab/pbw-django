@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+{% load wagtailcore_tags %}
+<div class="two-columns">
+	<ul class="menu vertical">
+	    <li{% if root.active %} class="active" {% endif %}>
+	    	<a href="{% pageurl root %}">{{ root.title }}</a>
+		</li>
+		{% for page in menu_pages %}
+		<li{% if page.active %} class="active" {% endif %}>
+			<a href="{% pageurl page %}">{{ page.title }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>

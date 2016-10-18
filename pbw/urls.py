@@ -25,7 +25,7 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
 
                url(r'^browse/',
                    PBWFacetedSearchView.as_view(),
-                   name='pbw_haystack_search'),
+                   name='pbw_browse'),
                url(r'^person/(?P<pk>\d+)/$',
                    PersonDetailView.as_view(),
                    name='person-detail'),

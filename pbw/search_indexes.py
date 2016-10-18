@@ -36,7 +36,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
                 sources.append(f.source.sourceid)
             except Exception as e:
                 print "No source found for factoid "+f.id+" "+e.message
-        return set(sources)
+        return list(set(sources))
 
 
 

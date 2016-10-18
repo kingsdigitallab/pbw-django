@@ -1,19 +1,14 @@
-{% load staticfiles %}
+{% load staticfiles wagtailcore_tags pbw_tags %}
 
 <div class="row">
   <div class="large-12 columns">
-    <div class="title-bar" data-responsive-toggle="top-menu" data-hide-for="medium">
-      <button class="menu-icon" type="button" data-toggle></button>
-      <div class="title-bar-title">Menu</div>
-    </div>
 
     <div class="top-bar" id="top-menu">
       <div class="top-bar-left">
 
-        {% block main_menu %}
-            {% include 'includes/nav.html' %}
-{#        {% get_site_root as site_root %}#}
-{#        {% main_menu root=site_root current_page=self %}#}
+       {% block main_menu %}
+        {% get_site_root as site_root %}
+        {% main_menu root=site_root current_page=self %}
         {% endblock %}
 
       </div>

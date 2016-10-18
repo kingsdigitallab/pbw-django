@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% if pages %}
+    {% load wagtailcore_tags %}
 
-</body>
-</html>
+    {% if title %}
+    <h3>{{ title }}</h3>
+    {% endif %}
+
+    <ul class="{% if class %}{{ class }}{% endif %}">
+    {% for page in pages %}
+        <li>
+            <a href="{% pageurl page %}">{{ page.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

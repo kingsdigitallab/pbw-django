@@ -11,19 +11,22 @@ requirejs.config({
     //the paths config could be for a directory.
     baseUrl: '/static/javascripts',
     paths: {
-        'jquery': '../vendor/jquery/dist/jquery',
+        'jQuery': '../vendor/jquery/dist/jquery',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         vendor: '../vendor',
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
 
         // Foundation
-        'foundation': '../vendor/foundation-sites/js/foundation.core',
+        'foundation': '../vendor/foundation/js/foundation.min',
+        'foundation.core': '../vendor/foundation-sites/js/foundation.core',
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
         'foundation.dropdownMenu': '../vendor/foundation-sites/js/foundation.dropdownMenu',
         'foundation.equalizer': '../vendor/foundation-sites/js/foundation.equalizer',
+        'foundation.magellan': '../vendor/foundation-sites/js/foundation.magellan',
+        'foundation.sticky': '../vendor/foundation-sites/js/foundation.sticky',
         'foundation.responsiveMenu': '../vendor/foundation-sites/js/foundation.responsiveMenu',
         'foundation.responsiveToggle': '../vendor/foundation-sites/js/foundation.responsiveToggle',
         'foundation.util.box': '../vendor/foundation-sites/js/foundation.util.box',
@@ -37,7 +40,9 @@ requirejs.config({
         'requirejs': '../vendor/requirejs/require'
     },
     shim: {
-        "easyautocomplete": ["jquery"]
+        "easyautocomplete": ["jQuery"],
+        "foundation":["jQuery"],
+        "foundation.sticky": ["jQuery","foundation","foundation.util.triggers"]
     }
 
 });
@@ -102,7 +107,7 @@ var autocomplete = {
     }
 }
 
-require(["requirejs", "jquery", "easyautocomplete"], function (jQuery, eAuto) {
+require(["requirejs", "jQuery", "easyautocomplete","foundation"], function (jQuery, eAuto) {
     //This function is called when scripts/helper/util.js is loaded.
     //If util.js calls define(), then this function is not fired until
     //util's dependencies have loaded, and the util argument will hold
@@ -113,9 +118,12 @@ require(["requirejs", "jquery", "easyautocomplete"], function (jQuery, eAuto) {
         $('input.autocomplete').each(function () {
             autocomplete.init(this);
         });
+
         $('button.showhide').click(function(){
             $('.search-box').slideToggle();
         });
+
+        //$(document).foundation();
 
     });
 
