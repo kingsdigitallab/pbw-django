@@ -14,6 +14,7 @@ from django.core import serializers
 from django.core.urlresolvers import reverse
 
 
+
 class PBWFacetedSearchView(FacetedSearchView):
     template_name = 'search/browse.html'
     queryset = GroupedSearchQuerySet().models(

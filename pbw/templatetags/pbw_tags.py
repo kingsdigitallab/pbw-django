@@ -1,6 +1,8 @@
 from django import template
 from pbw.models import *
-
+import re
+from django.core.urlresolvers import reverse
+import HTMLParser
 register = template.Library()
 
 
@@ -14,8 +16,20 @@ def get_item(dictionary, key):
 #Replaces the custom tags denoting a link to a person with a proper link.
 @register.filter
 def add_persref_links(desc):
-
-    return desc
+    h = HTMLParser.HTMLParser()
+    desc=h.unescape(desc)
+    parsedDesc=desc
+    m=re.findall("\<PERSREF ID=\"(\d+)\"\/\>",desc)
+    if m:
+        for tag in re.finditer("<PERSREF ID=\"(\d+)\"/>",desc):
+            id=tag.group(1)
+            fps=Factoidperson.objects.filter(id=id)
+            if fps.count() > 0:
+                fp=fps[0]
+                person=fp.person
+                personTag=u"<a href=\""+reverse('person-detail',args=[person.id])+"\">"+person.name+" "+unicode(person.mdbcode)+"</a>"
+                parsedDesc=parsedDesc.replace(tag.group(0),personTag)
+    return parsedDesc
 
 #Get the authority label attached to the factoid
 @register.filter

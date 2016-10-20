@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load pbw_tags %}
+{% load pbw_tags wagtailcore_tags %}
 
 {% block meta_title %}Person Details{% endblock %}
 
@@ -19,7 +19,7 @@
             {% for f in factoids %}
                 <li>
                    <dl><dt> {{ f | get_authority_list }}</dt>
-                <dd>{{ f.engdesc | add_persref_links}} {{ f.origldesc }} {{ f.source.sourceid }} {{ f.sourceref }}</dd>
+                <dd>{{ f.engdesc | add_persref_links |safe}} {{ f.origldesc }} <a href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}</dd>
                        </dl>
                 </li>
             {% endfor %}
