@@ -41,8 +41,8 @@ requirejs.config({
     },
     shim: {
         "easyautocomplete": ["jQuery"],
-        "foundation":["jQuery"],
-        "foundation.sticky": ["jQuery","foundation","foundation.util.triggers"]
+        "foundation": ["jQuery"],
+        "foundation.sticky": ["jQuery", "foundation", "foundation.util.triggers"]
     }
 
 });
@@ -81,7 +81,7 @@ var autocomplete = {
                     enabled: true
                 },
                 onChooseEvent: function () {
-                    var sf=jQuery('input[name="selected_facets"]').val();
+                    var sf = jQuery('input[name="selected_facets"]').val();
                     $input.closest('form').submit();
                 },
                 match: {
@@ -107,7 +107,28 @@ var autocomplete = {
     }
 }
 
-require(["requirejs", "jQuery", "easyautocomplete","foundation"], function (jQuery, eAuto) {
+
+//Quick helper function to grab query vars
+var getQueryVars = function () {
+    var vars = [], hash;
+    var q = document.URL.split('?')[1];
+    if (q != undefined) {
+        q = q.split('&');
+        for (var i = 0; i < q.length; i++) {
+            hash = q[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+    }
+    return vars;
+}
+
+//Used in the Bibliography page when it is passed a source to focus on on load.
+var focusOnSource=function(source){
+    $("a:contains('"+source+"')").focus()
+}
+
+require(["requirejs", "jQuery", "easyautocomplete", "foundation"], function (jQuery, eAuto) {
     //This function is called when scripts/helper/util.js is loaded.
     //If util.js calls define(), then this function is not fired until
     //util's dependencies have loaded, and the util argument will hold
@@ -119,9 +140,15 @@ require(["requirejs", "jQuery", "easyautocomplete","foundation"], function (jQue
             autocomplete.init(this);
         });
 
-        $('button.showhide').click(function(){
+        $('button.showhide').click(function () {
             $('.search-box').slideToggle();
         });
+
+        var gets=getQueryVars();
+        if (gets["source"]){
+            focusOnSource(gets["source"]);
+        }
+
 
         //$(document).foundation();
 
