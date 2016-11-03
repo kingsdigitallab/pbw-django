@@ -44,9 +44,7 @@
   </footer>
 
   <!-- define requirejs config settings. -->
-  <script type="text/javascript">
-    {% include 'includes/config.js' %}
-  </script>
+
 {#  {% require_module 'config' %}#}
 <script data-main="{% static 'javascripts/app-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>
   {% block footer_scripts %}{% endblock %}

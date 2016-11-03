@@ -19,6 +19,7 @@
         <a href="/browse/" class="right options"><span class="small button"><i class="fa fa-refresh"></i> Start new search</span></a>
     </header>
     <form method="get" action=".">
+
     {{ form.letter }}
     <div class="search-box">
     <section data-section="non-expandable" data-expandable-group-member="facets" id="pbw-filter">
@@ -28,9 +29,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="large-12 columns" data-sticky-container>
+        <div class="large-12 columns">
 
-            <div class="panel results-preview sticky">
+            <div class="panel results-preview" >
                 <h4>Results preview
                     <a href="#search-results-box" class="less-padding button right do-not-print">
                         <strong>{{ paginator.count }}</strong> results</a></h4>

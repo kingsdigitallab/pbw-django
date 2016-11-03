@@ -10,7 +10,7 @@
     "r.js": null,
     "requirejs": "^2.2.0",
     "requirejs-babel": null,
-    "foundation": "^5.5.3",
+
     "EasyAutocomplete": null
   },
   "main": "assets/js/main.js",

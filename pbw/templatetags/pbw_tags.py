@@ -65,9 +65,26 @@ def get_authority_list(factoid):
             if vls.count() > 0:
                 vl=vls[0]
                 return vl.variantname.name
+        elif factoid.factoidtype.typename == "Religion":
+            rls = Religionfactoid.objects.filter(factoid=factoid)
+            if rls.count() > 0:
+                rl=rls[0]
+                return rl.Religion.religionname
+        elif factoid.factoidtype.typename == "Possession":
+            pls = Possessionfactoid.objects.filter(factoid=factoid)
+            if pls.count() > 0:
+                pl=pls[0]
+                return pl.possessionName
+        elif factoid.factoidtype.typename == "Second Name":
+            sls=Famnamefactoid.objects.filter(factoid=factoid)
+            if sls.count() >0:
+                sl=sls[0]
+                fm=Familyname.objects.get(id=sl.famnamekey)
+                return fm.famname
+
     except Exception:
         pass
-    return None
+    return factoid.engdesc
 
 #Filter the selected facets by filter and return as query string
 @register.filter(is_safe=True)
@@ -77,7 +94,7 @@ def filter_selected_facets(form,filter):
          if key != filter and len(value) > 0:
              if len(selected_facets) > 1:
                  selected_facets+="&"
-             selected_facets+=str(key)+"="+str(value)
+             selected_facets+=str(key)+"="+unicode(value)
     if len(selected_facets) > 1:
                  selected_facets+="&"
     return selected_facets

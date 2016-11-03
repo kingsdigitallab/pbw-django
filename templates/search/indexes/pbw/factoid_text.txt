@@ -5,3 +5,4 @@
 {{ secondaryname }}
 {{ occupation}}
 {{ object.engdesc }}
+{{object.origldesc}}

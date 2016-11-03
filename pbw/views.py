@@ -110,30 +110,17 @@ class FactoidGroups:
         self.person = person
         self.groups=list()
         self.factoidtypes=factoidtypes
-        factoids = list(Factoid.objects.filter(factoidperson__person=person).filter(factoidtype__in=factoidtypes).order_by('factoidtype'))
+
         #Set up factoid groups by order in settings
         for type_id in factoidtypes:
             try:
                 type=Factoidtype.objects.get(id=type_id)
-                groupFactoids=list()
-                for f in factoids:
-                    if f.factoidtype==type:
-                        groupFactoids.append(f)
-                        factoids.remove(f)
-                self.groups.append(FactoidGroup(type,groupFactoids))
+                factoids = Factoid.objects.filter(factoidperson__person=person).filter(factoidtype=type)
+                if factoids.count() > 0:
+                    self.groups.append(FactoidGroup(type,factoids))
             except ObjectDoesNotExist:
                 pass
-        # for f in factoids:
-        #     try:
-        #         self.groups[f.factoidtype.typename].append(f)
-        #     except KeyError:
-        #         self.groups[f.factoidtype.typename] = []
-        #         self.groups[f.factoidtype.typename].append(f)
 
-        # self.groups.
-        # self.factoidtype = factoidtype
-        # self.factoids = factoids
-        # self.factoidtype_id= factoidtype.id
 
 class FactoidGroup:
 

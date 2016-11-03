@@ -11,15 +11,16 @@ requirejs.config({
     //the paths config could be for a directory.
     baseUrl: '/static/javascripts',
     paths: {
-        'jQuery': '../vendor/jquery/dist/jquery',
+        'jquery': '../vendor/jquery/dist/jquery',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         vendor: '../vendor',
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
 
         // Foundation
-        'foundation': '../vendor/foundation/js/foundation.min',
-        'foundation.core': '../vendor/foundation-sites/js/foundation.core',
+
+        'foundation': '../vendor/foundation-sites/js/foundation.core',
+        'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
@@ -40,9 +41,36 @@ requirejs.config({
         'requirejs': '../vendor/requirejs/require'
     },
     shim: {
-        "easyautocomplete": ["jQuery"],
-        "foundation": ["jQuery"],
-        "foundation.sticky": ["jQuery", "foundation", "foundation.util.triggers"]
+        "easyautocomplete": ["jquery"],
+        "foundation": ["jquery"],
+        'foundation.util.keyboard': {
+            deps: [
+                'foundation'
+            ]
+        },
+        'foundation.util.motion': {
+            deps: [
+                'foundation'
+            ]
+        },
+        'foundation.util.mediaQuery': {
+            deps: [
+                'foundation'
+            ]
+        },
+        'foundation.util.triggers': {
+            deps: [
+                'foundation'
+            ]
+        },
+        'foundation.util.nest': {
+            deps: [
+                'foundation'
+            ]
+        },
+        "foundation.sticky": ["jquery", "foundation", "foundation.util.triggers",'foundation.util.mediaQuery'],
+        "foundation.accordionMenu": ["jquery", "foundation",'foundation.util.mediaQuery', 'foundation.util.keyboard','foundation.util.motion','foundation.util.nest'],
+        "foundation.accordion": ["jquery", "foundation",'foundation.util.mediaQuery', 'foundation.util.keyboard','foundation.util.motion']
     }
 
 });
@@ -128,7 +156,7 @@ var focusOnSource=function(source){
     $("a:contains('"+source+"')").focus()
 }
 
-require(["requirejs", "jQuery", "easyautocomplete", "foundation"], function (jQuery, eAuto) {
+require(["requirejs", "jquery", "easyautocomplete","foundation", "foundation.accordion"], function (jQuery, eAuto) {
     //This function is called when scripts/helper/util.js is loaded.
     //If util.js calls define(), then this function is not fired until
     //util's dependencies have loaded, and the util argument will hold
@@ -149,8 +177,7 @@ require(["requirejs", "jQuery", "easyautocomplete", "foundation"], function (jQu
             focusOnSource(gets["source"]);
         }
 
-
-        //$(document).foundation();
+        $(document).foundation();
 
     });
 

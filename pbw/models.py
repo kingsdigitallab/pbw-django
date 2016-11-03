@@ -394,6 +394,7 @@ class Factoidpersontype(models.Model):
 class Factoidtype(models.Model):
     id = models.AutoField(db_column='factoidTypeKey', primary_key=True)  # Field name made lowercase.
     typename = models.CharField(db_column='typeName', max_length=20)  # Field name made lowercase.
+    orderno = models.IntegerField(null=False,default=99)
 
     class Meta:
         

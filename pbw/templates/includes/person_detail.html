@@ -25,7 +25,7 @@
                                 {% for f in group.factoids %}
                                     <li>
                                         <dl>
-                                            <dt> {{ f | get_authority_list }}</dt>
+                                            <dt> {{ f | get_authority_list | add_persref_links |safe}}</dt>
                                             <dd>{{ f.engdesc | add_persref_links |safe }} {{ f.origldesc }} <a
                                                     href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}
                                             </dd>
