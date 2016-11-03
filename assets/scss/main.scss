@@ -1,9 +1,6 @@
 @import "settings";
-
-@import "../vendor/foundation/scss/normalize";
-
-@import '../vendor/foundation/scss/foundation';
-
+@import '../vendor/foundation-sites/scss/foundation.scss';
+@import '../vendor/motion-ui/motion-ui';
 @import '../vendor/font-awesome/scss/font-awesome.scss';
 
 /*** Global ***/
@@ -76,10 +73,7 @@ li.greyed-out a {
 }
 
 .grayed-out {
-	color: $jumbo;
-	.label {
-		background: $jumbo;
-	}
+
 }
 
 .green {
@@ -127,19 +121,19 @@ li.greyed-out a {
 /*** Header ***/
 
 header.main-header {
-	background: url('/static/images/header-bg.png') center right no-repeat $sand;
+	background: url('') center right no-repeat ;
 	background-size: cover;
 }
 
 .header {
-	background: url('/static/images/Togatus_Barberini_2392-transparent.png') center left no-repeat;
+	background: url('') center left no-repeat;
 	background-size: contain;
 }
 
 /*** Headings ***/
 
 h1, h2, h3, h4, h5, h6 {
-	color: $dark-gold;
+	color:black;
 }
 
 h1, h2, h3 {
@@ -176,7 +170,7 @@ h4, h5, h6 {
 /*** Navigation ***/
 
 .top-bar-section ul li {
-	border-right: 1px solid scale-color($royal-blue, $lightness: 15%);
+	border-right: 1px solid scale-color(blue,$lightness: 15%);
 }
 
 .top-bar-section ul li:last-child {
@@ -184,11 +178,11 @@ h4, h5, h6 {
 }
 
 .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-	border-bottom: 1px solid scale-color($royal-blue, $lightness: 15%);
+	border-bottom: 1px solid scale-color(blue, $lightness: 15%);
 }
 
 .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
-	background: scale-color($royal-blue, $lightness: -15%);
+	background: scale-color(blue, $lightness: -15%);
 }
 
 /*** Side Nav ***/
@@ -206,7 +200,7 @@ h3.quick-home {
 /*** Content ***/
 
 .list-page-title {
-	border-bottom: 1px solid $iron;
+	border-bottom: 1px solid;
 	margin-bottom: 1rem;
 	padding-bottom: .5rem;
 	font-size: 1.5rem;
@@ -299,22 +293,22 @@ h3.quick-home {
 }
 
 button.name-form {
-	color: $dark-gold;
+	color: darkgoldenrod;
 	font-size: .875rem;
-	background: scale-color($sand, $lightness: 15%);
-	border: 1px solid scale-color($sand, $lightness: -11%);
+	background: scale-color(sandybrown, $lightness: 15%);
+	border: 1px solid scale-color(sandybrown, $lightness: -11%);
 	// padding: .5rem 1rem;
 	width: 100%;
 	text-align: left;
 
 	&:hover {
-		color: $dark-gold;
-		background: scale-color($sand, $lightness: 15%);
+		color: darkgoldenrod;
+		background: scale-color(sandybrown, $lightness: 15%);
 	}
 
 	&:after {
 		border-width: .1875rem !important;
-		border-color: $dark-gold transparent transparent transparent !important;
+		border-color: darkgoldenrod transparent transparent transparent !important;
 		right: .125rem !important;
 		top: .75rem !important;
 	}
@@ -376,7 +370,7 @@ button.name-form {
 	clear: both;
 	margin-left: 0;
 	.label {
-		background: scale-color($dark-gold, $lightness: 75%) !important;
+		background: scale-color(darkgoldenrod, $lightness: 75%) !important;
 		font-size: 1em;
 	}
 
@@ -388,7 +382,7 @@ button.name-form {
 }
 
 .applied-filter-box {
-	background: scale-color($dark-gold, $lightness: 92%);
+	background: scale-color(darkgoldenrod, $lightness: 92%);
 	border-left: none;
 	border-right: none;
 	padding: .5rem;
@@ -406,7 +400,7 @@ button.name-form {
 	}
 
 	li {	
-		border-bottom: 1px solid $sand;
+		border-bottom: 1px solid sandybrown;
 		margin-bottom: .5rem;
 
 		.row {
@@ -501,7 +495,7 @@ ul.blog p {
 ul.blog li {
 	display: block;
 	overflow: hidden;
-	border-bottom: 1px dotted $royal-blue;
+	border-bottom: 1px dotted blue;
 	margin: 1rem 0;
 	padding-bottom: 1rem;
 }
@@ -512,7 +506,7 @@ ul.blog li:last-child {
 }
 
 .posts li {
-	border-bottom: 1px solid $iron;
+	border-bottom: 1px solid grey;
 }
 
 .postcontent {
@@ -550,7 +544,7 @@ p.meta,
 
 /*** Sidebar ***/
 .sidebar {
-	background: $sand;
+	background: sandybrown;
 	padding: 1rem;
 }
 
@@ -562,7 +556,7 @@ ul.local-navigation {
 }
 
 .local-navigation li {
-	border-bottom: 1px solid scale-color($royal-blue, $lightness: 60%);
+	border-bottom: 1px solid scale-color(blue, $lightness: 60%);
 }
 
 .local-navigation li a {
@@ -571,14 +565,14 @@ ul.local-navigation {
 }
 
 .local-navigation li a:hover {
-	background-color: scale-color($royal-blue, $lightness: 70%);
+	background-color: scale-color(blue, $lightness: 70%);
 }
 
 /*** Footer ***/
 
 footer.main-footer {
 	padding-top: 1rem;
-	color: $dark-gold;
+	color: darkgoldenrod;
 }
 
 footer.main-footer,
@@ -587,8 +581,8 @@ footer.main-footer p {
 }
 
 footer.main-footer a {
-	color: $dark-gold;
-	border-bottom: 1px dotted $dark-gold;
+	color: darkgoldenrod;
+	border-bottom: 1px dotted darkgoldenrod;
 }
 
 footer.main-footer .logo {
@@ -634,7 +628,7 @@ svg {
 .svg-link {
 	fill: $primary-color;
 	&:hover {
-		fill: $dark-gold;
+		fill: darkgoldenrod;
 	}
 }
 
@@ -663,26 +657,6 @@ svg {
 }
 
 /*** Typography ***/
-
-@font-face {
-	font-family: 'Julius Sans';
-	src: url('/static/fonts/Julius_Sans_One/JuliusSansOne-Regular.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Light';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Light Italic';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLightItalic.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Bold';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondBold.ttf');
-}
 
 /*** Custom media queries ***/
 
