@@ -5,26 +5,39 @@
 
 {% block main %}
 
-<div class="row">
-    <div class="large-12 columns">
+    <div class="row">
+        <div class="large-12 columns">
 
-        <h1>{{ person.descname }}</h1>
-        <h2>{{ person.nameol }}</h2>
-        <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
+            <h2>{{ person.descname }}</h2>
+
+            <h4>{{ person.nameol }}</h4>
+
+            <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
 
 
-        {%  for factoidtype,factoids in factoidGroups.iteritems %}
-        <h2>{{ factoidtype }}</h2>
-        <ul>
-            {% for f in factoids %}
-                <li>
-                   <dl><dt> {{ f | get_authority_list }}</dt>
-                <dd>{{ f.engdesc | add_persref_links |safe}} {{ f.origldesc }} <a href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}</dd>
-                       </dl>
-                </li>
-            {% endfor %}
-        </ul>
-        {% endfor %}
+            <ul class="accordion" data-accordion data-multi-expand="true">
+                {% for group in factoidGroups %}
+                    <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title"><h6>{{ group.factoidtype.typename }}</h6></a>
+
+                        <div class="accordion-content" data-tab-content>
+                            <ul>
+                                {% for f in group.factoids %}
+                                    <li>
+                                        <dl>
+                                            <dt> {{ f | get_authority_list }}</dt>
+                                            <dd>{{ f.engdesc | add_persref_links |safe }} {{ f.origldesc }} <a
+                                                    href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}
+                                            </dd>
+                                        </dl>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
     </div>
-</div>
 {% endblock %}
