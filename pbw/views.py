@@ -9,9 +9,10 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
 import os
-from models import Person,Factoid,Source
+from models import Person,Factoid,Source,Factoidtype
 from django.core import serializers
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -91,24 +92,54 @@ class PBWFacetedSearchView(FacetedSearchView):
 
 
 # Conveneince class for person detail to group factoids by type for display
-class FactoidGroup:
+class FactoidGroups:
     groups={}
+    factoidtypes=[]
+
+    #Sort the factoid types into the preferred order (See PBW-24)
+    def factoidtypesort(self,factoids):
+        type_id = factoids[0].factoidtype.id
+        x=0
+        for ftype in self.factoidtypes:
+            if ftype==type_id:
+                return x
+            x+=1
+
 
     def __init__(self,person,factoidtypes):
         self.person = person
-        self.groups={}
-        factoids = Factoid.objects.filter(factoidperson__person=person).filter(factoidtype__in=factoidtypes)
-        for f in factoids:
+        self.groups=list()
+        self.factoidtypes=factoidtypes
+        factoids = list(Factoid.objects.filter(factoidperson__person=person).filter(factoidtype__in=factoidtypes).order_by('factoidtype'))
+        #Set up factoid groups by order in settings
+        for type_id in factoidtypes:
             try:
-                self.groups[f.factoidtype.typename].append(f)
-            except KeyError:
-                self.groups[f.factoidtype.typename] = []
-                self.groups[f.factoidtype.typename].append(f)
+                type=Factoidtype.objects.get(id=type_id)
+                groupFactoids=list()
+                for f in factoids:
+                    if f.factoidtype==type:
+                        groupFactoids.append(f)
+                        factoids.remove(f)
+                self.groups.append(FactoidGroup(type,groupFactoids))
+            except ObjectDoesNotExist:
+                pass
+        # for f in factoids:
+        #     try:
+        #         self.groups[f.factoidtype.typename].append(f)
+        #     except KeyError:
+        #         self.groups[f.factoidtype.typename] = []
+        #         self.groups[f.factoidtype.typename].append(f)
 
         # self.groups.
         # self.factoidtype = factoidtype
         # self.factoids = factoids
         # self.factoidtype_id= factoidtype.id
+
+class FactoidGroup:
+
+    def __init__(self,type,factoids):
+        self.factoidtype=type
+        self.factoids=factoids
 
 
 #The detailed view of a single person in the Prosopography
@@ -120,7 +151,7 @@ class PersonDetailView(DetailView):
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
-        group=FactoidGroup(person,DISPLAYED_FACTOID_TYPES).groups
+        group=FactoidGroups(person,DISPLAYED_FACTOID_TYPES).groups
         context['factoidGroups'] = group
         return context
 
