@@ -208,8 +208,7 @@
       encoding: "{{mysql.encoding}}"
       login_user: "{{ mysql.admin_user }}"
       login_password: ""
-    notify:
-      - mysql | apply privileges
+
     tags:
       - db
 
@@ -218,8 +217,7 @@
   - name: mysql | load initial data file
     mysql_db: login_user={{ mysql.admin_user }} login_password= state=import encoding={{mysql.encoding}}  name={{ app.name }} target={{ project_root }}/.vagrant_provisioning/{{ mysql.initial_data_file }}
 
-    notify:
-      - mysql | apply privileges after data import
+
     tags:
       - db
       - data
