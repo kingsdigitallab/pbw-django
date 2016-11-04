@@ -9,6 +9,6 @@ django-require
 MySQL-python
 redis
 git+git://github.com/kingsdigitallab/django-haystack.git
-pysolr
+pysolr==3.6.0
 wagtail
 flake8

@@ -24,7 +24,7 @@ def show_toolbar(request):
     return True
 
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': 'chopin.settings.local.show_toolbar',
+    'SHOW_TOOLBAR_CALLBACK': 'pbw.settings.local.show_toolbar',
 }
 
 # https://github.com/sehmaschine/django-grappelli/issues/456
