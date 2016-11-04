@@ -405,7 +405,7 @@
 
 
   - name: restart tomcat
-    become:yes
+    become: yes
     command: /etc/init.d tomcat7 restart
 
 #  - name: elasticsearch | restart elasticsearch
