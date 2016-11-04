@@ -404,7 +404,7 @@
       - solr
 
 
-  - name tomcat | restart tomcat
+  - name: restart tomcat
     become:yes
     command: /etc/init.d tomcat7 restart
 
