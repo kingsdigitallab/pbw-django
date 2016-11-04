@@ -8,6 +8,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname',default='')
     name = indexes.CharField(model_attr='name', faceted=True)
+    nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetCharField()
     source = indexes.FacetMultiValueField()
     person = indexes.CharField()
@@ -29,14 +30,17 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             return obj.name[0].upper()
 
     def prepare_source(self, obj):
-        factoids = Factoid.objects.filter(factoidperson__person=obj,factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
-        sources=[]
-        for f in factoids:
-            try:
-                sources.append(f.source.sourceid)
-            except Exception as e:
-                print "No source found for factoid "+f.id+" "+e.message
-        return list(set(sources))
+        sources = Source.objects.filter(factoid__factoidperson__person=obj,factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
+        return list(sources)
+
+        # factoids = Factoid.objects.filter(factoidperson__person=obj,factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
+        # sources=[]
+        # for f in factoids:
+        #     try:
+        #         sources.append(f.source.sourceid)
+        #     except Exception as e:
+        #         print "No source found for factoid "+f.id+" "+e.message
+        # return list(set(sources))
 
 
 
@@ -52,6 +56,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='engdesc',default='')
     name = indexes.FacetCharField()
+    origldesc = indexes.FacetCharField(model_attr='origldesc')
     factoidtype = indexes.CharField(model_attr='factoidtype__typename')
     factoidtypekey = indexes.IntegerField(
         model_attr='factoidtype__id', faceted=True)

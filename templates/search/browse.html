@@ -293,7 +293,7 @@
             {#                <li>Dates can be:</li>#}
             {#                <li><span class="label radius green-bg">Certain <i class="fa fa-check-circle"></i></span></li>#}
             {#                <li><span class="label radius gray-bg">Uncertain <i class="fa fa-minus-circle"></i></span></li>#}
-            {#            </ul>#}
+            {#            </ul>
             <hr>
 
             <ol start="{{ page_obj.start_index }}" class="search-results">
@@ -306,7 +306,7 @@
 
                             {% for dd in result.documents %}
                                 <p>
-
+                                {% highlight dd.text with query html_tag 'strong' max_length 120 %}
                                 {{ dd.text | add_persref_links |safe }}
                                 </p>
                             {% endfor %}

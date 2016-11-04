@@ -870,7 +870,7 @@ class IndexPage(Page):
     content = RichTextField(blank=True)
 
     search_name = 'Index Page'
-    search_fields = Page.search_fields + (index.SearchField('content'),)
+    search_fields = Page.search_fields
     subpage_types = ['IndexPage', 'RichTextPage']
 
     content_panels = Page.content_panels + [
