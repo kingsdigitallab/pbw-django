@@ -16,11 +16,11 @@ sys.path.append(project_root)
 django.project('pbw')
 from django.conf import settings
 
-REPOSITORY = ''
+REPOSITORY = 'https://github.com/kingsdigitallab/pbw-django.git'
 
 env.user = settings.FABRIC_USER
-env.hosts = ['']
-env.root_path = '/vol/pbw/webroot/'
+env.hosts = ['pbw2.kdl.kcl.ac.uk']
+env.root_path = '/vol/pbw2/webroot/'
 env.envs_path = os.path.join(env.root_path, 'envs')
 
 
@@ -60,7 +60,7 @@ def liv():
 
 def set_srvr_vars():
     env.path = os.path.join(env.root_path, env.srvr, 'django',
-                            'shakespeare400-django')
+                            'pbw')
     env.within_virtualenv = 'source {}'.format(
         os.path.join(env.envs_path, env.srvr, 'bin', 'activate'))
 

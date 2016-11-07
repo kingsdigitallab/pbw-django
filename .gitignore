@@ -65,3 +65,4 @@ static/
 # Vagrant
 .vagrant/
 playbook.retry
+stg_factoid_2.sql

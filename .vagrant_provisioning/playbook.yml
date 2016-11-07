@@ -419,7 +419,7 @@
     - vars.yml
   tasks:
   - name: django | default local settings
-    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local_settings.py owner=vagrant
+    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local.py owner=vagrant
     tags:
       - django
 
