@@ -277,23 +277,7 @@
             <h2>Search Results <span class="label radius">{{ paginator.count }}</span> <a href="#search"
                                                                                           class="less-padding button right edit-search do-not-print"><i
                     class="fa fa-edit"></i> Edit search</a></h2>
-            {#            <ul class="inline-list left export do-not-print">#}
-            {#                <li>#}
-            {#                    <a class="right" aria-lablledby="#print" id="printme"><i class="fa fa-print"></i><label id="print">Print</label></a>#}
-            {#                </li>#}
-            {#                <li>#}
-            {#                    <a class="right" aria-lablledby="#pdf"><i class="fa fa-file-pdf-o"></i><label#}
-            {#                            id="pdf">PDF</label></a>#}
-            {#                </li>#}
-            {#                <li>#}
-            {#                    <a class="right" aria-lablledby="#csv"><i class="fa fa-save"></i><label id="cvs">CSV</label></a>#}
-            {#                </li>#}
-            {#            </ul>#}
-            {#            <ul class="inline-list right key">#}
-            {#                <li>Dates can be:</li>#}
-            {#                <li><span class="label radius green-bg">Certain <i class="fa fa-check-circle"></i></span></li>#}
-            {#                <li><span class="label radius gray-bg">Uncertain <i class="fa fa-minus-circle"></i></span></li>#}
-            {#            </ul>
+
             <hr>
 
             <ol start="{{ page_obj.start_index }}" class="search-results">
@@ -303,6 +287,9 @@
                             <h3>
                                 <a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
                             </h3>
+                            <h6>
+
+                            </h6>
 
                             {% for dd in result.documents %}
                                 <p>
