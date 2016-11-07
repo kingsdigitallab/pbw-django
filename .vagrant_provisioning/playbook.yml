@@ -369,9 +369,7 @@
       - git
 
   - name: git | flake8 pre-commit hook
-    command: "{{ user_home }}/venv/bin/flake8 --install-hook"
-    args:
-      chdir: "{{ project_root }}"
+    command: "{{ user_home }}/venv/bin/flake8 --install-hook git"
   - command: "git config flake8.strict True"
     args:
       chdir: "{{ project_root }}"
