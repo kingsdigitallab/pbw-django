@@ -350,6 +350,13 @@
       - haystack
       - solr
 
+  handlers:
+  - name: restart tomcat
+    become: yes
+    service:
+      name: tomcat7
+      state: restarted
+
 - hosts: all
   vars_files:
       - vars.yml
