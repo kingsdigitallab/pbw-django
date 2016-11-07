@@ -16,7 +16,7 @@ sys.path.append(project_root)
 django.project('pbw')
 from django.conf import settings
 
-REPOSITORY = 'https://github.com/kingsdigitallab/pbw-django.git'
+REPOSITORY = 'github.com/kingsdigitallab/pbw-django.git'
 
 env.user = settings.FABRIC_USER
 env.hosts = ['pbw2.kdl.kcl.ac.uk']
