@@ -53,21 +53,6 @@
     tags:
       - system
 
-  - name: apt | add elasticsearch key
-    become: yes
-    apt_key:
-      url: https://packages.elastic.co/GPG-KEY-elasticsearch
-      state: present
-    tags:
-      - system
-
-  - name: apt | add elasticsearch sources
-    apt_repository:
-      repo: 'deb http://packages.elastic.co/elasticsearch/1.6/debian stable main'
-      state: present
-    tags:
-      - system
-
   - name: apt | install required system packages
     apt:
       pkg: '{{ item }}'
@@ -97,9 +82,13 @@
     - vars.yml
   gather_facts: false
   tasks:
-  - name: pip | setup virtualenv
-    command: mkdir -p {{ python.virtualenv_location }}
-  - command: virtualenv {{ python.virtualenv_location }}
+  - name: pip | create virtualenv directory
+    file: path={{ python.virtualenv_location }} state=directory owner=vagrant
+    tags:
+      - python
+
+  - name: pip | init virtualenv
+    command: virtualenv {{ python.virtualenv_location }}
     tags:
       - python
 
@@ -314,7 +303,9 @@
   handlers:
   - name: restart tomcat
     become: yes
-    command: /etc/init.d tomcat7 restart
+    service:
+      name: tomcat7
+      state: restarted
 
 - hosts: all
   vars_files:
