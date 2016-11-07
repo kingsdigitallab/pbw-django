@@ -8,7 +8,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname',default='')
     name = indexes.CharField(model_attr='name', faceted=True)
-    nameol = indexes.CharField(model_attr='nameol')
+    origldesc = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetCharField()
     source = indexes.FacetMultiValueField()
     person = indexes.CharField()
