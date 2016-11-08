@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags  %}
 
+{% block meta_title %}Homepage{% endblock %}
+
 {% block title %}{% endblock %}
 
 {% block local_menu %}{% endblock %}
 
 {% block main %}
     <div class="row">
-    <div class="large-12 columns" id="content">
-    {{ self.body|richtext }}
+        <div class="large-12 columns" id="content">
+            {{ self.body|richtext }}
         </div>
     </div>
 {% endblock %}

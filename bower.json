@@ -4,7 +4,7 @@
   "dependencies": {
     "almond": null,
     "jquery": "^3.0.0",
-    "foundation-sites": "^6.2.3",
+    "foundation-sites": ">=6.2.4",
     "font-awesome": null,
     "motion-ui": null,
     "r.js": null,

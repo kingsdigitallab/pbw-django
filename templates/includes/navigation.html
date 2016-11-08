@@ -1,12 +1,15 @@
-{% load staticfiles wagtailcore_tags pbw_tags %}
+{% load pbw_tags %}
 
-<div class="row">
+<div class="row small-collapse">
   <div class="large-12 columns">
+    <div class="title-bar" data-responsive-toggle="top-menu" data-hide-for="large">
+      <button type="button" data-toggle>Menu</button>
+    </div>
 
     <div class="top-bar" id="top-menu">
       <div class="top-bar-left">
 
-       {% block main_menu %}
+        {% block main_menu %}
         {% get_site_root as site_root %}
         {% main_menu root=site_root current_page=self %}
         {% endblock %}

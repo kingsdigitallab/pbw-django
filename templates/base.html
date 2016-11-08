@@ -1,6 +1,6 @@
 {% load staticfiles compress require %}
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,12 +11,6 @@
   {% compress css %}
   {# SCSS compilation relies on django compressor #}
   <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}">
-  <!-- FontAwesome -->
-  {#
-    Copy _variable.scss and font-awesome.scss and change the @import paths
-    to point to the project ones rather than to the vendor folder
-  #}
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/font-awesome.scss' %}">
   {% endcompress %}
 </head>
 <body>
@@ -28,13 +22,13 @@
     {% include 'includes/navigation.html' %}
   </nav>
 
-  <div class="contain-to-grid content-area">
+  {# <div class="contain-to-grid content-area"> #}
       <section class="main">
         {% block title %}{% endblock %}
         {% block main %}
         {% endblock %}
       </section>
-    </div>
+  {#  </div> #}
 
 
   <footer>
@@ -45,8 +39,17 @@
 
   <!-- define requirejs config settings. -->
 
-{#  {% require_module 'config' %}#}
+  <script type="text/javascript">
+    {% include 'includes/config.js' %}
+  </script>
+
+  {% require_module 'config' %}
+
+ {% comment %}
 <script data-main="{% static 'javascripts/app-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>
-  {% block footer_scripts %}{% endblock %}
+  {% endcomment %}
+
+  {% block footer_scripts %}
+  {% endblock %}
 </body>
 </html>
