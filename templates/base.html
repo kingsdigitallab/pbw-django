@@ -1,6 +1,6 @@
 {% load staticfiles compress require %}
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,12 +11,6 @@
   {% compress css %}
   {# SCSS compilation relies on django compressor #}
   <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}">
-  <!-- FontAwesome -->
-  {#
-    Copy _variable.scss and font-awesome.scss and change the @import paths
-    to point to the project ones rather than to the vendor folder
-  #}
-  <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/font-awesome.scss' %}">
   {% endcompress %}
 </head>
 <body>
