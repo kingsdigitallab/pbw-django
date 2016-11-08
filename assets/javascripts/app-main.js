@@ -13,23 +13,20 @@ requirejs.config({
     paths: {
         'jquery': '../vendor/jquery/dist/jquery',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
-        vendor: '../vendor',
+
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
 
         // Foundation
-
         'foundation': '../vendor/foundation-sites/js/foundation.core',
-        'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
         'foundation.dropdownMenu': '../vendor/foundation-sites/js/foundation.dropdownMenu',
         'foundation.equalizer': '../vendor/foundation-sites/js/foundation.equalizer',
-        'foundation.magellan': '../vendor/foundation-sites/js/foundation.magellan',
-        'foundation.sticky': '../vendor/foundation-sites/js/foundation.sticky',
         'foundation.responsiveMenu': '../vendor/foundation-sites/js/foundation.responsiveMenu',
         'foundation.responsiveToggle': '../vendor/foundation-sites/js/foundation.responsiveToggle',
+        'foundation.sticky': '../vendor/foundation-sites/js/foundation.sticky',
         'foundation.util.box': '../vendor/foundation-sites/js/foundation.util.box',
         'foundation.util.keyboard': '../vendor/foundation-sites/js/foundation.util.keyboard',
         'foundation.util.mediaQuery': '../vendor/foundation-sites/js/foundation.util.mediaQuery',
@@ -38,42 +35,123 @@ requirejs.config({
         'foundation.util.timerAndImageLoader': '../vendor/foundation-sites/js/foundation.util.timerAndImageLoader',
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
+
         'requirejs': '../vendor/requirejs/require'
     },
     shim: {
         "easyautocomplete": ["jquery"],
-        "foundation": ["jquery"],
+
+        'foundation': {
+            deps: [
+                'jquery'
+            ],
+            exports: 'Foundation'
+        },
+        'foundation.util.box': {
+            deps: [
+                'foundation'
+            ],
+        },
         'foundation.util.keyboard': {
             deps: [
                 'foundation'
-            ]
-        },
-        'foundation.util.motion': {
-            deps: [
-                'foundation'
-            ]
+            ],
         },
         'foundation.util.mediaQuery': {
             deps: [
                 'foundation'
-            ]
+            ],
         },
-        'foundation.util.triggers': {
+        'foundation.util.motion': {
             deps: [
                 'foundation'
-            ]
+            ],
         },
         'foundation.util.nest': {
             deps: [
                 'foundation'
-            ]
+            ],
         },
-        "foundation.sticky": ["jquery", "foundation", "foundation.util.triggers",'foundation.util.mediaQuery'],
-        "foundation.accordionMenu": ["jquery", "foundation",'foundation.util.mediaQuery', 'foundation.util.keyboard','foundation.util.motion','foundation.util.nest'],
-        "foundation.accordion": ["jquery", "foundation",'foundation.util.mediaQuery', 'foundation.util.keyboard','foundation.util.motion']
+        'foundation.util.timerAndImageLoader': {
+            deps: [
+                'foundation'
+            ],
+        },
+        'foundation.util.touch': {
+            deps: [
+                'foundation'
+            ],
+        },
+        'foundation.util.triggers': {
+            deps: [
+                'foundation'
+            ],
+        },
+        'foundation.accordionMenu': {
+            deps: [
+                'foundation',
+                'foundation.util.keyboard',
+                'foundation.util.motion',
+                'foundation.util.nest'
+            ],
+        },
+        'foundation.drilldown': {
+            deps: [
+                'foundation',
+                'foundation.util.keyboard',
+                'foundation.util.motion',
+                'foundation.util.nest'
+            ],
+        },
+        'foundation.dropdown': {
+            deps: [
+                'foundation',
+                'foundation.util.box',
+                'foundation.util.keyboard',
+                'foundation.util.triggers'
+            ],
+        },
+        'foundation.dropdownMenu': {
+            deps: [
+                'foundation',
+                'foundation.util.box',
+                'foundation.util.keyboard',
+                'foundation.util.nest'
+            ],
+        },
+        'foundation.equalizer': {
+            deps: [
+                'foundation',
+                'foundation.util.mediaQuery'
+            ],
+        },
+        'foundation.responsiveMenu': {
+            deps: [
+                'foundation',
+                'foundation.util.triggers',
+                'foundation.util.mediaQuery',
+                'foundation.accordionMenu',
+                'foundation.drilldown',
+                'foundation.dropdownMenu'
+            ],
+        },
+        'foundation.responsiveToggle': {
+            deps: [
+                'foundation',
+                'foundation.util.mediaQuery'
+            ],
+        },
+        'foundation.sticky': {
+            deps: [
+                'foundation',
+                'foundation.util.triggers',
+                'foundation.util.mediaQuery'
+            ],
+        },
     }
 
 });
+
 // Main
 
 /**
@@ -176,6 +254,36 @@ require(["requirejs", "jquery", "easyautocomplete","foundation", "foundation.acc
         if (gets["source"]){
             focusOnSource(gets["source"]);
         }
+
+        // Expand / Collapse
+
+        $('.panel-head h4').bind("click", function() {
+            $(this).parent().next('.panel-body').slideToggle(400).removeClass("hide");
+            $("i", this).toggleClass("fa-caret-down fa-caret-right");
+            return false;
+        });
+
+        $('.expander').bind("click", function() {
+            $(this).next('.collapsible').slideToggle(400).removeClass("hide");
+            $("i", this).toggleClass("fa-caret-down fa-caret-right");
+            return false;
+        });
+
+        $('button.options').bind("click", function() {
+            var txt = $(".search-box").is(':visible') ? 'Show' : 'Hide';
+            $('.search-box').slideToggle(400);
+            $('#showhide').text(txt);
+            // toggle extra-margin class to remove blank space when collapsing
+            // the search box
+            $('#search-results-box').toggleClass("extra-margin");
+            return false;
+        });
+
+        // Printing search results
+        $('#printme').bind("click", function() {
+            // TODO: remove pagination and show full list of results
+            window.print();
+        });
 
         $(document).foundation();
 

@@ -28,13 +28,13 @@
     {% include 'includes/navigation.html' %}
   </nav>
 
-  <div class="contain-to-grid content-area">
+  {# <div class="contain-to-grid content-area"> #}
       <section class="main">
         {% block title %}{% endblock %}
         {% block main %}
         {% endblock %}
       </section>
-    </div>
+  {#  </div> #}
 
 
   <footer>
@@ -45,8 +45,17 @@
 
   <!-- define requirejs config settings. -->
 
-{#  {% require_module 'config' %}#}
+  {% require_module 'config' %}
+
+  <script type="text/javascript">
+    {% include 'includes/config.js' %}
+  </script>
+
+ {% comment %}
 <script data-main="{% static 'javascripts/app-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>
-  {% block footer_scripts %}{% endblock %}
+  {% endcomment %}
+
+  {% block footer_scripts %}
+  {% endblock %}
 </body>
 </html>

@@ -1,53 +1,9 @@
-@import "settings";
-@import '../vendor/foundation-sites/scss/foundation.scss';
+@import 'settings';
+// @import 'fonts';
+@import 'font-awesome';
+@import '../vendor/foundation-sites/scss/foundation';
 @import '../vendor/motion-ui/motion-ui';
-@import '../vendor/font-awesome/scss/font-awesome.scss';
-
-@include foundation-global-styles;
-@include foundation-grid;
-// @include foundation-flex-grid;
-@include foundation-typography;
-@include foundation-button;
-@include foundation-forms;
-// @include foundation-range-input;
-@include foundation-accordion;
-@include foundation-accordion-menu;
-@include foundation-badge;
-@include foundation-breadcrumbs;
-@include foundation-button-group;
-@include foundation-callout;
-@include foundation-close-button;
-@include foundation-menu;
-@include foundation-menu-icon;
-@include foundation-drilldown-menu;
-@include foundation-dropdown;
-@include foundation-dropdown-menu;
-@include foundation-flex-video;
-@include foundation-label;
-@include foundation-media-object;
-@include foundation-off-canvas;
-@include foundation-orbit;
-@include foundation-pagination;
-@include foundation-progress-bar;
-// @include foundation-progress-element;
-// @include foundation-meter-element;
-@include foundation-slider;
-@include foundation-sticky;
-@include foundation-reveal;
-@include foundation-switch;
-@include foundation-table;
-@include foundation-tabs;
-@include foundation-thumbnail;
-@include foundation-title-bar;
-@include foundation-tooltip;
-@include foundation-top-bar;
-@include foundation-visibility-classes;
-@include foundation-float-classes;
-// @include foundation-flex-classes;
-
-@include motion-ui-transitions;
-@include motion-ui-animations;
-
+@include foundation-everything;
 
 /*** Global ***/
 
@@ -182,11 +138,11 @@ header.main-header {
 /*** Headings ***/
 
 h1, h2, h3, h4, h5, h6 {
-	color: $dark-gold;
+	color: $secondary-color;
 }
 
 h1, h2, h3 {
-	font-family: 'Julius Sans', sans-serif;
+	font-family: serif;
 }
 
 h1.site-title,
@@ -219,7 +175,7 @@ h4, h5, h6 {
 /*** Navigation ***/
 
 .top-bar-section ul li {
-	border-right: 1px solid scale-color($royal-blue, $lightness: 15%);
+	border-right: 1px solid scale-color($primary-color, $lightness: 15%);
 }
 
 .top-bar-section ul li:last-child {
@@ -227,11 +183,11 @@ h4, h5, h6 {
 }
 
 .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-	border-bottom: 1px solid scale-color($royal-blue, $lightness: 15%);
+	border-bottom: 1px solid scale-color($primary-color, $lightness: 15%);
 }
 
 .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
-	background: scale-color($royal-blue, $lightness: -15%);
+	background: scale-color($primary-color, $lightness: -15%);
 }
 
 /*** Side Nav ***/
@@ -342,7 +298,7 @@ h3.quick-home {
 }
 
 button.name-form {
-	color: $dark-gold;
+	color: $secondary-color;
 	font-size: .875rem;
 	background: scale-color($sand, $lightness: 15%);
 	border: 1px solid scale-color($sand, $lightness: -11%);
@@ -351,13 +307,13 @@ button.name-form {
 	text-align: left;
 
 	&:hover {
-		color: $dark-gold;
+		color: $secondary-color;
 		background: scale-color($sand, $lightness: 15%);
 	}
 
 	&:after {
 		border-width: .1875rem !important;
-		border-color: $dark-gold transparent transparent transparent !important;
+		border-color: $secondary-color transparent transparent transparent !important;
 		right: .125rem !important;
 		top: .75rem !important;
 	}
@@ -419,7 +375,7 @@ button.name-form {
 	clear: both;
 	margin-left: 0;
 	.label {
-		background: scale-color($dark-gold, $lightness: 75%) !important;
+		background: scale-color($secondary-color, $lightness: 75%) !important;
 		font-size: 1em;
 	}
 
@@ -431,7 +387,7 @@ button.name-form {
 }
 
 .applied-filter-box {
-	background: scale-color($dark-gold, $lightness: 92%);
+	background: scale-color($secondary-color, $lightness: 92%);
 	border-left: none;
 	border-right: none;
 	padding: .5rem;
@@ -544,7 +500,7 @@ ul.blog p {
 ul.blog li {
 	display: block;
 	overflow: hidden;
-	border-bottom: 1px dotted $royal-blue;
+	border-bottom: 1px dotted $primary-color;
 	margin: 1rem 0;
 	padding-bottom: 1rem;
 }
@@ -605,7 +561,7 @@ ul.local-navigation {
 }
 
 .local-navigation li {
-	border-bottom: 1px solid scale-color($royal-blue, $lightness: 60%);
+	border-bottom: 1px solid scale-color($primary-color, $lightness: 60%);
 }
 
 .local-navigation li a {
@@ -614,14 +570,14 @@ ul.local-navigation {
 }
 
 .local-navigation li a:hover {
-	background-color: scale-color($royal-blue, $lightness: 70%);
+	background-color: scale-color($primary-color, $lightness: 70%);
 }
 
 /*** Footer ***/
 
 footer.main-footer {
 	padding-top: 1rem;
-	color: $dark-gold;
+	color: $secondary-color;
 }
 
 footer.main-footer,
@@ -630,8 +586,8 @@ footer.main-footer p {
 }
 
 footer.main-footer a {
-	color: $dark-gold;
-	border-bottom: 1px dotted $dark-gold;
+	color: $secondary-color;
+	border-bottom: 1px dotted $secondary-color;
 }
 
 footer.main-footer .logo {
@@ -677,7 +633,7 @@ svg {
 .svg-link {
 	fill: $primary-color;
 	&:hover {
-		fill: $dark-gold;
+		fill: $secondary-color;
 	}
 }
 
