@@ -3,7 +3,7 @@
   "version": "0.1",
   "dependencies": {
     "almond": null,
-    "jquery": ">=3.0.0",
+    "jquery": "^3.0.0",
     "foundation-sites": ">=6.2.4",
     "font-awesome": null,
     "motion-ui": null,
