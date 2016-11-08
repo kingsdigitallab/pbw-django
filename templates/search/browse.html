@@ -287,11 +287,11 @@
                 <h3>
                     <a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
                 </h3>
+                    <h5>{{ doc.origldesc }}</h5>
 
                 {% for dd in result.documents %}
                 <p>
-                    {% highlight dd.text with query html_tag 'strong' max_length 120 %}
-                    {{ dd.text | add_persref_links |safe }}
+{% highlighted_persref dd.text query %}
                 </p>
                 {% endfor %}
                 {% endwith %}
