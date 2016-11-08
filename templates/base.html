@@ -12,6 +12,8 @@
   {# SCSS compilation relies on django compressor #}
   <link rel="stylesheet" type="text/x-scss" href="{% static 'scss/main.scss' %}">
   {% endcompress %}
+  {% block headercss %}
+  {% endblock %}
 </head>
 <body>
   <header>
@@ -22,14 +24,11 @@
     {% include 'includes/navigation.html' %}
   </nav>
 
-  {# <div class="contain-to-grid content-area"> #}
-      <section class="main">
-        {% block title %}{% endblock %}
-        {% block main %}
-        {% endblock %}
-      </section>
-  {#  </div> #}
-
+  <section class="main">
+    {% block title %}{% endblock %}
+    {% block main %}
+    {% endblock %}
+  </section>
 
   <footer>
     {% block footer %}
@@ -44,10 +43,6 @@
   </script>
 
   {% require_module 'config' %}
-
- {% comment %}
-<script data-main="{% static 'javascripts/app-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>
-  {% endcomment %}
 
   {% block footer_scripts %}
   {% endblock %}

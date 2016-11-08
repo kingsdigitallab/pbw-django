@@ -1,5 +1,4 @@
 @import 'settings';
-// @import 'fonts';
 @import 'font-awesome';
 @import '../vendor/foundation-sites/scss/foundation';
 @import '../vendor/motion-ui/motion-ui';
@@ -22,6 +21,10 @@
 	color: $primary-color !important;
 	font-style: italic;
 	margin-bottom: .5rem;
+}
+
+.textright {
+	text-align: right;
 }
 
 /* Handles the offset of the magellan sticky navigation */
@@ -64,8 +67,24 @@ li.greyed-out a {
 .expander {
 	padding: 0 0 .5rem;
 	margin-bottom: .5rem;
-	text-align: right;
+	// text-align: right;
 	display: block;
+}
+
+.hierarchical-facets {
+	a {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		border-bottom: 1px solid scale-color($secondary-color, $lightness: -10%);
+		.label {
+			margin-top: .25rem;
+		}
+		&:last-child {
+			border-bottom: none;
+		}
+	}
 }
 
 .bottom-margin {
@@ -130,10 +149,10 @@ header.main-header {
 	background-size: cover;
 }
 
-.header {
-	background: url('') center left no-repeat;
-	background-size: contain;
-}
+// .header {
+// 	background: url('/static/images/Togatus_Barberini_2392-transparent.png') center left no-repeat;
+// 	background-size: contain;
+// }
 
 /*** Headings ***/
 
@@ -142,7 +161,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1, h2, h3 {
-	font-family: serif;
+	font-family: 'Julius Sans', sans-serif;
 }
 
 h1.site-title,
@@ -243,6 +262,7 @@ h3.quick-home {
 .key {
 	font-style: italic;
 	font-size: .875rem;
+	margin-top: 1.25rem;
 }
 
 /*** Search / Facets / Filters ***/
@@ -276,49 +296,6 @@ h3.quick-home {
 	}
 }
 
-.name-row {
-	button {
-		padding: 3px 0 3px 3px !important;
-		font-size: .75em !important;
-	}
-	.columns {
-		padding: .25rem !important;
-		&:first-child {
-			padding-left: .5rem !important;
-		}
-		&:last-child {
-			padding-right: .5rem !important;
-		}
-	}
-
-	.secondary.label {
-		padding: 2px 4px !important;
-		font-size: .75em !important;
-	}
-}
-
-button.name-form {
-	color: $secondary-color;
-	font-size: .875rem;
-	background: scale-color($sand, $lightness: 15%);
-	border: 1px solid scale-color($sand, $lightness: -11%);
-	// padding: .5rem 1rem;
-	width: 100%;
-	text-align: left;
-
-	&:hover {
-		color: $secondary-color;
-		background: scale-color($sand, $lightness: 15%);
-	}
-
-	&:after {
-		border-width: .1875rem !important;
-		border-color: $secondary-color transparent transparent transparent !important;
-		right: .125rem !important;
-		top: .75rem !important;
-	}
-}
-
 .drop-list {
 	max-height: 550px; /* To overcome the overflow: hidden that cuts the list off */
 	overflow: scroll;
@@ -327,6 +304,32 @@ button.name-form {
 	}
 	li:last-child {
 		border: none;
+	}
+}
+
+/* Auto-complete */
+
+.name-row {
+	input {
+		margin-bottom: 0;
+		border-radius: 0 !important;
+		padding: 0;
+	}
+
+	.columns {
+		padding: 0 .25rem !important;
+		&:first-child {
+			padding-left: .5rem !important;
+		}
+		&:last-child {
+			padding-right: .5rem !important;
+		}
+	}
+}
+
+.easy-autocomplete-container {
+	ul {
+		margin-left: 0;
 	}
 }
 
@@ -402,9 +405,11 @@ button.name-form {
 	color: #444;
 	.label {
 		margin-top: .5rem;
+		font-size: 1rem;
+		font-family: 'Open Sans Condensed Light', sans-serif;
 	}
 
-	li {
+	li {	
 		border-bottom: 1px solid $sand;
 		margin-bottom: .5rem;
 
@@ -582,7 +587,7 @@ footer.main-footer {
 
 footer.main-footer,
 footer.main-footer p {
-	font-size: .75rem;
+	font-size: .75rem;	
 }
 
 footer.main-footer a {
@@ -662,11 +667,6 @@ svg {
 }
 
 /*** Typography ***/
-
-@font-face {
-	font-family: 'Julius Sans';
-	src: url('/static/fonts/Julius_Sans_One/JuliusSansOne-Regular.ttf');
-}
 
 @font-face {
 	font-family: 'Open Sans Condensed Light';
