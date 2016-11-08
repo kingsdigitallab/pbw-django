@@ -53,21 +53,6 @@
     tags:
       - system
 
-  - name: apt | add elasticsearch key
-    become: yes
-    apt_key:
-      url: https://packages.elastic.co/GPG-KEY-elasticsearch
-      state: present
-    tags:
-      - system
-
-  - name: apt | add elasticsearch sources
-    apt_repository:
-      repo: 'deb http://packages.elastic.co/elasticsearch/1.6/debian stable main'
-      state: present
-    tags:
-      - system
-
   - name: apt | install required system packages
     apt:
       pkg: '{{ item }}'
@@ -97,9 +82,13 @@
     - vars.yml
   gather_facts: false
   tasks:
-  - name: pip | setup virtualenv
-    command: mkdir -p {{ python.virtualenv_location }}
-  - command: virtualenv {{ python.virtualenv_location }}
+  - name: pip | create virtualenv directory
+    file: path={{ python.virtualenv_location }} state=directory owner=vagrant
+    tags:
+      - python
+
+  - name: pip | init virtualenv
+    command: virtualenv {{ python.virtualenv_location }}
     tags:
       - python
 
@@ -133,49 +122,11 @@
   tasks:
   - name: locale | setup gb locale
     locale_gen:
-      name: "{{mysql.locale }}"
+      name: "{{ mysql.locale }}"
       state: present
     become: yes
     tags:
       - db
-
-#  - name: mysql | ensure mysql user can authenticate
-#    become: yes
-#    lineinfile:
-#      dest: /etc/postgresql/{{ postgresql.version }}/main/pg_hba.conf
-#      backup: yes
-#      regexp: "^local\\s+all\\s+{{ postgresql.admin_user }}\\s+peer$"
-#      line: "local    all    {{ postgresql.admin_user }}    {{ postgresql.default_auth_method }}"
-#    tags:
-#      - db
-#
-#  - name: postgresql | ensure all users can authenticate
-#    become: yes
-#    lineinfile:
-#      dest: /etc/postgresql/{{ postgresql.version }}/main/pg_hba.conf
-#      backup: yes
-#      regexp: "^local\\s+all\\s+all\\s+peer$"
-#      line: "local    all    all    {{ postgresql.default_auth_method }}"
-#    notify:
-#      - postgresql | restart postgres
-#      - elasticsearch | restart elasticsearch
-#    tags:
-#      - db
-
-#  handlers:
-#  - name: postgresql | restart postgres
-#    become: yes
-#    service:
-#      name: postgresql
-#      state: restarted
-#    tags:
-#      - db
-
-
-
-
-
-
 
 #MySQL
 - hosts: all
@@ -212,34 +163,11 @@
     tags:
       - db
 
-
-
   - name: mysql | load initial data file
     mysql_db: login_user={{ mysql.admin_user }} login_password= state=import encoding={{mysql.encoding}}  name={{ app.name }} target={{ project_root }}/.vagrant_provisioning/{{ mysql.initial_data_file }}
-
-
     tags:
       - db
       - data
-
-
-
-
-
-# become_user: "{{ mysql.admin_user }}"
-#  - name: postgresql | apply privileges after data import
-#    become_user: "{{ postgresql.admin_user }}"
-#    postgresql_privs:
-#      db: "{{ app.name }}"
-#      objs: ALL_IN_SCHEMA
-#      privs: ALL
-#      roles: "{{ postgresql.user }}"
-#      state: present
-#      type: table
-#    tags:
-#      - db
-#      - data
-
 
   # SOLR installation
   # based on https://github.com/geerlingguy/ansible-for-devops/blob/master/solr/
@@ -305,7 +233,7 @@
 
       # Solr log4j logging configuration.
       - src: "{{ solr.dir }}/example/lib/ext/*"
-      #Changed becasue tomcat vagrant appears to be looking at /usr/share
+        #Changed becasue tomcat vagrant appears to be looking at /usr/share
         #dest: "/var/lib/tomcat7/shared/"
         dest: "/usr/share/tomcat7/lib"
         creates: "/var/lib/tomcat7/shared/log4j-1.2.17.jar"
@@ -372,8 +300,29 @@
     tags:
       - solr
 
+  handlers:
+  - name: restart tomcat
+    become: yes
+    service:
+      name: tomcat7
+      state: restarted
 
-# haystack schema
+- hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: django | default local settings
+    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local.py owner=vagrant
+    tags:
+      - django
+
+  - name: django | migrations
+    command: "{{ user_home }}/venv/bin/python {{ project_root }}/manage.py makemigrations"
+  - command: "{{ user_home }}/venv/bin/python {{ project_root }}/manage.py migrate"
+    tags:
+      - django
+
+  # haystack schema
   # TODO: we should ensure Solr is running correctly
   - name: haystack | build solr schema
     shell: >
@@ -404,30 +353,9 @@
   handlers:
   - name: restart tomcat
     become: yes
-    command: /etc/init.d tomcat7 restart
-
-#  - name: elasticsearch | restart elasticsearch
-#    become: yes
-#    service:
-#      name: elasticsearch
-#      state: started
-#    tags:
-#      - db
-
-- hosts: all
-  vars_files:
-    - vars.yml
-  tasks:
-  - name: django | default local settings
-    copy: src=local_settings.py dest={{ project_root }}/{{ app.name }}/settings/local.py owner=vagrant
-    tags:
-      - django
-
-  - name: django | migrations
-    command: "{{ user_home }}/venv/bin/python {{ project_root }}/manage.py makemigrations"
-  - command: "{{ user_home }}/venv/bin/python {{ project_root }}/manage.py migrate"
-    tags:
-      - django
+    service:
+      name: tomcat7
+      state: restarted
 
 - hosts: all
   vars_files:
@@ -440,12 +368,10 @@
     tags:
       - git
 
-#  - name: git | flake8 pre-commit hook
-#    command: "{{ user_home }}/venv/bin/flake8 --install-hook"
-#    args:
-#      chdir: "{{ project_root }}"
-#  - command: "git config flake8.strict True"
-#    args:
-#      chdir: "{{ project_root }}"
-#    tags:
-#      - git
+  - name: git | flake8 pre-commit hook
+    command: "{{ user_home }}/venv/bin/flake8 --install-hook git"
+  - command: "git config flake8.strict True"
+    args:
+      chdir: "{{ project_root }}"
+    tags:
+      - git
