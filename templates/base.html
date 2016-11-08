@@ -45,11 +45,11 @@
 
   <!-- define requirejs config settings. -->
 
-  {% require_module 'config' %}
-
   <script type="text/javascript">
     {% include 'includes/config.js' %}
   </script>
+
+  {% require_module 'config' %}
 
  {% comment %}
 <script data-main="{% static 'javascripts/app-main'%}" type="text/javascript" src="{% static 'vendor/requirejs/require.js'%}"></script>

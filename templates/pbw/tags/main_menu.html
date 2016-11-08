@@ -4,6 +4,9 @@
     <li{% if root.active %} class="active" {% endif %}>
         <a href="{% pageurl root %}">{{ root.title }}</a>
     </li>
+    <li{% if root.active %} class="active" {% endif %}>
+        <a href="{% url 'pbw_browse' %}">Browse</a>
+    </li>
     {% for page in menu_pages %}
     {% if page.get_children %}
     <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
