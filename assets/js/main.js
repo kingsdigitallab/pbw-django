@@ -3,7 +3,8 @@ require([
     'requirejs',
     'jquery',
     'fn',
-    'ga'
+    'ga',
+    'easyautocomplete'
 ], function(r, $) {
     'use strict';
 
@@ -33,9 +34,7 @@ require([
                     }
                 },
                 list: {
-                    match: {
-                        enabled: true
-                    },
+
                     sort: {
                         enabled: true
                     },
@@ -61,7 +60,7 @@ require([
         },
 
         init: function (element) {
-            self = element;
+            //self = element;
             this.setUp(element);
         }
     }

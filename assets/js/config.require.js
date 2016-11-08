@@ -8,7 +8,7 @@ requirejs.config({
     urlArgs: 'bust=' + (new Date()).getTime(),
     paths: {
         'jquery': '../vendor/jquery/dist/jquery',
-
+        'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
 
@@ -34,6 +34,7 @@ requirejs.config({
         'requirejs': '../vendor/requirejs/require',
     },
     shim: {
+        "easyautocomplete": ["jquery"],
         'foundation': {
             deps: [
                 'jquery'
