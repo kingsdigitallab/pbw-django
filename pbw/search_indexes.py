@@ -79,83 +79,112 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         return Factoid
 
     def prepare_person(self, obj):
-        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
-        if p.count() > 0:
-            return p[0].name + " " + str(p[0].mdbcode)
+        p = obj.person
+        if p != None:
+            return p.name + " " + unicode(p.mdbcode)
+        else:
+            print "ERROR No primary person found for factoid "+str(obj.id)
+        return None
 
     def prepare_source(self, obj):
         #model_attr='source__sourceid'
         return [obj.source.sourceid]
 
     def prepare_person_id(self, obj):
-        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
-        if p.count() > 0:
-            return p[0].id
+        p = obj.person
+        if p != None:
+            return p.id
+        else:
+            return 0
+
 
     def prepare_name(self,obj):
-        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
-        if p.count() > 0:
-            return p[0].name
-        return ""
+        p = obj.person
+        if p != None:
+            return p.name
+        else:
+            return ""
 
     def prepare_letter(self, obj):
-        p = Person.objects.filter(factoidperson__factoid__id=obj.id)
-        if p.count() > 0 and len(p[0].name) > 0:
-            return p[0].name[0].upper()
+        p = obj.person
+        if p != None:
+            name = p.name
+            if len(name) > 0:
+                return name[0].upper()
         return ""
 
     def prepare_location(self, obj):
         #Location
-        locations = Location.objects.filter(factoidlocation__factoid=obj)
-        if locations.count() > 0:
-            for location in locations:
-                return location.locname
+        if self.factoidtype == "Location":
+            locations = Location.objects.filter(factoidlocation__factoid=obj)
+            if locations.count() > 0:
+                for location in locations:
+                    return location.locname
+            else:
+                return ""
         else:
             return ""
 
     def prepare_ethnicity(self, obj):
         #Ethnicity
-        ethnicities = Ethnicity.objects.filter(ethnicityfactoid__factoid=obj)
-        if ethnicities.count() > 0:
-            for eth in ethnicities:
-                return eth.ethname
+        if self.factoidtype == "Ethnic label":
+            ethnicities = Ethnicity.objects.filter(ethnicityfactoid__factoid=obj)
+            if ethnicities.count() > 0:
+                for eth in ethnicities:
+                    return eth.ethname
+            else:
+                return ""
         else:
             return ""
 
+
     def prepare_dignityoffice(self, obj):
-        digs = Dignityoffice.objects.filter(dignityfactoid__factoid=obj)
-        if digs.count() > 0:
-            for d in digs:
-                return d.stdname
+        if self.factoidtype == "Dignity/Office":
+            digs = Dignityoffice.objects.filter(dignityfactoid__factoid=obj)
+            if digs.count() > 0:
+                for d in digs:
+                    return d.stdname
+            else:
+                return ""
         else:
             return ""
 
     #Secondary names (= second names + alternative names)#}
     def prepare_secondaryname(self,obj):
-        secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
-        if secs.count() > 0:
-            for s in secs:
-                return s.name
-        return ""
+        if self.factoidtype == "Alternative Name":
+            secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
+            if secs.count() > 0:
+                for s in secs:
+                    return s.name
+            return ""
+        else:
+            return ""
 
     def prepare_language(self,obj):
-        langs = Languageskill.objects.filter(langfactoid__factoid=obj)
-        if langs.count() > 0:
-            for l in langs:
-                return l.languagename
-        return ""
+        if self.factoidtype == "Language Skill":
+            langs = Languageskill.objects.filter(langfactoid__factoid=obj)
+            if langs.count() > 0:
+                for l in langs:
+                    return l.languagename
+            return ""
+        else:
+            return ""
 
     def prepare_occupation(self,obj):
-        occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
-        if occs.count() > 0:
-            for o in occs:
-                return o.occupationname
-        return ""
+        if self.factoidtype == "Occupation":
+            occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
+            if occs.count() > 0:
+                for o in occs:
+                    return o.occupationname
+            else:
+                return ""
+        else:
+            return ""
 
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(factoidtype__in=factoidtypekeys)
+        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",factoidtype__in=factoidtypekeys).distinct()
 

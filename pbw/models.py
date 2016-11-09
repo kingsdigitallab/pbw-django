@@ -8,6 +8,7 @@ from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailsearch import index
+from django.utils.functional import cached_property
 
 class Accuracy(models.Model):
     acckey = models.AutoField(db_column='accKey', primary_key=True)  # Field name made lowercase.
@@ -337,6 +338,14 @@ class Factoid(models.Model):
     creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
     boulloterionkey = models.CharField(db_column='boulloterionKey', max_length=100)  # Field name made lowercase.
     tstamp = models.DateTimeField()
+
+    @cached_property
+    def person(self):
+        fp=Person.objects.filter(factoidperson__factoid=self,factoidperson__factoidpersontype__fptypename="Primary")
+        if fp.count() >0:
+            return fp[0]
+        else:
+            return None
 
     class Meta:
         
