@@ -14,6 +14,7 @@ requirejs.config({
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
+        'foundation.accordion':'../vendor/foundation-sites/js/foundation.accordion',
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
@@ -80,6 +81,13 @@ requirejs.config({
             deps: [
                 'foundation'
             ],
+        },
+        'foundation.accordion': {
+            deps: [
+                'foundation',
+                'foundation.util.keyboard',
+                'foundation.util.motion'
+            ]
         },
         'foundation.accordionMenu': {
             deps: [
