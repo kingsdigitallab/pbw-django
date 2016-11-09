@@ -1,5 +1,6 @@
 @import 'settings';
 @import 'font-awesome';
+@import 'typography';
 @import '../vendor/foundation-sites/scss/foundation';
 @import '../vendor/motion-ui/motion-ui';
 @include foundation-everything;
@@ -60,14 +61,9 @@ li.greyed-out a {
 	padding: .5rem !important;
 }
 
-// .hidden {
-// 	display: none;
-// }
-
 .expander {
 	padding: 0 0 .5rem;
 	margin-bottom: .5rem;
-	// text-align: right;
 	display: block;
 }
 
@@ -143,16 +139,23 @@ li.greyed-out a {
 }
 
 /*** Header ***/
-
-header.main-header {
-	background: url('/static/images/header-bg.png') center right no-repeat $sand;
+	
+header.top-header {
+	background: url('/static/images/top-banner.jpg') center no-repeat;
 	background-size: cover;
-}
 
-// .header {
-// 	background: url('/static/images/Togatus_Barberini_2392-transparent.png') center left no-repeat;
-// 	background-size: contain;
-// }
+	h1,
+	a {
+		color: $white;
+		&:hover {
+			color: scale-color($primary-color, $lightness: 70%);
+		}
+	}
+
+	h1 {
+		text-shadow: 0 0 3px $black;
+	}
+}
 
 /*** Headings ***/
 
@@ -161,15 +164,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1, h2, h3 {
-	font-family: 'Julius Sans', sans-serif;
-}
-
-h1.site-title,
-h2.site-title {
-	padding-top: 2rem;
-	padding-left: 5rem;
-	line-height: 1.25;
-	text-shadow: 0 0 1px #666;
+	font-weight: 700;
 }
 
 h3 {
@@ -177,13 +172,18 @@ h3 {
 }
 
 h4, h5, h6 {
-	font-family: 'Open Sans Condensed Light', sans-serif;
+	font-weight: normal;
+}
+
+input,
+input[type=search] {
+	height: 2.575rem;
 }
 
 .main h1,
 .main h2,
 .main h3 {
-	font-family: 'Open Sans Condensed Light', sans-serif;
+	font-weight: normal;
 }
 
 .main h1 .label,
@@ -193,20 +193,34 @@ h4, h5, h6 {
 
 /*** Navigation ***/
 
-.top-bar-section ul li {
-	border-right: 1px solid scale-color($primary-color, $lightness: 15%);
-}
+nav {
+	background-color: $primary-color;
 
-.top-bar-section ul li:last-child {
-	border: none;
-}
+	.menu li {
+		a {
+			color: $white;
+			&:hover {
+				background: scale-color($primary-color, $lightness: 50%);
+			}
+		}
+	}
 
-.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-	border-bottom: 1px solid scale-color($primary-color, $lightness: 15%);
-}
+	.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+		border-color: $white transparent transparent;
+	}
 
-.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
-	background: scale-color($primary-color, $lightness: -15%);
+	.dropdown.menu > li.opens-right > .is-dropdown-submenu {
+		background: $primary-color;
+		border: 0;
+	}
+
+	.title-bar {
+		background: $primary-color;
+	}
+
+	#top-menu {
+		padding: 0;
+	}
 }
 
 /*** Side Nav ***/
@@ -276,8 +290,6 @@ h3.quick-home {
 
 .options {
 	margin-bottom: 0 !important;
-	border: 1px solid scale-color($primary-color, $lightness: 70%) !important;
-	border-bottom: none !important;
 	span,
 	a {
 		margin-bottom: 0 !important;
@@ -286,7 +298,7 @@ h3.quick-home {
 
 .search-box {
 	padding: 1rem;
-	background: $secondary-color;
+	background: scale-color($primary-color, $lightness: 85%);
 	border: 1px solid scale-color($primary-color, $lightness: 70%);
 
 	.label.secondary,
@@ -406,7 +418,6 @@ h3.quick-home {
 	.label {
 		margin-top: .5rem;
 		font-size: 1rem;
-		font-family: 'Open Sans Condensed Light', sans-serif;
 	}
 
 	li {	
@@ -475,9 +486,9 @@ h3.quick-home {
 	background: $secondary-color;
 }
 
-.results-preview {
-	background: scale-color($primary-color, $lightness: 70%);
-}
+// .results-preview {
+// 	background: scale-color($primary-color, $lightness: 70%);
+// }
 
 .fixed-height {
 	height: 200px;
@@ -561,7 +572,6 @@ p.meta,
 ul.local-navigation {
 	list-style: none;
 	margin-left: 0;
-	font-family: 'Open Sans Condensed Light', sans-serif;
 	font-size: 1.125rem;
 }
 
@@ -581,107 +591,33 @@ ul.local-navigation {
 /*** Footer ***/
 
 footer.main-footer {
+	background: scale-color($primary-color, $lightness: 80%);
+	color: $secondary-color;
+	font-size: .75rem;
 	padding-top: 1rem;
-	color: $secondary-color;
-}
 
-footer.main-footer,
-footer.main-footer p {
-	font-size: .75rem;	
-}
+	a {
+		color: $secondary-color;
+		border-bottom: 1px dotted $secondary-color;
+	}
 
-footer.main-footer a {
-	color: $secondary-color;
-	border-bottom: 1px dotted $secondary-color;
-}
+	p {
+		font-size: .75rem;		
+	}
+	
+	.logo {
+		max-width: 150px;
 
-footer.main-footer .logo {
-	max-width: 150px;
-}
+		a {
+			border: none !important;
+		}
+	}
 
-footer.main-footer .logo a {
-	border: none !important;
-}
-
-footer.main-footer .right p {
-	text-align: right;
-}
-
-/*** SVG / Graphs / Sigma ***/
-
-.svg-container,
-.sigma-container {
-    width: 100%;
-    margin-bottom: 1rem;
-    position: relative;
-    border: 3px solid $secondary-color;
-}
-
-.svg-container {
-    padding-top: 60%;
-    height: 0;
-}
-
-.svg-title {
-	background: $secondary-color;
-	padding: .5rem .5rem .375rem;
-	margin-bottom: 0;
-	font-size: 1.5rem;
-}
-
-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.svg-link {
-	fill: $primary-color;
-	&:hover {
-		fill: $secondary-color;
+	.right p {
+		text-align: right;
 	}
 }
 
-.node {
-	stroke: #fff;
-	stroke-width: 1.5px;
-}
-
-.link {
-	stroke: #999;
-	stroke-opacity: .6;
-}
-
-#family-graph {
-	display: block;
-}
-
-#sigma-container {
-	max-width: 100%;
-	height: 465px;
-	display: block;
-}
-
-.reveal-modal .svg-container {
-	border: none;
-}
-
-/*** Typography ***/
-
-@font-face {
-	font-family: 'Open Sans Condensed Light';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Light Italic';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLightItalic.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Bold';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondBold.ttf');
-}
 
 /*** Custom media queries ***/
 

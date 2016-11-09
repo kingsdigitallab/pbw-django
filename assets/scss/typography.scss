@@ -1,0 +1,38 @@
+/*** Typography ***/
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-Italic.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-Light.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-LightItalic.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/static/fonts/Open_Sans/OpenSans-BoldItalic.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: 700;
+  font-style: italic;
+}
