@@ -97,10 +97,8 @@
                                     {% endfor %}
                                 </ul>
                             </div>
-
                             {{ form.name }}
-                            <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p>
-
+                            {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
                             <div class="panel radius fixed-height">
                                 <ul class="no-bullet">
                                     {% for term in facets.fields|get_item:"name" %}
@@ -146,7 +144,6 @@
                                         <h4>Secondary names</h4>
                                         {{ form.secondaryname }}
                                         <div class="panel radius fixed-height">
-
                                             <ul class="no-bullet">
                                                 {% for term in facets.fields|get_item:"secondaryname" %}
                                                 {% with value=term.0 count=term.1 %}
@@ -186,7 +183,6 @@
                                     <div class="large-6 columns">
                                         <h4>Dignity / Office</h4>
                                         {{ form.dignityoffice }}
-
                                         <div class="panel radius fixed-height">
                                             <ul class="no-bullet">
                                                 {% for term in facets.fields|get_item:"dignityoffice" %}

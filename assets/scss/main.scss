@@ -1,6 +1,6 @@
 @import 'settings';
 @import 'font-awesome';
-@import: 'typography';
+@import 'typography';
 @import '../vendor/foundation-sites/scss/foundation';
 @import '../vendor/motion-ui/motion-ui';
 @include foundation-everything;
@@ -163,9 +163,9 @@ h1, h2, h3, h4, h5, h6 {
 	color: $secondary-color;
 }
 
-// h1, h2, h3 {
-// 	font-family: 'Open Sans Condensed Bold', sans-serif;
-// }
+h1, h2, h3 {
+	font-weight: 700;
+}
 
 h3 {
 	font-size: 1.25rem;
@@ -591,90 +591,33 @@ ul.local-navigation {
 /*** Footer ***/
 
 footer.main-footer {
+	background: scale-color($primary-color, $lightness: 80%);
+	color: $secondary-color;
+	font-size: .75rem;
 	padding-top: 1rem;
-	color: $secondary-color;
-}
 
-footer.main-footer,
-footer.main-footer p {
-	font-size: .75rem;	
-}
+	a {
+		color: $secondary-color;
+		border-bottom: 1px dotted $secondary-color;
+	}
 
-footer.main-footer a {
-	color: $secondary-color;
-	border-bottom: 1px dotted $secondary-color;
-}
+	p {
+		font-size: .75rem;		
+	}
+	
+	.logo {
+		max-width: 150px;
 
-footer.main-footer .logo {
-	max-width: 150px;
-}
+		a {
+			border: none !important;
+		}
+	}
 
-footer.main-footer .logo a {
-	border: none !important;
-}
-
-footer.main-footer .right p {
-	text-align: right;
-}
-
-/*** SVG / Graphs / Sigma ***/
-
-.svg-container,
-.sigma-container {
-    width: 100%;
-    margin-bottom: 1rem;
-    position: relative;
-    border: 3px solid $secondary-color;
-}
-
-.svg-container {
-    padding-top: 60%;
-    height: 0;
-}
-
-.svg-title {
-	background: $secondary-color;
-	padding: .5rem .5rem .375rem;
-	margin-bottom: 0;
-	font-size: 1.5rem;
-}
-
-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.svg-link {
-	fill: $primary-color;
-	&:hover {
-		fill: $secondary-color;
+	.right p {
+		text-align: right;
 	}
 }
 
-.node {
-	stroke: #fff;
-	stroke-width: 1.5px;
-}
-
-.link {
-	stroke: #999;
-	stroke-opacity: .6;
-}
-
-#family-graph {
-	display: block;
-}
-
-#sigma-container {
-	max-width: 100%;
-	height: 465px;
-	display: block;
-}
-
-.reveal-modal .svg-container {
-	border: none;
-}
 
 /*** Custom media queries ***/
 
