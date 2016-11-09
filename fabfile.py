@@ -128,11 +128,11 @@ def reinstall_requirement(which):
 def deploy(version=None):
     update(version)
     install_requirements()
-    own_django_log()
     migrate()
     collect_static()
     # update_index()
     # clear_cache()
+    own_django_log()
     touch_wsgi()
 
 
@@ -207,6 +207,6 @@ def clear_cache():
 def touch_wsgi():
     require('srvr', 'path', 'within_virtualenv', provided_by=env.servers)
 
-    with cd(os.path.join(env.path, 'shakespeare400')), \
+    with cd(os.path.join(env.path, 'pbw')), \
             prefix(env.within_virtualenv):
         run('touch wsgi.py')

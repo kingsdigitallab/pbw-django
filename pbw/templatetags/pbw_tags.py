@@ -3,6 +3,9 @@ from pbw.models import *
 import re
 from django.core.urlresolvers import reverse
 import HTMLParser
+from haystack.utils import Highlighter
+from django.utils.html import format_html
+
 register = template.Library()
 
 
@@ -30,6 +33,14 @@ def add_persref_links(desc):
                 personTag=u"<a href=\""+reverse('person-detail',args=[person.id])+"\">"+person.name+" "+unicode(person.mdbcode)+"</a>"
                 parsedDesc=parsedDesc.replace(tag.group(0),personTag)
     return parsedDesc
+
+#A modification of the highlighter to make it play nice with add_persref
+@register.simple_tag()
+def highlighted_persref(text,query,**kwargs):
+    highlight = Highlighter(query, html_tag='strong', css_class='found', max_length=120)
+    phText = highlight.highlight(text)
+    parsedText=add_persref_links(phText)
+    return format_html(parsedText)
 
 #Get the authority label attached to the factoid
 @register.filter

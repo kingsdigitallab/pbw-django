@@ -10,10 +10,13 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
 from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView
+from ddhldap.signal_handlers import register_signal_handlers as \
+            ddhldap_register_signal_handlers
 
+ddhldap_register_signal_handlers()
 
 admin.autodiscover()
-# ddhldap_register_signal_handlers()
+
 
 
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
