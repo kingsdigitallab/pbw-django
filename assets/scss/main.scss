@@ -1,14 +1,11 @@
 @import 'settings';
 @import 'font-awesome';
+@import: 'typography';
 @import '../vendor/foundation-sites/scss/foundation';
 @import '../vendor/motion-ui/motion-ui';
 @include foundation-everything;
 
 /*** Global ***/
-
-body {
-	font-family: "Open Sans Condensed Light", sans-serif;
-}
 
 .smaller-fontsize {
 	font-size: .875em !important;
@@ -166,16 +163,16 @@ h1, h2, h3, h4, h5, h6 {
 	color: $secondary-color;
 }
 
-h1, h2, h3 {
-	font-family: 'Open Sans Condensed Bold', sans-serif;
-}
+// h1, h2, h3 {
+// 	font-family: 'Open Sans Condensed Bold', sans-serif;
+// }
 
 h3 {
 	font-size: 1.25rem;
 }
 
 h4, h5, h6 {
-	font-family: 'Open Sans Condensed Light', sans-serif;
+	font-weight: normal;
 }
 
 input,
@@ -186,7 +183,7 @@ input[type=search] {
 .main h1,
 .main h2,
 .main h3 {
-	font-family: 'Open Sans Condensed Light', sans-serif;
+	font-weight: normal;
 }
 
 .main h1 .label,
@@ -421,7 +418,6 @@ h3.quick-home {
 	.label {
 		margin-top: .5rem;
 		font-size: 1rem;
-		font-family: 'Open Sans Condensed Light', sans-serif;
 	}
 
 	li {	
@@ -576,7 +572,6 @@ p.meta,
 ul.local-navigation {
 	list-style: none;
 	margin-left: 0;
-	font-family: 'Open Sans Condensed Light', sans-serif;
 	font-size: 1.125rem;
 }
 
@@ -679,23 +674,6 @@ svg {
 
 .reveal-modal .svg-container {
 	border: none;
-}
-
-/*** Typography ***/
-
-@font-face {
-	font-family: 'Open Sans Condensed Light';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Light Italic';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondLightItalic.ttf');
-}
-
-@font-face {
-	font-family: 'Open Sans Condensed Bold';
-	src: url('/static/fonts/Open_Sans_Condensed/OpenSans-CondBold.ttf');
 }
 
 /*** Custom media queries ***/
