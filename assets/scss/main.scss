@@ -60,14 +60,9 @@ li.greyed-out a {
 	padding: .5rem !important;
 }
 
-// .hidden {
-// 	display: none;
-// }
-
 .expander {
 	padding: 0 0 .5rem;
 	margin-bottom: .5rem;
-	// text-align: right;
 	display: block;
 }
 
@@ -143,16 +138,23 @@ li.greyed-out a {
 }
 
 /*** Header ***/
-
-header.main-header {
-	background: url('/static/images/header-bg.png') center right no-repeat $sand;
+	
+header.top-header {
+	background: url('/static/images/top-banner.jpg') center no-repeat;
 	background-size: cover;
-}
 
-// .header {
-// 	background: url('/static/images/Togatus_Barberini_2392-transparent.png') center left no-repeat;
-// 	background-size: contain;
-// }
+	h1,
+	a {
+		color: $white;
+		&:hover {
+			color: scale-color($primary-color, $lightness: 70%);
+		}
+	}
+
+	h1 {
+		text-shadow: 0 0 3px $black;
+	}
+}
 
 /*** Headings ***/
 
@@ -161,15 +163,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1, h2, h3 {
-	font-family: 'Julius Sans', sans-serif;
-}
-
-h1.site-title,
-h2.site-title {
-	padding-top: 2rem;
-	padding-left: 5rem;
-	line-height: 1.25;
-	text-shadow: 0 0 1px #666;
+	font-family: 'Open Sans Condensed', sans-serif;
 }
 
 h3 {
@@ -178,6 +172,11 @@ h3 {
 
 h4, h5, h6 {
 	font-family: 'Open Sans Condensed Light', sans-serif;
+}
+
+input,
+input[type=search] {
+	height: 2.575rem;
 }
 
 .main h1,
@@ -193,20 +192,34 @@ h4, h5, h6 {
 
 /*** Navigation ***/
 
-.top-bar-section ul li {
-	border-right: 1px solid scale-color($primary-color, $lightness: 15%);
-}
+nav {
+	background-color: $primary-color;
 
-.top-bar-section ul li:last-child {
-	border: none;
-}
+	.menu li {
+		a {
+			color: $white;
+			&:hover {
+				background: scale-color($primary-color, $lightness: 50%);
+			}
+		}
+	}
 
-.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
-	border-bottom: 1px solid scale-color($primary-color, $lightness: 15%);
-}
+	.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+		border-color: $white transparent transparent;
+	}
 
-.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
-	background: scale-color($primary-color, $lightness: -15%);
+	.dropdown.menu > li.opens-right > .is-dropdown-submenu {
+		background: $primary-color;
+		border: 0;
+	}
+
+	.title-bar {
+		background: $primary-color;
+	}
+
+	#top-menu {
+		padding: 0;
+	}
 }
 
 /*** Side Nav ***/
@@ -276,8 +289,6 @@ h3.quick-home {
 
 .options {
 	margin-bottom: 0 !important;
-	border: 1px solid scale-color($primary-color, $lightness: 70%) !important;
-	border-bottom: none !important;
 	span,
 	a {
 		margin-bottom: 0 !important;
@@ -286,7 +297,7 @@ h3.quick-home {
 
 .search-box {
 	padding: 1rem;
-	background: $secondary-color;
+	background: scale-color($primary-color, $lightness: 85%);
 	border: 1px solid scale-color($primary-color, $lightness: 70%);
 
 	.label.secondary,
@@ -475,9 +486,9 @@ h3.quick-home {
 	background: $secondary-color;
 }
 
-.results-preview {
-	background: scale-color($primary-color, $lightness: 70%);
-}
+// .results-preview {
+// 	background: scale-color($primary-color, $lightness: 70%);
+// }
 
 .fixed-height {
 	height: 200px;

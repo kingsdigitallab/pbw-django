@@ -4,7 +4,7 @@
     <li{% if root.active %} class="active" {% endif %}>
         <a href="{% pageurl root %}">{{ root.title }}</a>
     </li>
-    <li{% if root.active %} class="active" {% endif %}>
+    <li>
         <a href="{% url 'pbw_browse' %}">Browse</a>
     </li>
     {% for page in menu_pages %}
@@ -23,43 +23,3 @@
     </li>
     {% endfor %}
 </ul>
-
-{% comment %}
-<div class="contain-to-grid">
-    <nav class="top-bar" data-topbar role="navigation">
-
-        <section class="top-bar-section">
-            {% block main_menu %}
-                <ul class="left">
-                    <li{% if root.active %} class="active" {% endif %}>
-                        <a href="{% pageurl root %}">{{ root.title }}</a>
-                    </li>
-                <li{% if root.active %} class="active" {% endif %}>
-                <a href="{% url 'pbw_browse' %}">Browse</a>
-                </li>
-                    {% for page in menu_pages %}
-
-                        {% if page.get_children %}
-                            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
-                                <a href="#">{{ page.title }}</a>
-                                <ul class="dropdown">
-                                    {% for child in page.get_children %}
-                                        <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                        {% else %}
-                            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
-                            <a href="{% pageurl page %}">{{ page.title }}</a>
-                        {% endif %}
-
-                    </li>
-                    {% endfor %}
-
-                </ul>
-            {% endblock %}
-
-
-        </section>
-    </nav>
-</div>
-{% endcomment %}
