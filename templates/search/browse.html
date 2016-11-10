@@ -86,17 +86,17 @@
                         <div class="large-12 columns">
                             <h2 class="panel-heading">Name</h2>
 
-                            <div class="panel callout">
+
                                 <ul class="button-group">
                                     {% for term in facets.fields|get_item:"letter" %}
                                         {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                            <li>
-                                                <a href="{% url 'pbw_browse' %}{{ form | filter_selected_facets:"letter" }}letter={{ value }}">{{ value }}</a>
-                                                <span class="label radius">{{ count }}</span></li>
+                                            <li class="letter-button">
+                                                <a class="button secondary" href="{% url 'pbw_browse' %}{{ form | filter_selected_facets:"letter" }}letter={{ value }}">{{ value }}
+                                                <span class="label radius">{{ count }}</span></a></li>
                                         {% endif %}{% endwith %}
                                     {% endfor %}
                                 </ul>
-                            </div>
+
                             {{ form.name }}
                             {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
                             <div class="panel radius fixed-height">

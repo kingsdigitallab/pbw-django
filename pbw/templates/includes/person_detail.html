@@ -7,8 +7,11 @@
 
     <div class="row">
         <div class="large-12 columns">
-        <p><a href="{% url 'pbw_browse' %}">Back to results</a></p>
+        {% if query %}
+        <p><a href="{% url 'pbw_browse' %}?{{ query }}">Back to results</a></p>
+        {% endif %}
 
+{{ query }}
 
             <h2>{{ person.descname }}</h2>
 

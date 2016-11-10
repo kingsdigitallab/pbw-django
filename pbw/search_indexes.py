@@ -115,7 +115,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_location(self, obj):
         #Location
-        if self.factoidtype == "Location":
+        if obj.factoidtype.typename == "Location":
             locations = Location.objects.filter(factoidlocation__factoid=obj)
             if locations.count() > 0:
                 for location in locations:
@@ -127,7 +127,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_ethnicity(self, obj):
         #Ethnicity
-        if self.factoidtype == "Ethnic label":
+        if obj.factoidtype.typename == "Ethnic label":
             ethnicities = Ethnicity.objects.filter(ethnicityfactoid__factoid=obj)
             if ethnicities.count() > 0:
                 for eth in ethnicities:
@@ -139,7 +139,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
 
     def prepare_dignityoffice(self, obj):
-        if self.factoidtype == "Dignity/Office":
+        if obj.factoidtype.typename == "Dignity/Office":
             digs = Dignityoffice.objects.filter(dignityfactoid__factoid=obj)
             if digs.count() > 0:
                 for d in digs:
@@ -151,7 +151,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     #Secondary names (= second names + alternative names)#}
     def prepare_secondaryname(self,obj):
-        if self.factoidtype == "Alternative Name":
+        if obj.factoidtype.typename == "Alternative Name":
             secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
             if secs.count() > 0:
                 for s in secs:
@@ -161,7 +161,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_language(self,obj):
-        if self.factoidtype == "Language Skill":
+        if obj.factoidtype.typename == "Language Skill":
             langs = Languageskill.objects.filter(langfactoid__factoid=obj)
             if langs.count() > 0:
                 for l in langs:
@@ -171,7 +171,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_occupation(self,obj):
-        if self.factoidtype == "Occupation":
+        if obj.factoidtype.typename == "Occupation":
             occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
             if occs.count() > 0:
                 for o in occs:
