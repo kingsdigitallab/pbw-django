@@ -13,8 +13,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
+#DDH LDAP
 from ddhldap.settings import *
 AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
+AUTH_LDAP_ALWAYS_UPDATE_USER = False
 
 PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
