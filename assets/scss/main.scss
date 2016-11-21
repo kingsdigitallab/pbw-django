@@ -607,11 +607,16 @@ footer.main-footer {
 	
 	.logo {
 		max-width: 150px;
-
+        float: left;
+        margin-right: 5%;
 		a {
 			border: none !important;
 		}
 	}
+
+    .logo.ba{
+      max-width:50%;
+    }
 
 	.right p {
 		text-align: right;
