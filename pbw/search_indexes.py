@@ -92,7 +92,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return 0
 
     def prepare_nameol(self, obj):
-        return obj.person.nameol
+        p = obj.person
+        if p != None:
+            return obj.person.nameol
+        else:
+            return ""
 
 
     def prepare_name(self,obj):
