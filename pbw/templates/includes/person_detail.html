@@ -11,13 +11,13 @@
         <p><a href="{% url 'pbw_browse' %}?{{ query }}">Back to results</a></p>
         {% endif %}
 
-{{ query }}
 
             <h2>{{ person.descname }}</h2>
 
             <h4>{{ person.nameol }}</h4>
 
             <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
+
             {% if user.is_authenticated %}
                 <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
             {% endif %}

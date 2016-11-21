@@ -8,7 +8,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname',default='')
     name = indexes.CharField(model_attr='name', faceted=True)
-    origldesc = indexes.CharField(model_attr='nameol')
+    nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetCharField()
     source = indexes.FacetMultiValueField()
     person = indexes.CharField()
@@ -33,14 +33,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         sources = Source.objects.filter(factoid__factoidperson__person=obj,factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
         return list(sources)
 
-        # factoids = Factoid.objects.filter(factoidperson__person=obj,factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
-        # sources=[]
-        # for f in factoids:
-        #     try:
-        #         sources.append(f.source.sourceid)
-        #     except Exception as e:
-        #         print "No source found for factoid "+f.id+" "+e.message
-        # return list(set(sources))
+
 
 
 
@@ -57,6 +50,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     description = indexes.CharField(model_attr='engdesc',default='')
     name = indexes.FacetCharField()
     origldesc = indexes.FacetCharField(model_attr='origldesc')
+    nameol = indexes.CharField()
     factoidtype = indexes.CharField(model_attr='factoidtype__typename')
     factoidtypekey = indexes.IntegerField(
         model_attr='factoidtype__id', faceted=True)
@@ -96,6 +90,9 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return p.id
         else:
             return 0
+
+    def prepare_nameol(self, obj):
+        return obj.person.nameol
 
 
     def prepare_name(self,obj):
@@ -151,7 +148,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     #Secondary names (= second names + alternative names)#}
     def prepare_secondaryname(self,obj):
-        if obj.factoidtype.typename == "Alternative Name":
+        if obj.factoidtype.typename == "Second Name" or obj.factoidtype.typename == "Alternative Name":
             secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
             if secs.count() > 0:
                 for s in secs:
@@ -171,7 +168,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_occupation(self,obj):
-        if obj.factoidtype.typename == "Occupation":
+        if obj.factoidtype.typename == "Occupation/Vocation":
             occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
             if occs.count() > 0:
                 for o in occs:
@@ -186,5 +183,5 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",factoidtype__in=factoidtypekeys).distinct()
+        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",factoidtype__id__in=factoidtypekeys).distinct()
 
