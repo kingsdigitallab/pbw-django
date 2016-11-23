@@ -12,7 +12,7 @@
 
 {% block main %}
 <div class="row">
-    <div class="large-12 columns" id="search">
+    <div class="large-12  columns" id="search">
         <header>
             <h1 id="search-box">Search</h1>
             <button class="small button secondary options showhide">
@@ -86,7 +86,7 @@
                         <div class="large-12 columns">
                             <h2 class="panel-heading">Name</h2>
 
-
+                                <div class="large-12 columns">
                                 <ul class="button-group">
                                     {% for term in facets.fields|get_item:"letter" %}
                                         {% with value=term.0 count=term.1 %} {% if count > 0 %}
@@ -96,6 +96,7 @@
                                         {% endif %}{% endwith %}
                                     {% endfor %}
                                 </ul>
+                                </div>
 
                             {{ form.name }}
                             {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
@@ -270,7 +271,7 @@
 <div class="row" id="search-results-box">
     <div class="large-12 columns">
         <hr>
-        <h2>Search Results <span class="label radius">{{ paginator.count }}</span> 
+        <h2>Search Results <span class="label radius">{{ paginator.count }}</span>
             <a href="#search" class="less-padding button right edit-search do-not-print"><i class="fa fa-edit"></i> Edit search</a>
         </h2>
         <hr>
