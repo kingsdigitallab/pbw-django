@@ -52,6 +52,7 @@ class PBWFacetedSearchView(FacetedSearchView):
                 'selected_facets')
         # used to generate the lists for the autocomplete dictionary
         context['autocomplete_facets'] = self.autocomplete_facets
+        self.request.session['query'] = self.request.META['QUERY_STRING']
         #{{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}
         # fullURL=self.request.path+"?"
         # try:
@@ -140,6 +141,12 @@ class PersonDetailView(DetailView):
         person = self.get_object()
         group=FactoidGroups(person,DISPLAYED_FACTOID_TYPES).groups
         context['factoidGroups'] = group
+        #Get referred search from session to go back
+        try:
+            query =self.request.session['query']
+            context['query'] = query
+        except Exception:
+            context['query'] = None
         return context
 
 #Output a person and their relevant(as in current displayed subset) factoids

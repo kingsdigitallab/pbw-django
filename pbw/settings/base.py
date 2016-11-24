@@ -13,8 +13,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
+#DDH LDAP
 from ddhldap.settings import *
 AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
+AUTH_LDAP_ALWAYS_UPDATE_USER = False
 
 PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
@@ -49,7 +51,7 @@ CACHES = {
 #Not all factoids from the previous phase are currently being displayed
 #This is an array of factoidtypekeys to control which types
 # are displayed and indexed
-DISPLAYED_FACTOID_TYPES = [9,8,6,13,10,12,11,7,2,15,14,3,4]
+DISPLAYED_FACTOID_TYPES = [9,8,6,13,10,12,11,7,2,15,14,3,4,17]
 
 #Fixture options
 #Determines the person records used to make fixtures for unit testing
