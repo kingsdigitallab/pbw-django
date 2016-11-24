@@ -35,8 +35,8 @@
 
 hr {
 	height: 1px;
-	color: scale-color($primary-color, $lightness: 60%);
-	background-color: scale-color($primary-color, $lightness: 60%);
+	color: $primary-color;
+	background-color: $primary-color;
 	border: 0;
 }
 
@@ -148,7 +148,7 @@ header.top-header {
 	a {
 		color: $white;
 		&:hover {
-			color: scale-color($primary-color, $lightness: 70%);
+			color: $tertiary-color;
 		}
 	}
 
@@ -159,8 +159,12 @@ header.top-header {
 
 /*** Headings ***/
 
-h1, h2, h3, h4, h5, h6 {
-	color: $secondary-color;
+h1, h2 {
+	color: $primary-color;
+}
+
+h3, h4, h5, h6 {
+	color: scale-color($secondary-color, $lightness: -20%);
 }
 
 h1, h2, h3 {
@@ -200,7 +204,7 @@ nav {
 		a {
 			color: $white;
 			&:hover {
-				background: scale-color($primary-color, $lightness: 50%);
+				background: $secondary-color;
 			}
 		}
 	}
@@ -298,8 +302,8 @@ h3.quick-home {
 
 .search-box {
 	padding: 1rem;
-	background: scale-color($primary-color, $lightness: 85%);
-	border: 1px solid scale-color($primary-color, $lightness: 70%);
+	background: scale-color($secondary-color, $lightness: 90%);
+	border: 1px solid scale-color($secondary-color, $lightness: 70%);
 
 	.label.secondary,
 	button.secondary,
@@ -319,29 +323,9 @@ h3.quick-home {
 	}
 }
 
-/* Auto-complete */
-
-.name-row {
-	input {
-		margin-bottom: 0;
-		border-radius: 0 !important;
-		padding: 0;
-	}
-
-	.columns {
-		padding: 0 .25rem !important;
-		&:first-child {
-			padding-left: .5rem !important;
-		}
-		&:last-child {
-			padding-right: .5rem !important;
-		}
-	}
-}
-
-.easy-autocomplete-container {
-	ul {
-		margin-left: 0;
+.button-group {
+	.label {
+		cursor: pointer;
 	}
 }
 
@@ -361,12 +345,6 @@ h3.quick-home {
 
 .panel-head .label {
 	font-size: .75em;
-}
-
-.panel-heading {
-	border-bottom: 1px solid $primary-color;
-	padding-bottom: .25rem;
-	margin-bottom: 0 !important;
 }
 
 .panel-body ul {
@@ -486,13 +464,12 @@ h3.quick-home {
 	background: $secondary-color;
 }
 
-// .results-preview {
-// 	background: scale-color($primary-color, $lightness: 70%);
-// }
-
 .fixed-height {
+	background: scale-color($secondary-color, $lightness: 90%);
 	height: 200px;
+	margin-bottom: rem-calc(24);
 	overflow: auto;
+	padding: rem-calc(16);
 }
 
 .free-filters li {
@@ -501,6 +478,21 @@ h3.quick-home {
 		font-size: .875rem;
 		a {
 			color: white;
+		}
+	}
+}
+
+.letters {
+	&.button-group .button {
+		font-weight: 700;
+		padding: rem-calc(2 2 2 8);
+
+		.label {
+			background: scale-color($tertiary-color, $lightness: 50%);
+			color: $primary-color;
+			font-size: rem-calc(12);
+			font-weight: 400;
+			margin-left: rem-calc(5);
 		}
 	}
 }
@@ -591,14 +583,14 @@ ul.local-navigation {
 /*** Footer ***/
 
 footer.main-footer {
-	background: scale-color($primary-color, $lightness: 80%);
-	color: $secondary-color;
+	background: scale-color($secondary-color, $lightness: 80%);
+	color: $primary-color;
 	font-size: .75rem;
 	padding-top: 1rem;
 
 	a {
-		color: $secondary-color;
-		border-bottom: 1px dotted $secondary-color;
+		color: scale-color($primary-color, $lightness: -30%);
+		border-bottom: 1px dotted $primary-color;
 	}
 
 	p {
@@ -676,10 +668,4 @@ footer.main-footer {
 	.results-preview.fixed {
 		display: none;
 	}
-}
-
-/** Faceted Browser */
-
-li.letter-button {
-  display: inline
 }
