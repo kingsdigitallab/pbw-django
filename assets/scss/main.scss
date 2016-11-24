@@ -241,6 +241,15 @@ h3.quick-home {
 
 /*** Content ***/
 
+#content {
+	h1 {
+		margin: rem-calc(24 0);
+		border-bottom: 1px solid $primary-color;
+	}
+
+	color: $black;
+}
+
 .list-page-title {
 	border-bottom: 1px solid $iron;
 	margin-bottom: 1rem;
@@ -586,7 +595,7 @@ footer.main-footer {
 	background: scale-color($secondary-color, $lightness: 80%);
 	color: $primary-color;
 	font-size: .75rem;
-	padding-top: 1rem;
+	padding-bottom: 1.5rem;
 
 	a {
 		color: scale-color($primary-color, $lightness: -30%);
@@ -613,8 +622,12 @@ footer.main-footer {
 	.right p {
 		text-align: right;
 	}
-}
 
+	.white {
+		padding: 1.5rem 0 .5rem;
+		background: $white;
+	}
+}
 
 /*** Custom media queries ***/
 
