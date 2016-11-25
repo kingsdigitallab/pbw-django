@@ -4,48 +4,47 @@
 {% block meta_title %}Person Details{% endblock %}
 
 {% block main %}
-
     <div class="row">
         <div class="large-12 columns">
         {% if query %}
         <p><a href="{% url 'pbw_browse' %}?{{ query }}">Back to results</a></p>
         {% endif %}
 
+        <h2>{{ person.descname }}</h2>
+        <h4>{{ person.nameol }}</h4>
+        <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
 
-            <h2>{{ person.descname }}</h2>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
+        {% endif %}
+        <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+            {% for group in factoidGroups %}
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title"><h3>{{ group.factoidtype.typename }}</h3></a>
 
-            <h4>{{ person.nameol }}</h4>
-
-            <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
-
-            {% if user.is_authenticated %}
-                <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
-            {% endif %}
-            <ul class="accordion" data-accordion data-multi-expand="true">
-                {% for group in factoidGroups %}
-                    <li class="accordion-item" data-accordion-item>
-                        <a href="#" class="accordion-title"><h3>{{ group.factoidtype.typename }}</h3></a>
-
-                        <div class="accordion-content" data-tab-content>
-                            <ul>
-                                {% for f in group.factoids %}
-                                    <li>
-                                        <dl>
-                                            <dt> {{ f | get_authority_list | add_persref_links |safe}}
-                                                {% if user.is_authenticated %}<a href="{% url 'admin:pbw_factoid_change' f.id %}">Edit</a>
-                                            {% endif %}</dt>
-                                            <dd>{{ f.engdesc | add_persref_links |safe }} {{ f.origldesc }} <a
-                                                    href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}
-                                            </dd>
-                                        </dl>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </li>
-                {% endfor %}
+                <div class="accordion-content" data-tab-content>
+                    <ul>
+                        {% for f in group.factoids %}
+                        <li>
+                            <dl>
+                                <dt>
+                                    {{ f | get_authority_list | add_persref_links |safe}}
+                                    {% if user.is_authenticated %}
+                                     <a href="{% url 'admin:pbw_factoid_change' f.id %}">Edit</a>
+                                    {% endif %}
+                                </dt>
+                                <dd>
+                                    {{ f.engdesc | add_persref_links |safe }} {{ f.origldesc }}
+                                     <a href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}
+                                </dd>
+                            </dl>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            {% endfor %}
             </ul>
-
         </div>
     </div>
 

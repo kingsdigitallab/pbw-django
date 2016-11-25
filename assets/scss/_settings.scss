@@ -51,8 +51,11 @@ $global-font-size: 125%;
 $global-width: rem-calc(1440);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #607a7a,
-  secondary: #4a412a,
+  // primary: #607a7a,
+  // secondary: #4a412a,
+  primary: #641c2e,
+  // secondary: #5a691e,
+  secondary: #224455,
   success: #3adb76,
   warning: #ffae00,
   alert: #ec5840,
@@ -67,6 +70,8 @@ $jumbo: #888888;
 $steel: #666666;
 $jet: #222222;
 $info-blue: #a0d3e8;
+$tertiary-color: #aaaa39;
+// $tertiary-color: #224455;
 $warning-orange: #f08a24;
 
 @include add-foundation-colors;
@@ -209,10 +214,10 @@ $input-error-font-weight: $global-weight-bold;
 $accordion-background: $white;
 $accordion-plusminus: true;
 $accordion-item-color: foreground($accordion-background, $primary-color);
-$accordion-item-background-hover: $iron;
+$accordion-item-background-hover: scale-color($secondary-color, $lightness: 85%);
 $accordion-item-padding: 1.25rem 1rem;
 $accordion-content-background: $white;
-$accordion-content-border: 1px solid $iron;
+$accordion-content-border: 1px solid scale-color($secondary-color, $lightness: 70%);
 $accordion-content-color: foreground($accordion-content-background, $body-font-color);
 $accordion-content-padding: 1rem;
 
