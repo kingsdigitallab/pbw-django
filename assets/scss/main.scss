@@ -241,6 +241,10 @@ h3.quick-home {
 
 /*** Content ***/
 
+.accordion-title {
+	padding: .75rem 1rem .2rem;
+}
+
 #content {
 	h1 {
 		margin: rem-calc(24 0);
@@ -595,6 +599,7 @@ footer.main-footer {
 	background: scale-color($secondary-color, $lightness: 80%);
 	color: $primary-color;
 	font-size: .75rem;
+	margin-top: 1.5rem;
 	padding-bottom: 1.5rem;
 
 	a {
