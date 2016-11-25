@@ -2,7 +2,6 @@ define([
     'module',
     'jquery',
     'es6!foundation',
-    'es6!foundation.accordion',
     'es6!foundation.accordionMenu',
     'es6!foundation.drilldown',
     'es6!foundation.dropdown',
@@ -18,7 +17,8 @@ define([
     'es6!foundation.util.nest',
     'es6!foundation.util.timerAndImageLoader',
     'es6!foundation.util.touch',
-    'es6!foundation.util.triggers'
+    'es6!foundation.util.triggers',
+    'es6!foundation.accordion'
 ], function(module, $) {
     'use strict';
 

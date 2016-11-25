@@ -14,7 +14,7 @@ requirejs.config({
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
-        'foundation.accordion':'../vendor/foundation-sites/js/foundation.accordion',
+
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
@@ -31,8 +31,8 @@ requirejs.config({
         'foundation.util.timerAndImageLoader': '../vendor/foundation-sites/js/foundation.util.timerAndImageLoader',
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
-
-        'requirejs': '../vendor/requirejs/require',
+        'foundation.accordion':'../vendor/foundation-sites/js/foundation.accordion',
+        'requirejs': '../vendor/requirejs/require'
     },
     shim: {
         "easyautocomplete": ["jquery"],
