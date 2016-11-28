@@ -2,6 +2,7 @@ from django import forms
 from haystack.forms import FacetedSearchForm
 
 
+
 class PBWFacetedSearchForm(FacetedSearchForm):
 
     name = forms.CharField(required=False, widget=forms.TextInput(
@@ -48,10 +49,10 @@ class PBWFacetedSearchForm(FacetedSearchForm):
         if "selected_facets" in data:
             if data.get("selected_facets"):
                 print data.get("selected_facets")
-
+        
         for field in (
                 'dignityoffice', 'location', 'ethnicity', 'language', 'secondaryname', 'occupation', 'name', 'letter',
-                'sex', 'floruit'):
+                'sex','source', 'floruit'):
             if field in data:
                 if data.get(field):
                     print data.get(field)

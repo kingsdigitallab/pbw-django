@@ -22,8 +22,8 @@ class PBWFacetedSearchView(FacetedSearchView):
         Person, Factoid).group_by('person_id')
     load_all=True
     form_class=PBWFacetedSearchForm
-    facet_fields = ['name','letter','sex','floruit','secondaryname','source']
-    autocomplete_facets = ['location','dignityoffice','ethnicity','language','occupation']
+    facet_fields = ['name','letter','sex','floruit','secondaryname']
+    autocomplete_facets = ['location','dignityoffice','ethnicity','language','occupation','source']
 
     def build_page(self):
         # Override Haystack's pagination logic so that invoking a
