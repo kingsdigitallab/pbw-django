@@ -53,29 +53,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         # used to generate the lists for the autocomplete dictionary
         context['autocomplete_facets'] = self.autocomplete_facets
         self.request.session['query'] = self.request.META['QUERY_STRING']
-        #{{ request.path }}?{% if request.META.QUERY_STRING %}{{ request.META.QUERY_STRING }}&{% endif %}
-        # fullURL=self.request.path+"?"
-        # try:
-        #     if self.request.META['QUERY_STRING'] and len(self.request.META['QUERY_STRING']) > 0:
-        #         fullURL+=self.request.META['QUERY_STRING']+"&"
-        # except AttributeError:
-        #     pass
 
-
-
-        #context['fullURL']=fullURL
-        # for afacet in context['autocomplete_facets']:
-        #
-        #     if self.request.GET.get(afacet):
-        #         qs = self.request.GET.copy()
-        #         qs.pop(afacet)
-        #
-        #         url = reverse('pbw_haystack_search')
-        #
-        #         if len(qs):
-        #             url = '?{0}'.format(qs.urlencode())
-        #
-        #         context[afacet] = (url, self.request.GET.get(afacet))
         return context
 
     def get_queryset(self):
@@ -179,8 +157,8 @@ class AutoCompleteView(PBWFacetedSearchView):
             #Apply other facets currently selected
             #if self.request.GET.getlist('selected_facets'):
                 #for f
-            qs=qs.query_facet(facet, search+'*')
+
             context["ajax_facet"] = facet
-            context["qs"] = qs
+            context['query']= qs
         return context
 

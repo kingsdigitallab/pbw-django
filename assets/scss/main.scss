@@ -250,7 +250,7 @@ nav {
 /*** Footer ***/
 
 footer.main-footer {
-	background: scale-color($secondary-color, $lightness: 80%);
+	/*background: scale-color($secondary-color, $lightness: 80%);*/
 	color: $primary-color;
 	font-size: .75rem;
 	margin-top: 1.5rem;
@@ -268,7 +268,7 @@ footer.main-footer {
 	.logo {
 		max-width: 150px;
         float: left;
-        margin-right: 5%;
+        margin-right: 3%;
 		a {
 			border: none !important;
 		}
