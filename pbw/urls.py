@@ -9,7 +9,7 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
-from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView
+from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView,PersonPermalinkDetailView
 from ddhldap.signal_handlers import register_signal_handlers as \
             ddhldap_register_signal_handlers
 
@@ -32,6 +32,10 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^person/(?P<pk>\d+)/$',
                    PersonDetailView.as_view(),
                    name='person-detail'),
+               url(r'^person/(?P<name>\w+)/(?P<code>\d+)/$',
+                   PersonPermalinkDetailView.as_view(),
+                   name='person-permalink-detail'),
+
                url(r'^person/json/(?P<pk>\d+)/$',
                    PersonJsonView.as_view(),
                    name='person-json'),
