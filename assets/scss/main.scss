@@ -167,6 +167,15 @@ nav {
 	}
 }
 
+ul.inline-list {
+  width: 100%;
+}
+
+ul.inline-list li{
+  float:left;
+}
+
+
 .search-box {
 	padding: 1rem;
 	background: scale-color($secondary-color, $lightness: 90%);
@@ -308,6 +317,7 @@ footer.main-footer {
 		padding-top: 1em;
 	}
 }
+
 
 /* Printing search results */
 
