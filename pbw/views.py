@@ -15,7 +15,7 @@ from forms import PBWFacetedSearchForm
 from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from models import Person, Factoid, Source, Factoidtype
+from models import Person, Factoid, Source, Factoidtype,Boulloterion
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -198,4 +198,11 @@ class AutoCompleteView(PBWFacetedSearchView):
             pass
 
         return queryset
+
+
+#A detail page to view seal information
+class BoulloterionDetailView(DetailView):
+    model = Boulloterion
+    template_name = 'includes/boulloterion_detail.html'
+
 
