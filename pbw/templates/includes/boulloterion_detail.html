@@ -37,7 +37,7 @@
                 <p>Seals</p>
                 <ul class="no-bullet">
                     {% for s in seals %}
-                        <li>{{ s.sealkey}} {{ s.collectionref }}</li>
+                        <li>{{ s.collection.collectionname}} {{ s.collectionref }}</li>
                     {% endfor %}
                 </ul>
 

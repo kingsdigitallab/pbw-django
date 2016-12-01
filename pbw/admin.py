@@ -17,10 +17,7 @@ class FactoidInline(admin.StackedInline):
     model = Factoid
     extra = 1
 
-class FactoidPersonInline(admin.StackedInline):
-    raw_id_fields = ('factoid',)
-    model = Person.factoids.through
-    extra = 1
+
 
 
 

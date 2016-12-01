@@ -15,7 +15,7 @@ from forms import PBWFacetedSearchForm
 from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from models import Person, Factoid, Source, Factoidtype,Boulloterion,Seal,Published
+from models import Person, Factoid, Source, Factoidtype,Boulloterion,Seal,Published,Collection
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -218,6 +218,9 @@ class BoulloterionDetailView(DetailView):
         context['person_id'] = person_id
         context['seals'] = seals
         context['published'] = published
+
+
+
         return context
 
 
