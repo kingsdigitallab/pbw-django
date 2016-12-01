@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load pbw_tags wagtailcore_tags %}
 
-</body>
-</html>
+{% block meta_title %}Boulloterion Details{% endblock %}
+
+{% block main %}
+    <div id="boulloterionContent">
+        <div class="row">
+            <div class="large-12 columns">
+
+                <h2>{{ boulloterion.title }}</h2>
+
+                <h3>{{ boulloterion.origltext }}</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-4 large-offset-2 columns">
+                <p>Obverse</p>
+                <p>{{ boulloterion.obvicon }}</p>
+            </div>
+            <div class="large-4 columns">
+                <p>Reverse</p>
+                <p>{{ boulloterion.revicon }} </p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <p>{{ boulloterion.text }} </p>
+
+                <p>Diameter: {{ boulloterion.diameter }}</p>
+
+                <p>Date: {{ boulloterion.datewords }}</p>
+
+
+                <p>Seals</p>
+                <ul class="no-bullet">
+                    {% for s in seals %}
+                        <li>{{ s.sealkey}} {{ s.collectionref }}</li>
+                    {% endfor %}
+                </ul>
+
+            <ul class="no-bullet">
+            </ul>
+                {% if user.is_authenticated %}
+                    <p><a href="{% url 'admin:pbw_boulloterion_change' boulloterion.pk %}">Edit</a></p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{#Diameter:#}
+{#30mm#}
+{#Date:#}
+{#1055-1056 (1056)#}
+{#Seals:#}
+{#BL (BM) 17454#}
+{#Hermitage M- 7938#}
+{#Vienna MK 13#}
+{#Sale Catalogue: Spink 132: 200#}
+{#Publishing History:#}
+{#Birch, BL (BM)  no. 17454#}
+{#Zacos - Veglery  no. 82#}
+{#Šandrovskaja, Sfragistika  no. 688#}
+{#Seibt, BBÖ I  no. 19#}
+{#Šandrovskaja, Vizantijskie pečati  no. 8#}
+{#Lichačev, Molivdovuly  p. 255, no. 3#}

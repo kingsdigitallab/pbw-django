@@ -35,7 +35,11 @@
                                 </dt>
                                 <dd>
                                     {{ f.engdesc | add_persref_links |safe }} {{ f.origldesc }}
+                                    {% if f.boulloterionkey != "0" %}
+                                        <a href="{% url 'boulloterion-detail' f.boulloterionkey  %}">{{ f.source.sourceid }} {{ f.boulloterionkey }}</a>
+                                    {% else %}
                                      <a href="{% slugurl 'bibliography' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }}</a> {{ f.sourceref }}
+                                    {% endif %}
                                 </dd>
                             </dl>
                         </li>

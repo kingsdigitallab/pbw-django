@@ -166,11 +166,14 @@ class Colldb(models.Model):
 
 
 class Collection(models.Model):
-    collectionkey = models.IntegerField(db_column='collectionKey')  # Field name made lowercase.
+    collectionkey = models.IntegerField(db_column='collectionKey',primary_key=True)  # Field name made lowercase.
     collectionname = models.TextField(db_column='collectionName')  # Field name made lowercase.
     red = models.IntegerField()
     shortname = models.TextField(db_column='shortName')  # Field name made lowercase.
     suppress = models.IntegerField()
+
+    def __unicode__(self):
+        return self.collectionname
 
     class Meta:
         
@@ -338,6 +341,7 @@ class Factoid(models.Model):
     creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
     tstamp = models.DateTimeField()
+    persons = models.ManyToManyField('Person', through='Factoidperson',through_fields=('factoid','person'))
 
     @cached_property
     def person(self):
@@ -742,11 +746,14 @@ class Possessionfactoid(models.Model):
 
 class Published(models.Model):
     publishedkey = models.IntegerField(db_column='publishedKey', primary_key=True)  # Field name made lowercase.
-    bibkey = models.IntegerField(db_column='bibKey')  # Field name made lowercase.
+    bibliography = models.ForeignKey('Bibliography',db_column='bibKey')  # Field name made lowercase.
     publicationref = models.CharField(db_column='publicationRef', max_length=50)  # Field name made lowercase.
     publicationpage = models.CharField(db_column='publicationPage', max_length=50)  # Field name made lowercase.
     publishedorder = models.IntegerField(db_column='publishedOrder')  # Field name made lowercase.
     boulloterion = models.ForeignKey('Boulloterion',db_column='boulloterionKey')  # Field name made lowercase.
+
+    def __unicode__(self):
+        return self.bibliography.shortname+' '+self.publicationref
 
     class Meta:
         
@@ -807,7 +814,7 @@ class Scsource(models.Model):
 
 class Seal(models.Model):
     sealkey = models.IntegerField(db_column='sealKey', primary_key=True)  # Field name made lowercase.
-    collectionkey = models.IntegerField(db_column='collectionKey')  # Field name made lowercase.
+    collection = models.ForeignKey('Collection',db_column='collectionKey')  # Field name made lowercase.
     collectionref = models.IntegerField(db_column='collectionRef')  # Field name made lowercase.
     sealorder = models.IntegerField(db_column='sealOrder')  # Field name made lowercase.
     boulloterion = models.ForeignKey('Boulloterion',db_column='boulloterionKey')  # Field name made lowercase.

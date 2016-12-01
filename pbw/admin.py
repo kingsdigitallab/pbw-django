@@ -11,8 +11,11 @@ from forms import FactoidForm
 admin.site.register(Source)
 admin.site.register(Boulloterion)
 
+
 class FactoidInline(admin.StackedInline):
+    #fk_name = 'factoidKey'
     model = Factoid
+    extra = 1
 
 class FactoidPersonInline(admin.StackedInline):
     raw_id_fields = ('factoid',)
@@ -30,3 +33,8 @@ class PersonAdmin(admin.ModelAdmin):
 @admin.register(Factoid)
 class FactoidAdmin(admin.ModelAdmin):
     list_display = ('person','factoidtype','engdesc')
+
+@admin.register(Factoidperson)
+class FactoidPersonAdmin(admin.ModelAdmin):
+    raw_id_fields = ("person","factoid")
+    #inlines = [FactoidInline]

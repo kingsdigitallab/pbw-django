@@ -15,7 +15,7 @@ from forms import PBWFacetedSearchForm
 from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from models import Person, Factoid, Source, Factoidtype,Boulloterion
+from models import Person, Factoid, Source, Factoidtype,Boulloterion,Seal,Published
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -204,5 +204,20 @@ class AutoCompleteView(PBWFacetedSearchView):
 class BoulloterionDetailView(DetailView):
     model = Boulloterion
     template_name = 'includes/boulloterion_detail.html'
+
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(BoulloterionDetailView, self).get_context_data(**kwargs)
+        #Add seals
+        seals = Seal.objects.filter(boulloterion=self.get_object())
+        #Add Publication history
+        published=Published.objects.filter(boulloterion=self.get_object())
+        #Person id for linkback
+        person_id=0
+        if self.request.GET.get("person_id"):
+            person_id=int(self.request.GET.get("person_id"))
+        context['person_id'] = person_id
+        context['seals'] = seals
+        context['published'] = published
+        return context
 
 
