@@ -7,14 +7,11 @@
 
 /*** Global ***/
 
-.smaller-fontsize {
-	font-size: .875em !important;
-}
-
-.panel.callout {
-	button {
-		margin-bottom: 0;
-	}
+hr {
+	height: 1px;
+	color: $primary-color;
+	background-color: $primary-color;
+	border: 0;
 }
 
 .info {
@@ -24,15 +21,27 @@
 	margin-bottom: .5rem;
 }
 
-hr {
-	height: 1px;
-	color: $primary-color;
-	background-color: $primary-color;
-	border: 0;
-}
-
 .less-padding {
 	padding: .5rem !important;
+}
+
+.more-padding {
+	padding: rem-calc(24);
+}
+
+.side-padding {
+	padding-left: rem-calc(24);
+	padding-right: rem-calc(24);
+}
+
+.panel.callout {
+	button {
+		margin-bottom: 0;
+	}
+}
+
+.smaller-fontsize {
+	font-size: .875em !important;
 }
 
 /* Highlight newly added filters in the preview box */
@@ -69,6 +78,9 @@ header.top-header {
 
 h1, h2 {
 	color: $primary-color;
+	hyphens: auto;
+	line-height: 1.25em;
+	word-wrap: break-word;
 }
 
 h3, h4, h5, h6 {
