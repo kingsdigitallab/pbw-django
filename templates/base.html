@@ -16,21 +16,21 @@
   {% endblock %}
 </head>
 <body>
-  <header class="top-header">
+  <header class="top-header more-padding">
     {% include 'includes/header.html' %}
   </header>
 
-  <nav>
+  <nav class="side-padding">
     {% include 'includes/navigation.html' %}
   </nav>
 
-  <section class="main">
+  <section class="main more-padding">
     {% block title %}{% endblock %}
     {% block main %}
     {% endblock %}
   </section>
 
-  <footer class="main-footer">
+  <footer class="main-footer more-padding">
     {% block footer %}
     {% include 'includes/footer.html' %}
     {% endblock %}
