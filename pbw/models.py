@@ -336,7 +336,7 @@ class Factoid(models.Model):
     notes = models.TextField()
     colldbkey = models.SmallIntegerField(db_column='collDBKey')  # Field name made lowercase.
     creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
-    boulloterionkey = models.CharField(db_column='boulloterionKey', max_length=100)  # Field name made lowercase.
+    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
     tstamp = models.DateTimeField()
 
     @cached_property
@@ -346,6 +346,9 @@ class Factoid(models.Model):
             return fp[0]
         else:
             return None
+
+    def __unicode__(self):
+        return self.engdesc
 
     class Meta:
         
@@ -404,6 +407,9 @@ class Factoidtype(models.Model):
     id = models.AutoField(db_column='factoidTypeKey', primary_key=True)  # Field name made lowercase.
     typename = models.CharField(db_column='typeName', max_length=20)  # Field name made lowercase.
     orderno = models.IntegerField(null=False,default=99)
+
+    def __str__(self):
+        return self.typename
 
     class Meta:
         
@@ -617,19 +623,26 @@ class Person(models.Model):
     notes = models.TextField(blank=True, null=True)
     creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
     tstamp = models.DateTimeField(db_column='tstamp')
+    factoids = models.ManyToManyField(Factoid, through='Factoidperson',through_fields=('person','factoid'))
 
     class Meta:
         
         db_table = 'Person'
         ordering = ['name','mdbcode']
 
-    def getAllFactoids(self):
-        return Factoid.objects.filter(factoidperson__person=self).order_by('factoidtype')
+    def __str__(self):
+        return '%s %s' % (self.name, self.mdbcode)
+
+    #These are factoids with a PRIMARY fp type, which the person "owns"
+    def getPrimaryFactoids(self):
+        return Factoid.objects.filter(factoidperson__person=self,factoidperson__factoidpersontype__fptypename="Primary")
+
+
 
     #This returns only factoid types listed in settings under  DISPLAYED_FACTOID_TYPES
     def getFilteredFactoids(self):
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return Factoid.objects.filter(factoidperson__person=self).filter(factoidtype__in=factoidtypekeys).order_by('factoidtype')
+        return self.factoids.filter(factoidtype__in=factoidtypekeys).order_by('factoidtype')
 
     #Make a complete "snapshot" of a person to use as a fixture
     #This serializes no only the person, but their relevant factoids and their sub tables
@@ -733,7 +746,7 @@ class Published(models.Model):
     publicationref = models.CharField(db_column='publicationRef', max_length=50)  # Field name made lowercase.
     publicationpage = models.CharField(db_column='publicationPage', max_length=50)  # Field name made lowercase.
     publishedorder = models.IntegerField(db_column='publishedOrder')  # Field name made lowercase.
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
+    boulloterion = models.ForeignKey('Boulloterion',db_column='boulloterionKey')  # Field name made lowercase.
 
     class Meta:
         
@@ -797,7 +810,7 @@ class Seal(models.Model):
     collectionkey = models.IntegerField(db_column='collectionKey')  # Field name made lowercase.
     collectionref = models.IntegerField(db_column='collectionRef')  # Field name made lowercase.
     sealorder = models.IntegerField(db_column='sealOrder')  # Field name made lowercase.
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
+    boulloterion = models.ForeignKey('Boulloterion',db_column='boulloterionKey')  # Field name made lowercase.
 
     class Meta:
         
@@ -808,6 +821,9 @@ class Sexauth(models.Model):
     id = models.AutoField(db_column='sexKey', primary_key=True)  # Field name made lowercase.
     sexvalue = models.CharField(db_column='sexValue', max_length=25)  # Field name made lowercase.
 
+    def __unicode__(self):
+        return self.sexvalue
+
     class Meta:
         
         db_table = 'SexAuth'
@@ -817,6 +833,9 @@ class Source(models.Model):
     id = models.SmallIntegerField(db_column='sourceKey', primary_key=True)  # Field name made lowercase.
     sourceid = models.CharField(db_column='sourceID', max_length=50)  # Field name made lowercase.
     sourcebib = models.TextField(db_column='sourceBib')  # Field name made lowercase.
+
+    def __unicode__(self):
+        return self.sourceid
 
     class Meta:
         

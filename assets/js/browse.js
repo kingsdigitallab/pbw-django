@@ -20,10 +20,11 @@ define(['module',
             var options = {
                 //data: autocompleteDict[$input.attr("name")],
                 url: function (search) {
-                    if (search.length > 1) {
-                        return "/autocomplete/" + (qs && qs.length > 0 ? "?" + qs + "&" : "?") + "facet=" + $input.attr('name') + "&search=" + search;
-                    }
+
+                        return "/autocomplete/" + (qs && qs.length > 0 ? "?" + qs + "&" : "?") + "facet=" + $input.attr('name') + "&"+$input.attr('name')+"=" + search + "*";
+
                 },
+                requestDelay: 200,
 
                 listLocation: "Results",
                 getValue: "name",
@@ -81,24 +82,24 @@ define(['module',
         return vars;
     }
 
-    //Used in the Bibliography page when it is passed a source to focus on on load.
-    var focusOnSource=function(source){
-        $("a:contains('"+source+"')").focus()
-    }
+
 
     $(document).ready(function() {
         $('input.autocomplete').each(function () {
             autocomplete.init(this);
         });
 
+        var gets=getQueryVars();
+
+        if (gets.length >0){
+            $('.search-box').hide();
+            $('#showhide').html('Show')
+        }
+
         $('button.showhide').click(function () {
             $('.search-box').slideToggle();
         });
 
-        var gets=getQueryVars();
-        if (gets["source"]){
-            focusOnSource(gets["source"]);
-        }
     });
 
     }

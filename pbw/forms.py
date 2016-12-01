@@ -1,5 +1,6 @@
 from django import forms
 from haystack.forms import FacetedSearchForm
+from models import Factoid
 
 
 class PBWFacetedSearchForm(FacetedSearchForm):
@@ -51,7 +52,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
 
         for field in (
                 'dignityoffice', 'location', 'ethnicity', 'language', 'secondaryname', 'occupation', 'name', 'letter',
-                'sex', 'floruit'):
+                'sex','source', 'floruit'):
             if field in data:
                 if data.get(field):
                     print data.get(field)
@@ -59,3 +60,9 @@ class PBWFacetedSearchForm(FacetedSearchForm):
                         field, data.get(field)))
 
         return sqs
+
+
+class FactoidForm(forms.ModelForm):
+    class Meta:
+        model = Factoid
+        fields = ['engdesc','source']
