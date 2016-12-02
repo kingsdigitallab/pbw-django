@@ -207,6 +207,7 @@ class BoulloterionDetailView(DetailView):
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(BoulloterionDetailView, self).get_context_data(**kwargs)
+
         #Add seals
         seals = Seal.objects.filter(boulloterion=self.get_object())
         #Add Publication history
@@ -218,9 +219,6 @@ class BoulloterionDetailView(DetailView):
         context['person_id'] = person_id
         context['seals'] = seals
         context['published'] = published
-
-
-
         return context
 
 

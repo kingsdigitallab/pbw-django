@@ -3,13 +3,14 @@ __author__ = 'elliotthall'
 #Will be expanded incrementally into a proper dbmi as resource permits
 
 from django.contrib import admin
-from models import Person,Factoid,Source,Factoidperson,Boulloterion
+from models import Person,Factoid,Source,Factoidperson,Boulloterion,Bibliography
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.contrib.admin.options import *
 from forms import FactoidForm
 
 admin.site.register(Source)
 admin.site.register(Boulloterion)
+admin.site.register(Bibliography)
 
 
 class FactoidInline(admin.StackedInline):

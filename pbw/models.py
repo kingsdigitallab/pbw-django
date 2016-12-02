@@ -64,6 +64,9 @@ class Bibliography(models.Model):
     red = models.IntegerField()
     shortname = models.TextField(db_column='shortName', blank=True, null=True)  # Field name made lowercase.
 
+    def __unicode__(self):
+        return self.shortname
+
     class Meta:
         
         db_table = 'Bibliography'
@@ -174,7 +177,7 @@ class Collection(models.Model):
     suppress = models.IntegerField()
 
     def __unicode__(self):
-        return self.collectionname
+        return self.shortname
 
     class Meta:
         
