@@ -4,7 +4,8 @@
  */
 define(['module',
         'jquery',
-        'easyautocomplete'
+        'easyautocomplete',
+        'clipboard'
     ], function (module, $) {
         'use strict';
 
@@ -85,7 +86,8 @@ define(['module',
 
 
     $(document).ready(function() {
-        //new Clipboard('.clip_btn');
+
+        new Clipboard('.clip_btn');
         $('input.autocomplete').each(function () {
             autocomplete.init(this);
         });
