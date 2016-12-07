@@ -10,8 +10,8 @@
     "r.js": null,
     "requirejs": "^2.2.0",
     "requirejs-babel": null,
-
-    "EasyAutocomplete": null
+    "EasyAutocomplete": null,
+    "clipboard": "^1.5.15"
   },
   "main": "assets/js/main.js",
   "ignore": [

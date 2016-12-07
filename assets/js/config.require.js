@@ -7,10 +7,11 @@ requirejs.config({
     baseUrl: '/static/js',
     urlArgs: 'bust=' + (new Date()).getTime(),
     paths: {
-        'jquery': '../vendor/jquery/dist/jquery',
+        'jquery': '../vendor/jquery/dist/jquery.min',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
+        'clipboard': '../vendor/clipboard/dist/clipboard.min',
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
@@ -31,11 +32,16 @@ requirejs.config({
         'foundation.util.timerAndImageLoader': '../vendor/foundation-sites/js/foundation.util.timerAndImageLoader',
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
-        'foundation.accordion':'../vendor/foundation-sites/js/foundation.accordion',
+        'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
         'requirejs': '../vendor/requirejs/require'
     },
     shim: {
         "easyautocomplete": ["jquery"],
+        "clipboard": {
+
+            deps: ["jquery"],
+            exports: 'Clipboard'
+        },
         'foundation': {
             deps: [
                 'jquery'

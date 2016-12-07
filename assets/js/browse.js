@@ -85,13 +85,14 @@ define(['module',
 
 
     $(document).ready(function() {
+        //new Clipboard('.clip_btn');
         $('input.autocomplete').each(function () {
             autocomplete.init(this);
         });
 
         var gets=getQueryVars();
 
-        if (gets.length >0){
+        if (gets.length >0 && gets[0].length > 0){
             $('.search-box').hide();
             $('#showhide').html('Show')
         }

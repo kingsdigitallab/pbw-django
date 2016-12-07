@@ -162,12 +162,30 @@ nav {
 	color: $black;
 }
 
-#boulloterionContent{
+#boulloterionContent,#personContent,#personContent .accordion-content dd{
   color: $black;
 }
 
-#boulloterionContent .heading{
+#boulloterionContent .heading,#personContent .heading{
   color: $primary-color;
+}
+
+#permalink {
+  width: 90%;
+  font-size: 12px;
+  height: 1.575rem;
+}
+
+#linkForm{
+  width: 100%;
+}
+
+.clip_btn{
+  max-width: 3%;
+}
+
+dt a{
+  font-weight: lighter;
 }
 
 /*** Search / Facets / Filters ***/

@@ -93,7 +93,8 @@ class FactoidGroups:
         for type_id in factoidtypes:
             try:
                 type = Factoidtype.objects.get(id=type_id)
-                factoids = Factoid.objects.filter(factoidperson__person=person).filter(factoidtype=type)
+                factoids = Factoid.objects.filter(factoidperson__person=person,factoidperson__factoidpersontype__fptypename="Primary")\
+                    .filter(factoidtype=type).order_by('scdate__year','scdate__yrorder')
                 if factoids.count() > 0:
                     self.groups.append(FactoidGroup(type, factoids))
             except ObjectDoesNotExist:

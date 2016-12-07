@@ -799,6 +799,7 @@ class Scdate(models.Model):
     tstamp = models.DateTimeField()
     acckey = models.IntegerField(db_column='accKey')  # Field name made lowercase.
     yeargivenform = models.CharField(db_column='yearGivenForm', max_length=25, blank=True, null=True)  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid',default=0)
 
     class Meta:
         

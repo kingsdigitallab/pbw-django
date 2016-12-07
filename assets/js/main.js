@@ -2,6 +2,7 @@
 require([
     'requirejs',
     'jquery',
+    'clipboard',
     'fn',
     'ga',
     'easyautocomplete',
@@ -34,5 +35,6 @@ require([
         if (gets["source"]) {
             focusOnSource(gets["source"]);
         }
+
     });
 });
