@@ -26,11 +26,13 @@ class FactoidInline(admin.StackedInline):
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('name', 'mdbcode','descname')
+    search_fields = ['name', 'mdbcode']
 
 
 @admin.register(Factoid)
 class FactoidAdmin(admin.ModelAdmin):
     list_display = ('person','factoidtype','engdesc')
+    search_fields = ['engdesc']
 
 @admin.register(Factoidperson)
 class FactoidPersonAdmin(admin.ModelAdmin):

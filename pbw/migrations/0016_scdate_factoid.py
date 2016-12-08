@@ -28,6 +28,6 @@ class Migration(migrations.Migration):
         #     name='factoid',
         #     field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='pbw.Factoid'),
         # ),
-        migrations.RunSQL(["update Scdate set factoid_id=factoidKey where factoidKey > 0"]),
+        migrations.RunSQL(["update ScDate set factoid_id=factoidKey where factoidKey > 0"]),
         migrations.RunPython(copy_factoidKeys),
     ]
