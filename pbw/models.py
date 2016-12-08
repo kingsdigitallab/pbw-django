@@ -68,7 +68,7 @@ class Bibliography(models.Model):
         return self.shortname
 
     class Meta:
-        
+        ordering = ['latinbib']
         db_table = 'Bibliography'
 
 
@@ -854,7 +854,7 @@ class Source(models.Model):
         return self.sourceid
 
     class Meta:
-        
+        ordering = ['sourceid']
         db_table = 'Source'
 
 
