@@ -41,7 +41,7 @@
                 <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
                     {% for group in factoidGroups %}
                         <li class="accordion-item" data-accordion-item>
-                            <a href="#" class="accordion-title"><h3>{{ group.factoidtype.typename }}</h3></a>
+                            <a href="#" class="accordion-title"><h3>{{ group.factoidtype.typename }} ({{ group.factoids.count }})</h3></a>
 
                             <div class="accordion-content" data-tab-content>
                                 <ul>
