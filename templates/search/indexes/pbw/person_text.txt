@@ -1,6 +1,6 @@
 {{object.name}} {{object.mdbcode}}
 {{object.descname}}
 {{object.floruit}}
-{{object.nameOL}}
+{{object.nameol}}
 {{object.bibliography}}
 
