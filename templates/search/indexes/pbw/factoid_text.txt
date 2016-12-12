@@ -6,3 +6,4 @@
 {{ occupation}}
 {{ object.engdesc }}
 {{object.origldesc}}
+{{ nameol }}
