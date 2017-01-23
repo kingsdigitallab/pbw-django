@@ -43,59 +43,76 @@ def highlighted_persref(text,query,**kwargs):
     return format_html(parsedText)
 
 #Get the authority label attached to the factoid
-@register.filter
+@register.simple_tag()
 def get_authority_list(factoid):
+    authority = ''
     try:
         if factoid.factoidtype.typename == "Ethnic label":
             fes= Ethnicityfactoid.objects.filter(factoid=factoid)
             if fes.count() > 0:
                 fe=fes[0]
-                return fe.ethnicity.ethname
+                authority= fe.ethnicity.ethname
         elif factoid.factoidtype.typename == "Location":
             fls = Factoidlocation.objects.filter(factoid=factoid)
             if fls.count() > 0:
                 fl=fls[0]
-                return fl.location.locname
+                authority=fl.location.locname
         elif factoid.factoidtype.typename == "Dignity/Office":
             dls = Dignityfactoid.objects.filter(factoid=factoid)
             if dls.count() > 0:
                 dl=dls[0]
-                return dl.dignityoffice.stdname
+                authority= dl.dignityoffice.stdname
         elif factoid.factoidtype.typename == "Occupation":
             ols  = Occupationfactoid.objects.filter(factoid=factoid)
             if ols.count() > 0:
                 ol = ols[0]
-                return ol.occupation.occupationname
+                authority= ol.occupation.occupationname
         elif factoid.factoidtype.typename == "Language Skill":
             lls = Langfactoid.objects.filter(factoid=factoid)
             if lls.count() > 0:
                 ll=lls[0]
-                return ll.languageskill.languagename
+                authority=ll.languageskill.languagename
         elif factoid.factoidtype.typename == "Alternative Name":
             vls = Vnamefactoid.objects.filter(factoid=factoid)
             if vls.count() > 0:
                 vl=vls[0]
-                return vl.variantname.name
+                authority= vl.variantname.name
         elif factoid.factoidtype.typename == "Religion":
             rls = Religionfactoid.objects.filter(factoid=factoid)
             if rls.count() > 0:
                 rl=rls[0]
-                return rl.Religion.religionname
+                authority=rl.Religion.religionname
         elif factoid.factoidtype.typename == "Possession":
             pls = Possessionfactoid.objects.filter(factoid=factoid)
             if pls.count() > 0:
                 pl=pls[0]
-                return pl.possessionName
+                authority= pl.possessionName
         elif factoid.factoidtype.typename == "Second Name":
             sls=Famnamefactoid.objects.filter(factoid=factoid)
             if sls.count() >0:
                 sl=sls[0]
                 fm=Familyname.objects.get(id=sl.famnamekey)
-                return fm.famname
+                authority= fm.famname
 
     except Exception:
         pass
-    return factoid.engdesc
+        authority= factoid.engdesc
+    return authority
+
+#Test if the authority entry in factoid list is the same as the last
+@register.simple_tag(takes_context=True)
+def sameAsLast(context,authority):
+    try:
+        if authority != context['lastAuthority']:
+            context['lastAuthority'] = authority
+            return False
+        else:
+            return True
+    except KeyError:
+        context['lastAuthority'] = ''
+        return False
+
+
 
 #Filter the selected facets by filter and return as query string
 @register.filter(is_safe=True)

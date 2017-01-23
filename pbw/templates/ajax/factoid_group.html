@@ -1,0 +1,43 @@
+{% load pbw_tags wagtailcore_tags %}
+
+{% for f in group.factoids %}
+    {% get_authority_list f as authority %}
+    {% sameAsLast authority as same %}
+    {% if not sameAsLast %}
+    <li>
+        <dl>
+            <dt>
+                {{ authority | add_persref_links |safe }}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'admin:pbw_factoid_change' f.id %}">Edit</a>
+                {% endif %}
+            </dt>
+            <dd>
+                {% if f.factoidtype.typename == "Ethnic label" or f.factoidtype.typename == "Location" or f.factoidtype.typename == "Dignity/Office" or f.factoidtype.typename == "Occupation" %}
+                    {{ f.engdesc | add_persref_links |safe }}
+                {% endif %}
+                {{ f.origldesc }}
+
+                {% if f.boulloterionkey > 1 %}
+                    <a href="{% url 'boulloterion-detail' f.boulloterionkey %}">{{ f.source.sourceid }} {{ f.boulloterionkey }}</a>
+                {% else %}
+                    <a href="{% slugurl 'sources' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }} {{ f.sourceref }}</a>
+                {% endif %}
+            </dd>
+        </dl>
+    </li>
+    {% else %}
+        <dd>
+                {% if f.factoidtype.typename == "Ethnic label" or f.factoidtype.typename == "Location" or f.factoidtype.typename == "Dignity/Office" or f.factoidtype.typename == "Occupation" %}
+                    {{ f.engdesc | add_persref_links |safe }}
+                {% endif %}
+                {{ f.origldesc }}
+
+                {% if f.boulloterionkey > 1 %}
+                    <a href="{% url 'boulloterion-detail' f.boulloterionkey %}">{{ f.source.sourceid }} {{ f.boulloterionkey }}</a>
+                {% else %}
+                    <a href="{% slugurl 'sources' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }} {{ f.sourceref }}</a>
+                {% endif %}
+            </dd>
+    {% endif %}
+{% endfor %}

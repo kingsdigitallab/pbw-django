@@ -4,6 +4,8 @@
 import os
 
 from django.views.generic.detail import DetailView
+from django.views.generic.list import  ListView
+
 from haystack.generic_views import FacetedSearchView
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core import serializers
@@ -15,7 +17,7 @@ from forms import PBWFacetedSearchForm
 from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from models import Person, Factoid, Source, Factoidtype,Boulloterion,Seal,Published,Collection
+from models import Person, Factoid, Source, Factoidtype,Boulloterion,Seal,Published,Collection,Factoidtype
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -88,6 +90,7 @@ class FactoidGroups:
         self.person = person
         self.groups = list()
         self.factoidtypes = factoidtypes
+        self.locations=self.getLocations()
 
         #Set up factoid groups by order in settings
         for type_id in factoidtypes:
@@ -100,11 +103,42 @@ class FactoidGroups:
             except ObjectDoesNotExist:
                 pass
 
+    def getLocations(self):
+        type=12
+        factoids = Factoid.objects.filter(factoidperson__person=self.person,factoidperson__factoidpersontype__fptypename="Primary")\
+                    .filter(factoidtype_id=type).order_by('factoidlocation__location','scdate__year','scdate__yrorder').distinct()
+        print factoids.count()
+        return factoids
+
+
+    def getEthnicity(self):
+        type=8
+        factoids = Factoid.objects.filter(factoidperson__person=self.person,factoidperson__factoidpersontype__fptypename="Primary")\
+                    .filter(factoidtype_id=type).order_by('ethnicityfactoid__ethnicity','scdate__year','scdate__yrorder')
+        pass
+
+    def getDignityOffice(self):
+        type=6
+        factoids = Factoid.objects.filter(factoidperson__person=self.person,factoidperson__factoidpersontype__fptypename="Primary")\
+                    .filter(factoidtype_id=type).order_by('scdate__year','scdate__yrorder')
+        pass
+
+    def getKinship(self):
+        pass
+
+    def getVariantName(self):
+        pass
+
+    def getNarrative(self):
+        pass
+
+
 
 class FactoidGroup:
     def __init__(self, type, factoids):
         self.factoidtype = type
         self.factoids = factoids
+
 
 
 #The detailed view of a single person in the Prosopography
@@ -116,8 +150,8 @@ class PersonDetailView(DetailView):
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
-        group = FactoidGroups(person, DISPLAYED_FACTOID_TYPES).groups
-        context['factoidGroups'] = group
+        context['factoidGroups'] = FactoidGroups(person, DISPLAYED_FACTOID_TYPES)
+        context['lastAuthority'] = ''
         #Get referred search from session to go back
         try:
             query = self.request.session['query_string']
@@ -162,6 +196,45 @@ class PersonJsonView(PersonDetailView):
         person_data = serializers.serialize(self.format, Person.objects.filter(id=person.id))
         factoid_data = serializers.serialize(self.format, person.getFilteredFactoids())
         context['toJSON'] = person_data + factoid_data
+        return context
+
+#Displays one factoid type
+#As a nested list if authority list
+class FactoidGroupView(ListView):
+    model = Factoidtype
+    template_name = 'ajax/factoid_group.html'
+    
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            ListView, self).get_context_data(**kwargs)
+        authOrder=''
+        type=self.get_object()
+        self.person=Person.objects.get(id=self.kwargs.get('person_id'))
+        
+        if type.typename == "Ethnic label":
+            authOrder='factoidlocation__location'
+        elif type.typename == "Location":
+            authOrder='factoidlocation__location'
+        elif type.typename == "Dignity/Office":
+            authOrder = 'dignityfaction__dignityoffice'
+        elif type.typename == "Occupation":
+            authOrder = 'occupationfactoid__ocupation'
+        elif type.typename == "Language Skill":
+            authOrder = 'langfactoid__languageskill'
+        elif type.typename == "Alternative Name":
+            authOrder = 'Dignityfaction__dignityoffice'
+        elif type.typename == "Religion":
+            authOrder = 'religionfactoid__religion'
+        elif type.typename == "Possession":
+            authOrder = 'possessionfactoid__possession'
+        elif type.typename == "Second Name":
+            authOrder = 'famnamefactoid__familyname'
+        
+        factoids = Factoid.objects.filter(factoidperson__person=self.person,factoidperson__factoidpersontype__fptypename="Primary")\
+                    .filter(factoidtype=type).order_by(authOrder,'scdate__year','scdate__yrorder').distinct()
+
+        context['factoids'] = factoids
+        
         return context
 
 
