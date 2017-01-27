@@ -2,6 +2,7 @@
 #Elliott Hall 16/8/2016
 #facet('name').facet('letter').
 import os
+from django.views.generic.base import View, TemplateView
 
 from django.views.generic.detail import DetailView
 from django.views.generic.list import  ListView
@@ -160,6 +161,31 @@ class PersonDetailView(DetailView):
             context['query'] = None
         return context
 
+    def get_factoid_group(self, person, type):
+        authOrder = ''
+        if type.typename == "Ethnic label":
+            authOrder = 'factoidlocation__location'
+        elif type.typename == "Location":
+            authOrder = 'factoidlocation__location'
+        elif type.typename == "Dignity/Office":
+            authOrder = 'dignityfaction__dignityoffice'
+        elif type.typename == "Occupation":
+            authOrder = 'occupationfactoid__ocupation'
+        elif type.typename == "Language Skill":
+            authOrder = 'langfactoid__languageskill'
+        elif type.typename == "Alternative Name":
+            authOrder = 'Dignityfaction__dignityoffice'
+        elif type.typename == "Religion":
+            authOrder = 'religionfactoid__religion'
+        elif type.typename == "Possession":
+            authOrder = 'possessionfactoid__possession'
+        elif type.typename == "Second Name":
+            authOrder = 'famnamefactoid__familyname'
+        factoids = Factoid.objects.filter(factoidperson__person=person,
+                                          factoidperson__factoidpersontype__fptypename="Primary") \
+            .filter(factoidtype=type).order_by(authOrder, 'scdate__year', 'scdate__yrorder').distinct()
+        return factoids
+
 #Slight variation on person detail to accept the universal URI
 class PersonPermalinkDetailView(PersonDetailView):
     name_url_kwarg = 'name'
@@ -200,42 +226,28 @@ class PersonJsonView(PersonDetailView):
 
 #Displays one factoid type
 #As a nested list if authority list
-class FactoidGroupView(ListView):
-    model = Factoidtype
+class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
-    
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.type = Factoidtype.objects.get(id=kwargs['type_id'])
+        context = self.get_context_data(object=self.object,type=self.type)
+        return self.render_to_response(context)
+
     def get_context_data(self, **kwargs):  # noqa
         context = super(
-            ListView, self).get_context_data(**kwargs)
-        authOrder=''
-        type=self.get_object()
-        self.person=Person.objects.get(id=self.kwargs.get('person_id'))
-        
-        if type.typename == "Ethnic label":
-            authOrder='factoidlocation__location'
-        elif type.typename == "Location":
-            authOrder='factoidlocation__location'
-        elif type.typename == "Dignity/Office":
-            authOrder = 'dignityfaction__dignityoffice'
-        elif type.typename == "Occupation":
-            authOrder = 'occupationfactoid__ocupation'
-        elif type.typename == "Language Skill":
-            authOrder = 'langfactoid__languageskill'
-        elif type.typename == "Alternative Name":
-            authOrder = 'Dignityfaction__dignityoffice'
-        elif type.typename == "Religion":
-            authOrder = 'religionfactoid__religion'
-        elif type.typename == "Possession":
-            authOrder = 'possessionfactoid__possession'
-        elif type.typename == "Second Name":
-            authOrder = 'famnamefactoid__familyname'
-        
-        factoids = Factoid.objects.filter(factoidperson__person=self.person,factoidperson__factoidpersontype__fptypename="Primary")\
-                    .filter(factoidtype=type).order_by(authOrder,'scdate__year','scdate__yrorder').distinct()
-
+            PersonDetailView, self).get_context_data(**kwargs)
+        person = self.get_object()
+        factoids = self.get_factoid_group(person=person, type=self.type)
         context['factoids'] = factoids
-        
         return context
+
+
+
+
+
+
 
 
 class AutoCompleteView(PBWFacetedSearchView):

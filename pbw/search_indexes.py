@@ -1,12 +1,12 @@
 from haystack import indexes
 
 from settings import DISPLAYED_FACTOID_TYPES
-from models import Person, Factoid, Location, Ethnicity,Dignityoffice, Variantname, Languageskill, Occupation,Source
+from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Variantname, Languageskill, Occupation, Source
 
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    description = indexes.CharField(model_attr='descname',default='')
+    description = indexes.CharField(model_attr='descname', default='')
     name = indexes.CharField(model_attr='name', faceted=True)
     nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetCharField()
@@ -30,12 +30,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             return obj.name[0].upper()
 
     def prepare_source(self, obj):
-        sources = Source.objects.filter(factoid__factoidperson__person=obj,factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
+        sources = Source.objects.filter(factoid__factoidperson__person=obj,
+                                        factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
         return list(sources)
-
-
-
-
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
@@ -47,7 +44,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
 # The base class for the the various factoid types
 class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    description = indexes.CharField(model_attr='engdesc',default='')
+    description = indexes.CharField(model_attr='engdesc', default='')
     name = indexes.FacetCharField()
     origldesc = indexes.FacetCharField(model_attr='origldesc')
     nameol = indexes.CharField()
@@ -59,7 +56,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     source_id = indexes.IntegerField(model_attr='source__id')
     source = indexes.FacetMultiValueField()
     sourceref = indexes.CharField(model_attr='sourceref')
-    #Factoid Types
+    # Factoid Types
     location = indexes.FacetCharField()
     ethnicity = indexes.FacetCharField()
     dignityoffice = indexes.FacetCharField()
@@ -67,7 +64,6 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     secondaryname = indexes.FacetCharField()
     occupation = indexes.FacetCharField()
     letter = indexes.FacetCharField()
-
 
     def get_model(self):
         return Factoid
@@ -77,11 +73,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         if p != None:
             return p.name + " " + unicode(p.mdbcode)
         else:
-            print "ERROR No primary person found for factoid "+str(obj.id)
+            print "ERROR No primary person found for factoid " + str(obj.id)
         return None
 
     def prepare_source(self, obj):
-        #model_attr='source__sourceid'
+        # model_attr='source__sourceid'
         return [obj.source.sourceid]
 
     def prepare_person_id(self, obj):
@@ -98,8 +94,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-
-    def prepare_name(self,obj):
+    def prepare_name(self, obj):
         p = obj.person
         if p != None:
             return p.name
@@ -115,7 +110,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         return ""
 
     def prepare_location(self, obj):
-        #Location
+        # Location
         if obj.factoidtype.typename == "Location":
             locations = Location.objects.filter(factoidlocation__factoid=obj)
             if locations.count() > 0:
@@ -127,7 +122,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_ethnicity(self, obj):
-        #Ethnicity
+        # Ethnicity
         if obj.factoidtype.typename == "Ethnic label":
             ethnicities = Ethnicity.objects.filter(ethnicityfactoid__factoid=obj)
             if ethnicities.count() > 0:
@@ -137,7 +132,6 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
                 return ""
         else:
             return ""
-
 
     def prepare_dignityoffice(self, obj):
         if obj.factoidtype.typename == "Dignity/Office":
@@ -150,8 +144,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-    #Secondary names (= second names + alternative names)#}
-    def prepare_secondaryname(self,obj):
+    # Secondary names (= second names + alternative names)#}
+    def prepare_secondaryname(self, obj):
         if obj.factoidtype.typename == "Second Name" or obj.factoidtype.typename == "Alternative Name":
             secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
             if secs.count() > 0:
@@ -161,7 +155,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-    def prepare_language(self,obj):
+    def prepare_language(self, obj):
         if obj.factoidtype.typename == "Language Skill":
             langs = Languageskill.objects.filter(langfactoid__factoid=obj)
             if langs.count() > 0:
@@ -171,7 +165,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-    def prepare_occupation(self,obj):
+    def prepare_occupation(self, obj):
         if obj.factoidtype.typename == "Occupation/Vocation":
             occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
             if occs.count() > 0:
@@ -182,10 +176,9 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",factoidtype__id__in=factoidtypekeys).distinct()
-
+        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",
+                                               factoidtype__id__in=factoidtypekeys).distinct()

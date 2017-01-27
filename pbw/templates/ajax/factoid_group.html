@@ -1,6 +1,6 @@
 {% load pbw_tags wagtailcore_tags %}
 
-{% for f in group.factoids %}
+{% for f in factoids %}
     {% get_authority_list f as authority %}
     {% sameAsLast authority as same %}
     {% if not sameAsLast %}

@@ -12,22 +12,9 @@ class Migration(migrations.Migration):
         ('pbw', '0015_auto_20161201_1723'),
     ]
 
-    def copy_factoidKeys(apps, schema_editor):
-        Scdate = apps.get_model("pbw", "Scdate")
-        Factoid = apps.get_model("pbw", "Factoid")
-        for sc in Scdate.objects.all():
-            fs=Factoid.objects.filter(id=sc.factoidkey)
-            if fs.count() > 0:
-                f=fs[0]
-                sc.factoid=f
-                sc.save()
+
 
     operations = [
-        # migrations.AddField(
-        #     model_name='scdate',
-        #     name='factoid',
-        #     field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='pbw.Factoid'),
-        # ),
-        migrations.RunSQL(["update ScDate set factoid_id=factoidKey where factoidKey > 0"]),
-        migrations.RunPython(copy_factoidKeys),
+
+
     ]

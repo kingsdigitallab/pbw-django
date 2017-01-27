@@ -56,6 +56,15 @@ define([
         
         // loads foundation
         $(document).foundation();
+
+        //Ajax events for person accordion
+        $('[data-accordion]').on('down.zf.accordion', function(event) {
+            //If placeholder visible
+                //Load group
+                    //Hide placeholder
+                    //Add html
+            console.log(event.target+'opened!');
+        });
     });
 
     return module;
