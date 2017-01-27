@@ -11,8 +11,10 @@ from django.utils.functional import cached_property
 
 
 class Accuracy(models.Model):
-    acckey = models.AutoField(db_column='accKey', primary_key=True)  # Field name made lowercase.
-    accuracyname = models.CharField(db_column='accuracyName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    acckey = models.AutoField(db_column='accKey', primary_key=True)
+    # Field name made lowercase.
+    accuracyname = models.CharField(db_column='accuracyName', max_length=100)
 
     class Meta:
         app_label = 'pbw'
@@ -20,10 +22,16 @@ class Accuracy(models.Model):
 
 
 class Activityfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    sourcedate = models.TextField(db_column='sourceDate', blank=True, null=True)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    sourcedateol = models.TextField(db_column='SourceDateOL', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)
+    # Field name made lowercase.
+    sourcedate = models.TextField(
+        db_column='sourceDate', blank=True, null=True)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    sourcedateol = models.TextField(
+        db_column='SourceDateOL', blank=True, null=True)
     tstanp = models.DateTimeField()
 
     class Meta:
@@ -31,21 +39,30 @@ class Activityfactoid(models.Model):
 
 
 class Attrdatetype(models.Model):
-    attrdtkey = models.IntegerField(db_column='attrDTKey', primary_key=True)  # Field name made lowercase.
-    adtname = models.CharField(db_column='aDTName', max_length=20)  # Field name made lowercase.
+    # Field name made lowercase.
+    attrdtkey = models.IntegerField(db_column='attrDTKey', primary_key=True)
+    # Field name made lowercase.
+    adtname = models.CharField(db_column='aDTName', max_length=20)
 
     class Meta:
         db_table = 'AttrDateType'
 
 
 class Audit(models.Model):
-    auditkey = models.SmallIntegerField(db_column='auditKey', primary_key=True)  # Field name made lowercase.
-    colldbkey = models.IntegerField(db_column='CollDBKey')  # Field name made lowercase.
-    factoidtypekey = models.SmallIntegerField(db_column='factoidTypeKey')  # Field name made lowercase.
-    dcdcount = models.SmallIntegerField(db_column='DCDCount')  # Field name made lowercase.
-    mdbcount = models.SmallIntegerField(db_column='MDBcount')  # Field name made lowercase.
-    personcount = models.SmallIntegerField(db_column='personCount')  # Field name made lowercase.
-    subcount = models.SmallIntegerField(db_column='subCount')  # Field name made lowercase.
+    # Field name made lowercase.
+    auditkey = models.SmallIntegerField(db_column='auditKey', primary_key=True)
+    # Field name made lowercase.
+    colldbkey = models.IntegerField(db_column='CollDBKey')
+    # Field name made lowercase.
+    factoidtypekey = models.SmallIntegerField(db_column='factoidTypeKey')
+    # Field name made lowercase.
+    dcdcount = models.SmallIntegerField(db_column='DCDCount')
+    # Field name made lowercase.
+    mdbcount = models.SmallIntegerField(db_column='MDBcount')
+    # Field name made lowercase.
+    personcount = models.SmallIntegerField(db_column='personCount')
+    # Field name made lowercase.
+    subcount = models.SmallIntegerField(db_column='subCount')
     problem = models.IntegerField()
 
     class Meta:
@@ -53,13 +70,17 @@ class Audit(models.Model):
 
 
 class Bibliography(models.Model):
-    bibkey = models.IntegerField(db_column='bibKey', primary_key=True)  # Field name made lowercase.
-    latinbib = models.TextField(db_column='latinBib', blank=True, null=True)  # Field name made lowercase.
-    greekbib = models.TextField(db_column='greekBib', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    bibkey = models.IntegerField(db_column='bibKey', primary_key=True)
+    # Field name made lowercase.
+    latinbib = models.TextField(db_column='latinBib', blank=True, null=True)
+    # Field name made lowercase.
+    greekbib = models.TextField(db_column='greekBib', blank=True, null=True)
     reference = models.TextField(blank=True, null=True)
     date = models.SmallIntegerField()
     red = models.IntegerField()
-    shortname = models.TextField(db_column='shortName', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    shortname = models.TextField(db_column='shortName', blank=True, null=True)
 
     def __unicode__(self):
         return self.shortname
@@ -70,77 +91,110 @@ class Bibliography(models.Model):
 
 
 class Boulloterion(models.Model):
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    boulloterionkey = models.IntegerField(
+        db_column='boulloterionKey', primary_key=True)
     title = models.TextField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
-    origltext = models.TextField(db_column='origLText', blank=True, null=True)  # Field name made lowercase.
-    olangkey = models.TextField(db_column='oLangKey', blank=True, null=True)  # Field name made lowercase.
-    obvicon = models.TextField(db_column='obvIcon', blank=True, null=True)  # Field name made lowercase.
-    revicon = models.TextField(db_column='revIcon', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    origltext = models.TextField(db_column='origLText', blank=True, null=True)
+    # Field name made lowercase.
+    olangkey = models.TextField(db_column='oLangKey', blank=True, null=True)
+    # Field name made lowercase.
+    obvicon = models.TextField(db_column='obvIcon', blank=True, null=True)
+    # Field name made lowercase.
+    revicon = models.TextField(db_column='revIcon', blank=True, null=True)
     diameter = models.TextField(blank=True, null=True)
-    datewords = models.TextField(db_column='dateWords', blank=True, null=True)  # Field name made lowercase.
-    obvtypekey = models.IntegerField(db_column='obvTypeKey')  # Field name made lowercase.
-    revtypekey = models.CharField(db_column='revTypeKey', max_length=100)  # Field name made lowercase.
-    scdatekey = models.IntegerField(db_column='scDateKey')  # Field name made lowercase.
-    hasimage = models.IntegerField(db_column='hasImage', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    datewords = models.TextField(db_column='dateWords', blank=True, null=True)
+    # Field name made lowercase.
+    obvtypekey = models.IntegerField(db_column='obvTypeKey')
+    # Field name made lowercase.
+    revtypekey = models.CharField(db_column='revTypeKey', max_length=100)
+    # Field name made lowercase.
+    scdatekey = models.IntegerField(db_column='scDateKey')
+    # Field name made lowercase.
+    hasimage = models.IntegerField(db_column='hasImage', blank=True, null=True)
 
     class Meta:
         db_table = 'Boulloterion'
 
 
 class Boulloterionfigure(models.Model):
-    boulloterionfigurekey = models.IntegerField(db_column='boulloterionFigureKey')  # Field name made lowercase.
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
-    figurekey = models.IntegerField(db_column='figureKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    boulloterionfigurekey = models.IntegerField(
+        db_column='boulloterionFigureKey')
+    # Field name made lowercase.
+    boulloterionkey = models.IntegerField(db_column='boulloterionKey')
+    # Field name made lowercase.
+    figurekey = models.IntegerField(db_column='figureKey')
 
     class Meta:
         db_table = 'BoulloterionFigure'
 
 
 class Chronitem(models.Model):
-    chronitemkey = models.SmallIntegerField(db_column='chronItemKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    chronitemkey = models.SmallIntegerField(
+        db_column='chronItemKey', primary_key=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     parent = models.SmallIntegerField(blank=True, null=True)
-    chronorder = models.SmallIntegerField(db_column='chronOrder', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    chronorder = models.SmallIntegerField(
+        db_column='chronOrder', blank=True, null=True)
     lft = models.SmallIntegerField()
     rgt = models.SmallIntegerField()
     chrontreekey = models.SmallIntegerField(db_column='chronTreeKey', blank=True,
                                             null=True)  # Field name made lowercase.
     year = models.SmallIntegerField(blank=True, null=True)
-    datingelement = models.CharField(db_column='datingElement', max_length=100, blank=True,
-                                     null=True)  # Field name made lowercase.
+    datingelement = models.CharField(
+        db_column='datingElement',
+        max_length=100,
+        blank=True,
+        null=True)  # Field name made lowercase.
 
     class Meta:
         db_table = 'ChronItem'
 
 
 class Chronitemfactoid(models.Model):
-    factoidkey = models.SmallIntegerField(db_column='factoidKey', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.SmallIntegerField(
+        db_column='factoidKey', blank=True, null=True)
     chronitemkey = models.SmallIntegerField(db_column='ChronItemKey', blank=True,
                                             null=True)  # Field name made lowercase.
-    chronorder = models.SmallIntegerField(db_column='chronOrder', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    chronorder = models.SmallIntegerField(
+        db_column='chronOrder', blank=True, null=True)
 
     class Meta:
         db_table = 'ChronItemFactoid'
 
 
 class Chronsource(models.Model):
-    chronsourcekey = models.SmallIntegerField(db_column='chronSourceKey',
-                                              primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    chronsourcekey = models.SmallIntegerField(
+        db_column='chronSourceKey', primary_key=True)
     sourceref = models.CharField(db_column='sourceRef', max_length=100, blank=True,
                                  null=True)  # Field name made lowercase.
     chronitemkey = models.SmallIntegerField(db_column='chronItemKey', blank=True,
                                             null=True)  # Field name made lowercase.
-    sourcekey = models.SmallIntegerField(db_column='sourceKey', blank=True, null=True)  # Field name made lowercase.
-    datetypekey = models.SmallIntegerField(db_column='dateTypeKey', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    sourcekey = models.SmallIntegerField(
+        db_column='sourceKey', blank=True, null=True)
+    # Field name made lowercase.
+    datetypekey = models.SmallIntegerField(
+        db_column='dateTypeKey', blank=True, null=True)
 
     class Meta:
         db_table = 'ChronSource'
 
 
 class Chrontree(models.Model):
-    chrontreekey = models.SmallIntegerField(db_column='chronTreeKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    chrontreekey = models.SmallIntegerField(
+        db_column='chronTreeKey', primary_key=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
@@ -149,16 +203,24 @@ class Chrontree(models.Model):
 
 
 class Colldb(models.Model):
-    colldbkey = models.SmallIntegerField(db_column='collDBKey', primary_key=True)  # Field name made lowercase.
-    colldbid = models.CharField(db_column='collDBID', max_length=200)  # Field name made lowercase.
+    # Field name made lowercase.
+    colldbkey = models.SmallIntegerField(
+        db_column='collDBKey', primary_key=True)
+    # Field name made lowercase.
+    colldbid = models.CharField(db_column='collDBID', max_length=200)
     researcher = models.CharField(max_length=50)
     corrector = models.CharField(max_length=50)
     cdbcreationdate = models.DateTimeField(db_column='cdbCreationDate', blank=True,
                                            null=True)  # Field name made lowercase.
-    cdbimportdate = models.DateTimeField(db_column='cdbImportDate', blank=True, null=True)  # Field name made lowercase.
-    sourcekey = models.SmallIntegerField(db_column='sourceKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    cdbimportdate = models.DateTimeField(
+        db_column='cdbImportDate', blank=True, null=True)
+    # Field name made lowercase.
+    sourcekey = models.SmallIntegerField(db_column='sourceKey')
     notes = models.TextField()
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -167,10 +229,13 @@ class Colldb(models.Model):
 
 class Collection(models.Model):
     id = models.AutoField(primary_key=True)
-    collectionkey = models.IntegerField(db_column='collectionKey')  # Field name made lowercase.
-    collectionname = models.TextField(db_column='collectionName')  # Field name made lowercase.
+    # Field name made lowercase.
+    collectionkey = models.IntegerField(db_column='collectionKey')
+    # Field name made lowercase.
+    collectionname = models.TextField(db_column='collectionName')
     red = models.IntegerField()
-    shortname = models.TextField(db_column='shortName')  # Field name made lowercase.
+    # Field name made lowercase.
+    shortname = models.TextField(db_column='shortName')
     suppress = models.IntegerField()
 
     def __unicode__(self):
@@ -181,25 +246,33 @@ class Collection(models.Model):
 
 
 class Country(models.Model):
-    countrykey = models.AutoField(db_column='countryKey', primary_key=True)  # Field name made lowercase.
-    countryname = models.TextField(db_column='countryName')  # Field name made lowercase.
+    # Field name made lowercase.
+    countrykey = models.AutoField(db_column='countryKey', primary_key=True)
+    # Field name made lowercase.
+    countryname = models.TextField(db_column='countryName')
 
     class Meta:
         db_table = 'Country'
 
 
 class Cursus(models.Model):
-    cursuskey = models.AutoField(db_column='cursusKey', primary_key=True)  # Field name made lowercase.
-    personkey = models.IntegerField(db_column='personKey')  # Field name made lowercase.
-    scdatekey = models.IntegerField(db_column='scDateKey')  # Field name made lowercase.
-    cursusorder = models.SmallIntegerField(db_column='cursusOrder')  # Field name made lowercase.
+    # Field name made lowercase.
+    cursuskey = models.AutoField(db_column='cursusKey', primary_key=True)
+    # Field name made lowercase.
+    personkey = models.IntegerField(db_column='personKey')
+    # Field name made lowercase.
+    scdatekey = models.IntegerField(db_column='scDateKey')
+    # Field name made lowercase.
+    cursusorder = models.SmallIntegerField(db_column='cursusOrder')
 
     class Meta:
         db_table = 'Cursus'
 
 
 class Datetypes(models.Model):
-    datetypekey = models.SmallIntegerField(db_column='dateTypeKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    datetypekey = models.SmallIntegerField(
+        db_column='dateTypeKey', primary_key=True)
     datetype = models.CharField(db_column='dateType', max_length=200, blank=True,
                                 null=True)  # Field name made lowercase.
 
@@ -208,25 +281,39 @@ class Datetypes(models.Model):
 
 
 class Deathfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    sourcedate = models.TextField(db_column='sourceDate', blank=True, null=True)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    sourcedateol = models.TextField(db_column='SourceDateOL', blank=True, null=True)  # Field name made lowercase.
-    tstamp = models.DateTimeField(db_column='tStamp')  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)
+    # Field name made lowercase.
+    sourcedate = models.TextField(
+        db_column='sourceDate', blank=True, null=True)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    sourcedateol = models.TextField(
+        db_column='SourceDateOL', blank=True, null=True)
+    # Field name made lowercase.
+    tstamp = models.DateTimeField(db_column='tStamp')
 
     class Meta:
         db_table = 'DeathFactoid'
 
 
 class Dignityfactoid(models.Model):
-    # factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    # factoidkey = models.IntegerField(db_column='factoidKey',
+    # primary_key=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
-    stdname = models.CharField(db_column='stdName', max_length=100)  # Field name made lowercase.
-    # dokey = models.SmallIntegerField(db_column='doKey')  # Field name made lowercase.
-    dotkey = models.IntegerField(db_column='dotKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    stdname = models.CharField(db_column='stdName', max_length=100)
+    # dokey = models.SmallIntegerField(db_column='doKey')  # Field name made
+    # lowercase.
+    # Field name made lowercase.
+    dotkey = models.IntegerField(db_column='dotKey')
     tstamp = models.DateTimeField()
-    cursusorder = models.SmallIntegerField(db_column='cursusOrder')  # Field name made lowercase.
-    appointedby = models.TextField(db_column='AppointedBy', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    cursusorder = models.SmallIntegerField(db_column='cursusOrder')
+    # Field name made lowercase.
+    appointedby = models.TextField(
+        db_column='AppointedBy', blank=True, null=True)
     dignityoffice = models.ForeignKey('Dignityoffice')
 
     class Meta:
@@ -234,16 +321,25 @@ class Dignityfactoid(models.Model):
 
 
 class Dignityoffice(models.Model):
-    id = models.SmallIntegerField(db_column='doKey', primary_key=True)  # Field name made lowercase.
-    stdname = models.CharField(db_column='stdName', max_length=100)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    stdnameol = models.CharField(db_column='stdNameOL', max_length=100)  # Field name made lowercase.
-    stdshortol = models.CharField(db_column='stdShortOL', max_length=50)  # Field name made lowercase.
-    dotkey = models.IntegerField(db_column='dotKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.SmallIntegerField(db_column='doKey', primary_key=True)
+    # Field name made lowercase.
+    stdname = models.CharField(db_column='stdName', max_length=100)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    stdnameol = models.CharField(db_column='stdNameOL', max_length=100)
+    # Field name made lowercase.
+    stdshortol = models.CharField(db_column='stdShortOL', max_length=50)
+    # Field name made lowercase.
+    dotkey = models.IntegerField(db_column='dotKey')
     lft = models.SmallIntegerField()
     rgt = models.SmallIntegerField()
-    parentkey = models.SmallIntegerField(db_column='parentKey')  # Field name made lowercase.
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    parentkey = models.SmallIntegerField(db_column='parentKey')
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -251,18 +347,24 @@ class Dignityoffice(models.Model):
 
 
 class Dignityofficetype(models.Model):
-    dotkey = models.IntegerField(db_column='dotKey', primary_key=True)  # Field name made lowercase.
-    dotname = models.CharField(db_column='dotName', max_length=20)  # Field name made lowercase.
+    # Field name made lowercase.
+    dotkey = models.IntegerField(db_column='dotKey', primary_key=True)
+    # Field name made lowercase.
+    dotname = models.CharField(db_column='dotName', max_length=20)
 
     class Meta:
         db_table = 'DignityOfficeType'
 
 
 class Dvsqlauth(models.Model):
-    authkey = models.AutoField(db_column='authKey', primary_key=True)  # Field name made lowercase.
-    tablekey = models.SmallIntegerField(db_column='tableKey')  # Field name made lowercase.
-    keyvalue = models.IntegerField(db_column='keyValue')  # Field name made lowercase.
-    namevalue = models.CharField(db_column='nameValue', max_length=50)  # Field name made lowercase.
+    # Field name made lowercase.
+    authkey = models.AutoField(db_column='authKey', primary_key=True)
+    # Field name made lowercase.
+    tablekey = models.SmallIntegerField(db_column='tableKey')
+    # Field name made lowercase.
+    keyvalue = models.IntegerField(db_column='keyValue')
+    # Field name made lowercase.
+    namevalue = models.CharField(db_column='nameValue', max_length=50)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -270,10 +372,14 @@ class Dvsqlauth(models.Model):
 
 
 class Dvsqlindex(models.Model):
-    indexkey = models.AutoField(db_column='indexKey', primary_key=True)  # Field name made lowercase.
-    tablekey = models.SmallIntegerField(db_column='tableKey')  # Field name made lowercase.
-    indexname = models.CharField(db_column='indexName', max_length=100)  # Field name made lowercase.
-    isunique = models.IntegerField(db_column='isUnique')  # Field name made lowercase.
+    # Field name made lowercase.
+    indexkey = models.AutoField(db_column='indexKey', primary_key=True)
+    # Field name made lowercase.
+    tablekey = models.SmallIntegerField(db_column='tableKey')
+    # Field name made lowercase.
+    indexname = models.CharField(db_column='indexName', max_length=100)
+    # Field name made lowercase.
+    isunique = models.IntegerField(db_column='isUnique')
     notes = models.TextField(blank=True, null=True)
     tstamp = models.DateTimeField()
 
@@ -282,8 +388,10 @@ class Dvsqlindex(models.Model):
 
 
 class Dvsqlindxattr(models.Model):
-    indexkey = models.IntegerField(db_column='indexKey')  # Field name made lowercase.
-    attrkey = models.IntegerField(db_column='attrKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    indexkey = models.IntegerField(db_column='indexKey')
+    # Field name made lowercase.
+    attrkey = models.IntegerField(db_column='attrKey')
     len = models.SmallIntegerField(blank=True, null=True)
     tstamp = models.DateTimeField()
 
@@ -293,11 +401,17 @@ class Dvsqlindxattr(models.Model):
 
 
 class Ethnicity(models.Model):
-    id = models.SmallIntegerField(db_column='ethnicityKey', primary_key=True)  # Field name made lowercase.
-    ethname = models.CharField(db_column='ethName', max_length=100)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    ethnameol = models.CharField(db_column='ethNameOL', max_length=100)  # Field name made lowercase.
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.SmallIntegerField(db_column='ethnicityKey', primary_key=True)
+    # Field name made lowercase.
+    ethname = models.CharField(db_column='ethName', max_length=100)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    ethnameol = models.CharField(db_column='ethNameOL', max_length=100)
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -305,11 +419,14 @@ class Ethnicity(models.Model):
 
 
 class Ethnicityfactoid(models.Model):
-    # factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    # factoidkey = models.IntegerField(db_column='factoidKey',
+    # primary_key=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
     ethnicity = models.ForeignKey('Ethnicity', db_column='ethnicityKey')
-    # ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey')  # Field name made lowercase.
-    isdoubtful = models.IntegerField(db_column='isDoubtful')  # Field name made lowercase.
+    # ethnicitykey = models.SmallIntegerField(db_column='ethnicityKey')  #
+    # Field name made lowercase.
+    # Field name made lowercase.
+    isdoubtful = models.IntegerField(db_column='isDoubtful')
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -317,24 +434,40 @@ class Ethnicityfactoid(models.Model):
 
 
 class Factoid(models.Model):
-    id = models.AutoField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='factoidKey', primary_key=True)
     source = models.ForeignKey('Source', db_column='sourceKey')
-    sourceref = models.CharField(db_column='sourceRef', max_length=250)  # Field name made lowercase.
-    factoidtype = models.ForeignKey('Factoidtype', blank=False, null=False, default=1,
-                                    db_column='factoidTypeKey')  # Field name made lowercase.
-    engdesc = models.TextField(db_column='engDesc')  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    origldesc = models.TextField(db_column='origLDesc')  # Field name made lowercase.
-    needsattn = models.IntegerField(db_column='needsAttn')  # Field name made lowercase.
+    # Field name made lowercase.
+    sourceref = models.CharField(db_column='sourceRef', max_length=250)
+    factoidtype = models.ForeignKey(
+        'Factoidtype',
+        blank=False,
+        null=False,
+        default=1,
+        db_column='factoidTypeKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    engdesc = models.TextField(db_column='engDesc')
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    origldesc = models.TextField(db_column='origLDesc')
+    # Field name made lowercase.
+    needsattn = models.IntegerField(db_column='needsAttn')
     notes = models.TextField()
-    colldbkey = models.SmallIntegerField(db_column='collDBKey')  # Field name made lowercase.
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    colldbkey = models.SmallIntegerField(db_column='collDBKey')
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
+    # Field name made lowercase.
+    boulloterionkey = models.IntegerField(db_column='boulloterionKey')
     tstamp = models.DateTimeField()
 
     @cached_property
     def person(self):
-        fp = Person.objects.filter(factoidperson__factoid=self, factoidperson__factoidpersontype__fptypename="Primary")
+        fp = Person.objects.filter(
+            factoidperson__factoid=self,
+            factoidperson__factoidpersontype__fptypename="Primary")
         if fp.count() > 0:
             return fp[0]
         else:
@@ -349,8 +482,10 @@ class Factoid(models.Model):
 
 
 class Factoidcursus(models.Model):
-    cursuskey = models.IntegerField(db_column='cursusKey')  # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    cursuskey = models.IntegerField(db_column='cursusKey')
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey')
 
     class Meta:
         db_table = 'FactoidCursus'
@@ -359,12 +494,16 @@ class Factoidcursus(models.Model):
 class Factoidlocation(models.Model):
     id = models.AutoField(primary_key=True)
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
-    # locationkey = models.IntegerField(db_column='locationKey')  # Field name made lowercase.
+    # locationkey = models.IntegerField(db_column='locationKey')  # Field name
+    # made lowercase.
     location = models.ForeignKey('Location', db_column='locationKey')
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    srcname = models.CharField(db_column='srcName', max_length=50)  # Field name made lowercase.
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    srcname = models.CharField(db_column='srcName', max_length=50)
     notes = models.TextField(blank=True, null=True)
-    siginfo = models.TextField(db_column='sigInfo')  # Field name made lowercase.
+    # Field name made lowercase.
+    siginfo = models.TextField(db_column='sigInfo')
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -372,11 +511,20 @@ class Factoidlocation(models.Model):
 
 
 class Factoidperson(models.Model):
-    id = models.AutoField(db_column='fpKey', primary_key=True)  # Field name made lowercase.
-    factoid = models.ForeignKey('Factoid', blank=False, null=False, default=1,
-                                db_column='factoidkey')  # Field name made lowercase.
-    factoidpersontype = models.ForeignKey('Factoidpersontype', blank=False, null=False, default=1,
-                                          db_column='fpTypeKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='fpKey', primary_key=True)
+    factoid = models.ForeignKey(
+        'Factoid',
+        blank=False,
+        null=False,
+        default=1,
+        db_column='factoidkey')  # Field name made lowercase.
+    factoidpersontype = models.ForeignKey(
+        'Factoidpersontype',
+        blank=False,
+        null=False,
+        default=1,
+        db_column='fpTypeKey')  # Field name made lowercase.
     person = models.ForeignKey('Person', blank=False, null=False, default=1,
                                db_column='personKey')  # Field name made lowercase.
 
@@ -385,16 +533,20 @@ class Factoidperson(models.Model):
 
 
 class Factoidpersontype(models.Model):
-    fptypekey = models.AutoField(db_column='fpTypeKey', primary_key=True)  # Field name made lowercase.
-    fptypename = models.CharField(db_column='fpTypeName', max_length=15)  # Field name made lowercase.
+    # Field name made lowercase.
+    fptypekey = models.AutoField(db_column='fpTypeKey', primary_key=True)
+    # Field name made lowercase.
+    fptypename = models.CharField(db_column='fpTypeName', max_length=15)
 
     class Meta:
         db_table = 'FactoidPersonType'
 
 
 class Factoidtype(models.Model):
-    id = models.AutoField(db_column='factoidTypeKey', primary_key=True)  # Field name made lowercase.
-    typename = models.CharField(db_column='typeName', max_length=20)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='factoidTypeKey', primary_key=True)
+    # Field name made lowercase.
+    typename = models.CharField(db_column='typeName', max_length=20)
     orderno = models.IntegerField(null=False, default=99)
 
     def __str__(self):
@@ -405,8 +557,10 @@ class Factoidtype(models.Model):
 
 
 class Famnamefactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    famnamekey = models.SmallIntegerField(db_column='famNameKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)
+    # Field name made lowercase.
+    famnamekey = models.SmallIntegerField(db_column='famNameKey')
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -414,11 +568,18 @@ class Famnamefactoid(models.Model):
 
 
 class Familyname(models.Model):
-    famnamekey = models.SmallIntegerField(db_column='famNameKey', primary_key=True)  # Field name made lowercase.
-    famname = models.CharField(db_column='famName', max_length=40)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    famnameol = models.CharField(db_column='famNameOL', max_length=40)  # Field name made lowercase.
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    famnamekey = models.SmallIntegerField(
+        db_column='famNameKey', primary_key=True)
+    # Field name made lowercase.
+    famname = models.CharField(db_column='famName', max_length=40)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    famnameol = models.CharField(db_column='famNameOL', max_length=40)
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -426,34 +587,48 @@ class Familyname(models.Model):
 
 
 class Figure(models.Model):
-    figurekey = models.IntegerField(db_column='figureKey', primary_key=True)  # Field name made lowercase.
-    figurename = models.TextField(db_column='figureName')  # Field name made lowercase.
+    # Field name made lowercase.
+    figurekey = models.IntegerField(db_column='figureKey', primary_key=True)
+    # Field name made lowercase.
+    figurename = models.TextField(db_column='figureName')
 
     class Meta:
         db_table = 'Figure'
 
 
 class Found(models.Model):
-    foundkey = models.AutoField(db_column='foundKey', primary_key=True)  # Field name made lowercase.
-    founddesc = models.TextField(db_column='foundDesc', blank=True, null=True)  # Field name made lowercase.
-    countrykey = models.IntegerField(db_column='countryKey', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    foundkey = models.AutoField(db_column='foundKey', primary_key=True)
+    # Field name made lowercase.
+    founddesc = models.TextField(db_column='foundDesc', blank=True, null=True)
+    # Field name made lowercase.
+    countrykey = models.IntegerField(
+        db_column='countryKey', blank=True, null=True)
     boulloterionkey = models.IntegerField(db_column='boulloterionKey', blank=True,
                                           null=True)  # Field name made lowercase.
-    bibkey = models.TextField(db_column='bibKey', blank=True, null=True)  # Field name made lowercase.
-    bibref = models.TextField(db_column='bibRef', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    bibkey = models.TextField(db_column='bibKey', blank=True, null=True)
+    # Field name made lowercase.
+    bibref = models.TextField(db_column='bibRef', blank=True, null=True)
 
     class Meta:
         db_table = 'Found'
 
 
 class Hierarchyunit(models.Model):
-    hierarchyunitid = models.AutoField(db_column='hierarchyUnitID', primary_key=True)  # Field name made lowercase.
-    narrativeunitid = models.IntegerField(db_column='narrativeUnitID')  # Field name made lowercase.
+    # Field name made lowercase.
+    hierarchyunitid = models.AutoField(
+        db_column='hierarchyUnitID', primary_key=True)
+    # Field name made lowercase.
+    narrativeunitid = models.IntegerField(db_column='narrativeUnitID')
     lft = models.IntegerField()
     rgt = models.IntegerField()
-    parentid = models.IntegerField(db_column='parentID', blank=True, null=True)  # Field name made lowercase.
-    chronorder = models.IntegerField(db_column='Chronorder')  # Field name made lowercase.
-    treeid = models.IntegerField(db_column='treeID', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    parentid = models.IntegerField(db_column='parentID', blank=True, null=True)
+    # Field name made lowercase.
+    chronorder = models.IntegerField(db_column='Chronorder')
+    # Field name made lowercase.
+    treeid = models.IntegerField(db_column='treeID', blank=True, null=True)
 
     class Meta:
         db_table = 'HierarchyUnit'
@@ -461,7 +636,8 @@ class Hierarchyunit(models.Model):
 
 class Kinfactoid(models.Model):
     factoid = models.ForeignKey('Factoid', db_column='factoid_id')
-    # kinkey = models.SmallIntegerField(db_column='kinKey')  # Field name made lowercase.
+    # kinkey = models.SmallIntegerField(db_column='kinKey')  # Field name made
+    # lowercase.
     kinship = models.ForeignKey('Kinshiptype', db_column='kinKey')
     tstamp = models.DateTimeField()
 
@@ -470,10 +646,15 @@ class Kinfactoid(models.Model):
 
 
 class Kinshiptype(models.Model):
-    id = models.SmallIntegerField(db_column='kinKey', primary_key=True)  # Field name made lowercase.
-    gspecrelat = models.CharField(db_column='gspecRelat', max_length=30)  # Field name made lowercase.
-    gunspecrelat = models.CharField(db_column='gunspecRelat', max_length=30)  # Field name made lowercase.
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.SmallIntegerField(db_column='kinKey', primary_key=True)
+    # Field name made lowercase.
+    gspecrelat = models.CharField(db_column='gspecRelat', max_length=30)
+    # Field name made lowercase.
+    gunspecrelat = models.CharField(db_column='gunspecRelat', max_length=30)
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -482,34 +663,43 @@ class Kinshiptype(models.Model):
 
 class Langfactoid(models.Model):
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
-    # factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    # factoidkey = models.IntegerField(db_column='factoidKey',
+    # primary_key=True)  # Field name made lowercase.
     languageskill = models.ForeignKey('Languageskill', db_column='langkey')
 
-    # langkey = models.SmallIntegerField(db_column='langKey')  # Field name made lowercase.
+    # langkey = models.SmallIntegerField(db_column='langKey')  # Field name
+    # made lowercase.
 
     class Meta:
         db_table = 'LangFactoid'
 
 
 class Languageskill(models.Model):
-    langkey = models.SmallIntegerField(db_column='langKey', primary_key=True)  # Field name made lowercase.
-    languagename = models.CharField(db_column='languageName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    langkey = models.SmallIntegerField(db_column='langKey', primary_key=True)
+    # Field name made lowercase.
+    languagename = models.CharField(db_column='languageName', max_length=100)
 
     class Meta:
         db_table = 'LanguageSkill'
 
 
 class Location(models.Model):
-    id = models.AutoField(db_column='locationKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='locationKey', primary_key=True)
     # factoidlocation = models.ForeignKey('Factoidlocation',db_column='locationKey')
-    locname = models.CharField(db_column='locName', max_length=100)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    locname = models.CharField(db_column='locName', max_length=100)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
     locnameol = models.CharField(db_column='locNameOL', max_length=100, blank=True,
                                  null=True)  # Field name made lowercase.
     extrainfo = models.CharField(db_column='extraInfo', max_length=100, blank=True,
                                  null=True)  # Field name made lowercase.
     notes = models.TextField(blank=True, null=True)
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -517,20 +707,29 @@ class Location(models.Model):
 
 
 class Locationselector(models.Model):
-    locselkey = models.SmallIntegerField(db_column='locSelKey', primary_key=True)  # Field name made lowercase.
-    locationkey = models.IntegerField(db_column='locationKey')  # Field name made lowercase.
-    locselname = models.CharField(db_column='locSelName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    locselkey = models.SmallIntegerField(
+        db_column='locSelKey', primary_key=True)
+    # Field name made lowercase.
+    locationkey = models.IntegerField(db_column='locationKey')
+    # Field name made lowercase.
+    locselname = models.CharField(db_column='locSelName', max_length=100)
 
     class Meta:
         db_table = 'LocationSelector'
 
 
 class Narrativefactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
-    narrativeunitid = models.IntegerField(db_column='narrativeUnitID')  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey')
+    # Field name made lowercase.
+    narrativeunitid = models.IntegerField(db_column='narrativeUnitID')
     hide = models.IntegerField()
-    chronorder = models.SmallIntegerField(db_column='chronOrder', blank=True, null=True)  # Field name made lowercase.
-    fmkey = models.IntegerField(db_column='fmKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    chronorder = models.SmallIntegerField(
+        db_column='chronOrder', blank=True, null=True)
+    # Field name made lowercase.
+    fmkey = models.IntegerField(db_column='fmKey')
 
     class Meta:
         db_table = 'NarrativeFactoid'
@@ -538,16 +737,27 @@ class Narrativefactoid(models.Model):
 
 
 class Narrativeunit(models.Model):
-    narrativeunitid = models.AutoField(db_column='narrativeUnitID', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    narrativeunitid = models.AutoField(
+        db_column='narrativeUnitID', primary_key=True)
     description = models.TextField(blank=True, null=True)
-    primaryattestation = models.CharField(db_column='primaryAttestation', max_length=200, blank=True,
-                                          null=True)  # Field name made lowercase.
-    secondaryattestation = models.CharField(db_column='secondaryAttestation', max_length=200, blank=True,
-                                            null=True)  # Field name made lowercase.
+    primaryattestation = models.CharField(
+        db_column='primaryAttestation',
+        max_length=200,
+        blank=True,
+        null=True)  # Field name made lowercase.
+    secondaryattestation = models.CharField(
+        db_column='secondaryAttestation',
+        max_length=200,
+        blank=True,
+        null=True)  # Field name made lowercase.
     dates = models.CharField(max_length=200, blank=True, null=True)
-    datetypekey = models.IntegerField(db_column='dateTypeKey', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    datetypekey = models.IntegerField(
+        db_column='dateTypeKey', blank=True, null=True)
     summary = models.TextField()
-    fmkey = models.IntegerField(db_column='fmKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    fmkey = models.IntegerField(db_column='fmKey')
     notes = models.TextField(blank=True, null=True)
     number = models.IntegerField()
     year = models.IntegerField()
@@ -561,8 +771,12 @@ class Narrativeunit(models.Model):
 
 
 class Occupation(models.Model):
-    occupationkey = models.SmallIntegerField(db_column='occupationKey', primary_key=True)  # Field name made lowercase.
-    occupationname = models.CharField(db_column='occupationName', max_length=50)  # Field name made lowercase.
+    # Field name made lowercase.
+    occupationkey = models.SmallIntegerField(
+        db_column='occupationKey', primary_key=True)
+    # Field name made lowercase.
+    occupationname = models.CharField(
+        db_column='occupationName', max_length=50)
 
     class Meta:
         db_table = 'Occupation'
@@ -577,7 +791,8 @@ class Occupationfactoid(models.Model):
 
 
 class Origlangauth(models.Model):
-    olangkey = models.AutoField(db_column='oLangKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    olangkey = models.AutoField(db_column='oLangKey', primary_key=True)
     olanguage = models.CharField(db_column='oLanguage', max_length=20, blank=True,
                                  null=True)  # Field name made lowercase.
 
@@ -586,21 +801,33 @@ class Origlangauth(models.Model):
 
 
 class Person(models.Model):
-    id = models.AutoField(db_column='personKey', primary_key=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='personKey', primary_key=True)
     name = models.CharField(max_length=30)
-    mdbcode = models.IntegerField(db_column='mdbCode')  # Field name made lowercase.
-    descname = models.CharField(db_column='descName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    mdbcode = models.IntegerField(db_column='mdbCode')
+    # Field name made lowercase.
+    descname = models.CharField(db_column='descName', max_length=100)
     floruit = models.CharField(max_length=15)
-    firstdate = models.SmallIntegerField(db_column='firstDate')  # Field name made lowercase.
-    firstdatetype = models.IntegerField(db_column='firstDateType')  # Field name made lowercase.
-    lastdate = models.SmallIntegerField(db_column='lastDate')  # Field name made lowercase.
-    lastdatetype = models.IntegerField(db_column='lastDateType')  # Field name made lowercase.
-    sex = models.ForeignKey('Sexauth', db_column='sexKey')  # Field name made lowercase.
-    nameol = models.CharField(db_column='nameOL', max_length=100)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    firstdate = models.SmallIntegerField(db_column='firstDate')
+    # Field name made lowercase.
+    firstdatetype = models.IntegerField(db_column='firstDateType')
+    # Field name made lowercase.
+    lastdate = models.SmallIntegerField(db_column='lastDate')
+    # Field name made lowercase.
+    lastdatetype = models.IntegerField(db_column='lastDateType')
+    # Field name made lowercase.
+    sex = models.ForeignKey('Sexauth', db_column='sexKey')
+    # Field name made lowercase.
+    nameol = models.CharField(db_column='nameOL', max_length=100)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
     bibliography = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField(db_column='tstamp')
 
     class Meta:
@@ -613,27 +840,37 @@ class Person(models.Model):
 
     # These are factoids with a PRIMARY fp type, which the person "owns"
     def getPrimaryFactoids(self):
-        return Factoid.objects.filter(factoidperson__person=self,
-                                      factoidperson__factoidpersontype__fptypename="Primary")
+        return Factoid.objects.filter(
+            factoidperson__person=self,
+            factoidperson__factoidpersontype__fptypename="Primary")
 
-    # This returns only factoid types listed in settings under  DISPLAYED_FACTOID_TYPES
+    # This returns only factoid types listed in settings under
+    # DISPLAYED_FACTOID_TYPES
     def getFilteredFactoids(self):
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.factoids.filter(factoidtype__in=factoidtypekeys).order_by('factoidtype')
+        return self.factoids.filter(
+            factoidtype__in=factoidtypekeys).order_by('factoidtype')
 
     # Make a complete "snapshot" of a person to use as a fixture
-    # This serializes no only the person, but their relevant factoids and their sub tables
+    # This serializes no only the person, but their relevant factoids and
+    # their sub tables
     def serialize_to_fixture(self):
         person = self
         format = "json"
         Serializer = serializers.get_serializer(format)
         serializer = Serializer()
         fixture_path = os.path.join(BASE_DIR, 'pbw', 'fixtures')
-        person_fixture = os.path.join(fixture_path, "person_" + str(person.id) + "." + format)
+        person_fixture = os.path.join(
+            fixture_path, "person_" + str(person.id) + "." + format)
         with open(person_fixture, "w") as out:
-            serializer.serialize(Person.objects.filter(id=person.id), indent=2, stream=out)
+            serializer.serialize(
+                Person.objects.filter(
+                    id=person.id),
+                indent=2,
+                stream=out)
             print "Serializing " + "person_" + str(person.id) + "." + format
-        factoid_person_fixture = os.path.join(fixture_path, "factoids_person_" + str(person.id) + "." + format)
+        factoid_person_fixture = os.path.join(
+            fixture_path, "factoids_person_" + str(person.id) + "." + format)
         with open(factoid_person_fixture, "w") as out:
             factoids_complete = self.collect_factoids()
             serializer.serialize(factoids_complete, indent=2, stream=out)
@@ -682,20 +919,27 @@ class Person(models.Model):
                     main = rs[0]
                     sub = main.religion
 
-            if main != None:
+            if main is not None:
                 factoids_complete.append(main)
                 factoids_complete.append(sub)
         return factoids_complete
 
 
 class Personcolldb(models.Model):
-    personcolldbkey = models.AutoField(db_column='personCollDBKey', primary_key=True)  # Field name made lowercase.
-    personkey = models.IntegerField(db_column='personKey')  # Field name made lowercase.
-    colldbkey = models.SmallIntegerField(db_column='collDBKey')  # Field name made lowercase.
-    cdbcode = models.SmallIntegerField(db_column='cdbCode')  # Field name made lowercase.
+    # Field name made lowercase.
+    personcolldbkey = models.AutoField(
+        db_column='personCollDBKey', primary_key=True)
+    # Field name made lowercase.
+    personkey = models.IntegerField(db_column='personKey')
+    # Field name made lowercase.
+    colldbkey = models.SmallIntegerField(db_column='collDBKey')
+    # Field name made lowercase.
+    cdbcode = models.SmallIntegerField(db_column='cdbCode')
     name = models.CharField(max_length=30)
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
-    nameol = models.CharField(db_column='nameOL', max_length=60)  # Field name made lowercase.
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
+    # Field name made lowercase.
+    nameol = models.CharField(db_column='nameOL', max_length=60)
     notes = models.TextField()
     tstamp = models.DateTimeField()
 
@@ -704,8 +948,11 @@ class Personcolldb(models.Model):
 
 
 class Possessionfactoid(models.Model):
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    possessionname = models.CharField(db_column='possessionName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)
+    # Field name made lowercase.
+    possessionname = models.CharField(
+        db_column='possessionName', max_length=100)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -713,14 +960,25 @@ class Possessionfactoid(models.Model):
 
 
 class Published(models.Model):
-    publishedkey = models.IntegerField(db_column='publishedKey', primary_key=True)  # Field name made lowercase.
-    bibkey = models.IntegerField(db_column='bibKey')  # Field name made lowercase.
-    bibliography = models.ForeignKey('Bibliography', default=1)  # Field name made lowercase.
-    publicationref = models.CharField(db_column='publicationRef', max_length=50)  # Field name made lowercase.
-    publicationpage = models.CharField(db_column='publicationPage', max_length=50)  # Field name made lowercase.
-    publishedorder = models.IntegerField(db_column='publishedOrder')  # Field name made lowercase.
-    boulloterionKey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
-    boulloterion = models.ForeignKey('Boulloterion', default=1)  # Field name made lowercase.
+    # Field name made lowercase.
+    publishedkey = models.IntegerField(
+        db_column='publishedKey', primary_key=True)
+    # Field name made lowercase.
+    bibkey = models.IntegerField(db_column='bibKey')
+    # Field name made lowercase.
+    bibliography = models.ForeignKey('Bibliography', default=1)
+    # Field name made lowercase.
+    publicationref = models.CharField(
+        db_column='publicationRef', max_length=50)
+    # Field name made lowercase.
+    publicationpage = models.CharField(
+        db_column='publicationPage', max_length=50)
+    # Field name made lowercase.
+    publishedorder = models.IntegerField(db_column='publishedOrder')
+    # Field name made lowercase.
+    boulloterionKey = models.IntegerField(db_column='boulloterionKey')
+    # Field name made lowercase.
+    boulloterion = models.ForeignKey('Boulloterion', default=1)
 
     def __unicode__(self):
         return self.bibliography.shortname + ' ' + self.publicationref
@@ -730,8 +988,10 @@ class Published(models.Model):
 
 
 class Religion(models.Model):
-    religionkey = models.AutoField(db_column='religionKey', primary_key=True)  # Field name made lowercase.
-    religionname = models.CharField(db_column='religionName', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    religionkey = models.AutoField(db_column='religionKey', primary_key=True)
+    # Field name made lowercase.
+    religionname = models.CharField(db_column='religionName', max_length=100)
 
     class Meta:
         db_table = 'Religion'
@@ -739,7 +999,8 @@ class Religion(models.Model):
 
 class Religionfactoid(models.Model):
     # factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    # religionkey = models.SmallIntegerField(db_column='religionKey')  # Field name made lowercase.
+    # religionkey = models.SmallIntegerField(db_column='religionKey')  # Field
+    # name made lowercase.
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
     religion = models.ForeignKey('Religion', db_column='religionKey')
 
@@ -748,19 +1009,29 @@ class Religionfactoid(models.Model):
 
 
 class Scdate(models.Model):
-    scdatekey = models.AutoField(db_column='scDateKey', primary_key=True)  # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey')  # Field name made lowercase.
-    ssourcekey = models.IntegerField(db_column='sSourceKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    scdatekey = models.AutoField(db_column='scDateKey', primary_key=True)
+    # Field name made lowercase.
+    factoidkey = models.IntegerField(db_column='factoidKey')
+    # Field name made lowercase.
+    ssourcekey = models.IntegerField(db_column='sSourceKey')
     year = models.SmallIntegerField()
-    yrorder = models.SmallIntegerField(db_column='yrOrder')  # Field name made lowercase.
+    # Field name made lowercase.
+    yrorder = models.SmallIntegerField(db_column='yrOrder')
     ssref = models.TextField(db_column='ssRef')  # Field name made lowercase.
     priority = models.IntegerField()
     notes = models.TextField()
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
-    acckey = models.IntegerField(db_column='accKey')  # Field name made lowercase.
-    yeargivenform = models.CharField(db_column='yearGivenForm', max_length=25, blank=True,
-                                     null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    acckey = models.IntegerField(db_column='accKey')
+    yeargivenform = models.CharField(
+        db_column='yearGivenForm',
+        max_length=25,
+        blank=True,
+        null=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', default=1)
 
     class Meta:
@@ -768,11 +1039,16 @@ class Scdate(models.Model):
 
 
 class Scsource(models.Model):
-    ssourcekey = models.AutoField(db_column='sSourceKey', primary_key=True)  # Field name made lowercase.
-    ssourceid = models.CharField(db_column='sSourceID', max_length=50)  # Field name made lowercase.
-    ssourcefullref = models.TextField(db_column='sSourceFullRef')  # Field name made lowercase.
+    # Field name made lowercase.
+    ssourcekey = models.AutoField(db_column='sSourceKey', primary_key=True)
+    # Field name made lowercase.
+    ssourceid = models.CharField(db_column='sSourceID', max_length=50)
+    # Field name made lowercase.
+    ssourcefullref = models.TextField(db_column='sSourceFullRef')
     notes = models.TextField()
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -780,21 +1056,29 @@ class Scsource(models.Model):
 
 
 class Seal(models.Model):
-    sealkey = models.IntegerField(db_column='sealKey', primary_key=True)  # Field name made lowercase.
-    collectionKey = models.IntegerField(db_column='collectionKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    sealkey = models.IntegerField(db_column='sealKey', primary_key=True)
+    # Field name made lowercase.
+    collectionKey = models.IntegerField(db_column='collectionKey')
     collection = models.ForeignKey('Collection')  # Field name made lowercase.
-    collectionref = models.IntegerField(db_column='collectionRef')  # Field name made lowercase.
-    sealorder = models.IntegerField(db_column='sealOrder')  # Field name made lowercase.
-    boulloterionkey = models.IntegerField(db_column='boulloterionKey')  # Field name made lowercase.
-    boulloterion = models.ForeignKey('Boulloterion')  # Field name made lowercase.
+    # Field name made lowercase.
+    collectionref = models.IntegerField(db_column='collectionRef')
+    # Field name made lowercase.
+    sealorder = models.IntegerField(db_column='sealOrder')
+    # Field name made lowercase.
+    boulloterionkey = models.IntegerField(db_column='boulloterionKey')
+    # Field name made lowercase.
+    boulloterion = models.ForeignKey('Boulloterion')
 
     class Meta:
         db_table = 'Seal'
 
 
 class Sexauth(models.Model):
-    id = models.AutoField(db_column='sexKey', primary_key=True)  # Field name made lowercase.
-    sexvalue = models.CharField(db_column='sexValue', max_length=25)  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.AutoField(db_column='sexKey', primary_key=True)
+    # Field name made lowercase.
+    sexvalue = models.CharField(db_column='sexValue', max_length=25)
 
     def __unicode__(self):
         return self.sexvalue
@@ -804,9 +1088,12 @@ class Sexauth(models.Model):
 
 
 class Source(models.Model):
-    id = models.SmallIntegerField(db_column='sourceKey', primary_key=True)  # Field name made lowercase.
-    sourceid = models.CharField(db_column='sourceID', max_length=50)  # Field name made lowercase.
-    sourcebib = models.TextField(db_column='sourceBib')  # Field name made lowercase.
+    # Field name made lowercase.
+    id = models.SmallIntegerField(db_column='sourceKey', primary_key=True)
+    # Field name made lowercase.
+    sourceid = models.CharField(db_column='sourceID', max_length=50)
+    # Field name made lowercase.
+    sourcebib = models.TextField(db_column='sourceBib')
 
     def __unicode__(self):
         return self.sourceid
@@ -817,17 +1104,22 @@ class Source(models.Model):
 
 
 class Type(models.Model):
-    typekey = models.IntegerField(db_column='typeKey', primary_key=True)  # Field name made lowercase.
-    typename = models.TextField(db_column='typeName')  # Field name made lowercase.
+    # Field name made lowercase.
+    typekey = models.IntegerField(db_column='typeKey', primary_key=True)
+    # Field name made lowercase.
+    typename = models.TextField(db_column='typeName')
 
     class Meta:
         db_table = 'Type'
 
 
 class User(models.Model):
-    userkey = models.AutoField(db_column='userKey', primary_key=True)  # Field name made lowercase.
-    username = models.CharField(db_column='userName', max_length=20)  # Field name made lowercase.
-    namedisplay = models.CharField(db_column='nameDisplay', max_length=100)  # Field name made lowercase.
+    # Field name made lowercase.
+    userkey = models.AutoField(db_column='userKey', primary_key=True)
+    # Field name made lowercase.
+    username = models.CharField(db_column='userName', max_length=20)
+    # Field name made lowercase.
+    namedisplay = models.CharField(db_column='nameDisplay', max_length=100)
     passwd = models.CharField(max_length=100)
     initials = models.CharField(max_length=5)
 
@@ -837,7 +1129,8 @@ class User(models.Model):
 
 class Vnamefactoid(models.Model):
     # factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
-    # vnamekey = models.IntegerField(db_column='vnameKey')  # Field name made lowercase.
+    # vnamekey = models.IntegerField(db_column='vnameKey')  # Field name made
+    # lowercase.
     factoid = models.ForeignKey('Factoid', db_column='factoidKey')
     variantname = models.ForeignKey('Variantname', db_column='vnamekey')
 
@@ -846,10 +1139,14 @@ class Vnamefactoid(models.Model):
 
 
 class Variantname(models.Model):
-    vnamekey = models.AutoField(db_column='vnameKey', primary_key=True)  # Field name made lowercase.
-    olangkey = models.IntegerField(db_column='oLangKey')  # Field name made lowercase.
+    # Field name made lowercase.
+    vnamekey = models.AutoField(db_column='vnameKey', primary_key=True)
+    # Field name made lowercase.
+    olangkey = models.IntegerField(db_column='oLangKey')
     name = models.CharField(max_length=50)
-    creationdate = models.DateTimeField(db_column='creationDate', blank=True, null=True)  # Field name made lowercase.
+    # Field name made lowercase.
+    creationdate = models.DateTimeField(
+        db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
 
     class Meta:

@@ -10,14 +10,13 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
 from pbw.views import FactoidGroupView
-from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView,PersonPermalinkDetailView,BoulloterionDetailView
+from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView, PersonPermalinkDetailView, BoulloterionDetailView
 from ddhldap.signal_handlers import register_signal_handlers as \
-            ddhldap_register_signal_handlers
+    ddhldap_register_signal_handlers
 
 ddhldap_register_signal_handlers()
 
 admin.autodiscover()
-
 
 
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
@@ -53,7 +52,7 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                # For anything not caught by a more specific rule above, hand over to
                # Wagtail's serving mechanism
                url(r'^', include(wagtail_urls)),
-]
+               ]
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS

@@ -32,8 +32,6 @@ class PBWFacetedSearchForm(FacetedSearchForm):
     occupation = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 
-
-
     def no_query_found(self):
         """Determines the behaviour when no query was found; returns all the
         results."""
@@ -51,8 +49,17 @@ class PBWFacetedSearchForm(FacetedSearchForm):
                 print data.get("selected_facets")
 
         for field in (
-                'dignityoffice', 'location', 'ethnicity', 'language', 'secondaryname', 'occupation', 'name', 'letter',
-                'sex','source', 'floruit'):
+            'dignityoffice',
+            'location',
+            'ethnicity',
+            'language',
+            'secondaryname',
+            'occupation',
+            'name',
+            'letter',
+            'sex',
+            'source',
+                'floruit'):
             if field in data:
                 if data.get(field):
                     print data.get(field)
@@ -63,6 +70,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
 
 
 class FactoidForm(forms.ModelForm):
+
     class Meta:
         model = Factoid
-        fields = ['engdesc','source']
+        fields = ['engdesc', 'source']

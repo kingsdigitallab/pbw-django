@@ -30,15 +30,17 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             return obj.name[0].upper()
 
     def prepare_source(self, obj):
-        sources = Source.objects.filter(factoid__factoidperson__person=obj,
-                                        factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
+        sources = Source.objects.filter(
+            factoid__factoidperson__person=obj,
+            factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
         return list(sources)
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()
+        return self.get_model().objects.filter(
+            factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()
 
 
 # The base class for the the various factoid types
@@ -70,7 +72,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_person(self, obj):
         p = obj.person
-        if p != None:
+        if p is not None:
             return p.name + " " + unicode(p.mdbcode)
         else:
             print "ERROR No primary person found for factoid " + str(obj.id)
@@ -82,28 +84,28 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_person_id(self, obj):
         p = obj.person
-        if p != None:
+        if p is not None:
             return p.id
         else:
             return 0
 
     def prepare_nameol(self, obj):
         p = obj.person
-        if p != None:
+        if p is not None:
             return obj.person.nameol
         else:
             return ""
 
     def prepare_name(self, obj):
         p = obj.person
-        if p != None:
+        if p is not None:
             return p.name
         else:
             return ""
 
     def prepare_letter(self, obj):
         p = obj.person
-        if p != None:
+        if p is not None:
             name = p.name
             if len(name) > 0:
                 return name[0].upper()
@@ -124,7 +126,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_ethnicity(self, obj):
         # Ethnicity
         if obj.factoidtype.typename == "Ethnic label":
-            ethnicities = Ethnicity.objects.filter(ethnicityfactoid__factoid=obj)
+            ethnicities = Ethnicity.objects.filter(
+                ethnicityfactoid__factoid=obj)
             if ethnicities.count() > 0:
                 for eth in ethnicities:
                     return eth.ethname
@@ -180,5 +183,6 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(factoidperson__factoidpersontype__fptypename="Primary",
-                                               factoidtype__id__in=factoidtypekeys).distinct()
+        return self.get_model().objects.filter(
+            factoidperson__factoidpersontype__fptypename="Primary",
+            factoidtype__id__in=factoidtypekeys).distinct()
