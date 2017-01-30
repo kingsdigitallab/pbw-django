@@ -560,13 +560,23 @@ class Factoidtype(models.Model):
         db_table = 'FactoidType'
 
 
+# class Famnamefactoid(models.Model):
+#     # Field name made lowercase.
+#
+#     factoidKey = models.SmallIntegerField(db_column='factoidKey')  # Field name made
+#     # Field name made lowercase.
+#     familyname = models.ForeignKey('Factoid', related_name='familyname',null=True)
+#     famnamekey = models.SmallIntegerField(db_column='famNameKey')  # Field name made
+#     tstamp = models.DateTimeField()
+#
+#     class Meta:
+#         db_table = 'FamNameFactoid'
+
 class Famnamefactoid(models.Model):
-    # Field name made lowercase.
-    factoid = models.ForeignKey('Factoid',null=True)
-    factoidKey = models.SmallIntegerField(db_column='factoidKey')  # Field name made
-    # Field name made lowercase.
-    familyname = models.ForeignKey('Factoid', related_name='familyname',null=True)
-    famnamekey = models.SmallIntegerField(db_column='famNameKey')  # Field name made
+    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)  # Field name made lowercase.
+    factoid = models.ForeignKey('Factoid', null=True)
+    familyname = models.ForeignKey('Factoid', related_name='familyname', null=True)
+    famnamekey = models.SmallIntegerField(db_column='famNameKey')  # Field name made lowercase.
     tstamp = models.DateTimeField()
 
     class Meta:
