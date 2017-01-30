@@ -1,24 +1,19 @@
 # New faceted search for main PBW browse
 # Elliott Hall 16/8/2016
 # facet('name').facet('letter').
-import os
-from django.views.generic.base import View, TemplateView
 
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-
-from haystack.generic_views import FacetedSearchView
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core import serializers
-from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
+from django.views.generic.detail import DetailView
+from haystack.generic_views import FacetedSearchView
 
 from forms import PBWFacetedSearchForm
-from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
+from models import Person, Factoid, Boulloterion, Seal, Published, Factoidtype
+from settings import DISPLAYED_FACTOID_TYPES
 from solr_backends.solr_backend_field_collapsing import \
     GroupedSearchQuerySet
-from models import Person, Factoid, Source, Factoidtype, Boulloterion, Seal, Published, Collection, Factoidtype
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -79,86 +74,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         return queryset
 
 
-# Conveneince class for person detail to group factoids by type for display
-class FactoidGroups:
-    groups = {}
-    factoidtypes = []
-
-    # Sort the factoid types into the preferred order (See PBW-24)
-    def factoidtypesort(self, factoids):
-        type_id = factoids[0].factoidtype.id
-        x = 0
-        for ftype in self.factoidtypes:
-            if ftype == type_id:
-                return x
-            x += 1
-
-    def __init__(self, person, factoidtypes):
-        self.person = person
-        self.groups = list()
-        self.factoidtypes = factoidtypes
-        self.locations = self.getLocations()
-
-        # Set up factoid groups by order in settings
-        for type_id in factoidtypes:
-            try:
-                type = Factoidtype.objects.get(id=type_id)
-                factoids = Factoid.objects.filter(
-                    factoidperson__person=person,
-                    factoidperson__factoidpersontype__fptypename="Primary") .filter(
-                    factoidtype=type).order_by(
-                    'scdate__year',
-                    'scdate__yrorder')
-                if factoids.count() > 0:
-                    self.groups.append(FactoidGroup(type, factoids))
-            except ObjectDoesNotExist:
-                pass
-
-    def getLocations(self):
-        type = 12
-        factoids = Factoid.objects.filter(
-            factoidperson__person=self.person,
-            factoidperson__factoidpersontype__fptypename="Primary") .filter(
-            factoidtype_id=type).order_by(
-            'factoidlocation__location',
-            'scdate__year',
-            'scdate__yrorder').distinct()
-        print factoids.count()
-        return factoids
-
-    def getEthnicity(self):
-        type = 8
-        factoids = Factoid.objects.filter(
-            factoidperson__person=self.person,
-            factoidperson__factoidpersontype__fptypename="Primary") .filter(
-            factoidtype_id=type).order_by(
-            'ethnicityfactoid__ethnicity',
-            'scdate__year',
-            'scdate__yrorder')
-        pass
-
-    def getDignityOffice(self):
-        type = 6
-        factoids = Factoid.objects.filter(
-            factoidperson__person=self.person,
-            factoidperson__factoidpersontype__fptypename="Primary") .filter(
-            factoidtype_id=type).order_by(
-            'scdate__year',
-            'scdate__yrorder')
-        pass
-
-    def getKinship(self):
-        pass
-
-    def getVariantName(self):
-        pass
-
-    def getNarrative(self):
-        pass
-
-
 class FactoidGroup:
-
     def __init__(self, type, factoids):
         self.factoidtype = type
         self.factoids = factoids
@@ -168,14 +84,17 @@ class FactoidGroup:
 class PersonDetailView(DetailView):
     model = Person
     template_name = 'includes/person_detail.html'
+    loadAllThreshold = 100
+    loadAll = False
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
-        context['factoidGroups'] = FactoidGroups(
-            person, DISPLAYED_FACTOID_TYPES)
+        context['factoidGroups'] = self.get_factoid_groups \
+            (DISPLAYED_FACTOID_TYPES)
         context['lastAuthority'] = ''
+        context['loadAll'] = self.loadAll
         # Get referred search from session to go back
         try:
             query = self.request.session['query_string']
@@ -183,6 +102,26 @@ class PersonDetailView(DetailView):
         except Exception:
             context['query'] = None
         return context
+
+    def get_factoid_groups(self, factoidtypes):
+        groups = list()
+        self.factoidtypes = factoidtypes
+        person = self.get_object()
+        # Set up factoid groups by order in settings
+        total = 0
+        for type_id in factoidtypes:
+            try:
+                type = Factoidtype.objects.get(id=type_id)
+                factoids = self.get_factoid_group(person, type)
+                if factoids.count() > 0:
+                    groups.append(FactoidGroup(type, factoids))
+                    total += factoids.count()
+            except ObjectDoesNotExist:
+                pass
+        if total <= self.loadAllThreshold:
+            # Pre-load all factoids
+            self.loadAll = True
+        return groups
 
     def get_factoid_group(self, person, type):
         authOrder = ''
@@ -192,7 +131,7 @@ class PersonDetailView(DetailView):
             authOrder = 'factoidlocation__location'
         elif type.typename == "Dignity/Office":
             authOrder = 'dignityfaction__dignityoffice'
-        elif type.typename == "Occupation":
+        elif type.typename == "Occupation/Vocation":
             authOrder = 'occupationfactoid__ocupation'
         elif type.typename == "Language Skill":
             authOrder = 'langfactoid__languageskill'
@@ -204,18 +143,21 @@ class PersonDetailView(DetailView):
             authOrder = 'possessionfactoid__possession'
         elif type.typename == "Second Name":
             authOrder = 'famnamefactoid__familyname'
+        else:
+            authOrder = "id"
+            #kinship,education,authorship,death,narrative
         factoids = Factoid.objects.filter(
             factoidperson__person=person,
-            factoidperson__factoidpersontype__fptypename="Primary") .filter(
+            factoidperson__factoidpersontype__fptypename="Primary").filter(
             factoidtype=type).order_by(
-            authOrder,
-            'scdate__year',
-            'scdate__yrorder').distinct()
+            authOrder).distinct()
+        # ,
+        # 'scdate__year',
+        # 'scdate__yrorder'
         return factoids
 
+
 # Slight variation on person detail to accept the universal URI
-
-
 class PersonPermalinkDetailView(PersonDetailView):
     name_url_kwarg = 'name'
     code_url_kwarg = 'code'
@@ -256,16 +198,19 @@ class PersonJsonView(PersonDetailView):
         context['toJSON'] = person_data + factoid_data
         return context
 
+
 # Displays one factoid type
 # As a nested list if authority list
 
 
 class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
+    results_per_page = 10
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.type = Factoidtype.objects.get(id=kwargs['type_id'])
+        self.page_number = request.GET.get('page')
         context = self.get_context_data(object=self.object, type=self.type)
         return self.render_to_response(context)
 
@@ -274,7 +219,15 @@ class FactoidGroupView(PersonDetailView):
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
         factoids = self.get_factoid_group(person=person, type=self.type)
-        context['factoids'] = factoids
+        paginator = Paginator(factoids, self.results_per_page)
+        try:
+            page = paginator.page(self.page_number)
+        except PageNotAnInteger:
+            page = paginator.page(1)
+        except EmptyPage:
+            page = paginator.page(paginator.num_pages)
+            context['factoids'] = paginator
+        context['factoids'] = page
         return context
 
 

@@ -473,6 +473,10 @@ class Factoid(models.Model):
         else:
             return None
 
+    def getScDates(self):
+        return Scdate.objects.filter(factoid=self)
+
+
     def __unicode__(self):
         return self.engdesc
 
@@ -558,9 +562,9 @@ class Factoidtype(models.Model):
 
 class Famnamefactoid(models.Model):
     # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey', primary_key=True)
+    factoid = models.ForeignKey('Factoid', db_column='factoidKey')
     # Field name made lowercase.
-    famnamekey = models.SmallIntegerField(db_column='famNameKey')
+    familyname = models.ForeignKey('Factoid', db_column='famNameKey',related_name='familyname')
     tstamp = models.DateTimeField()
 
     class Meta:
@@ -1033,6 +1037,9 @@ class Scdate(models.Model):
         blank=True,
         null=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', default=1)
+
+    def __unicode__(self):
+        return self.year
 
     class Meta:
         db_table = 'ScDate'

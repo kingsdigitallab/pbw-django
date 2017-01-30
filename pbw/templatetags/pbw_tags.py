@@ -93,7 +93,8 @@ def get_authority_list(factoid):
                 sl=sls[0]
                 fm=Familyname.objects.get(id=sl.famnamekey)
                 authority= fm.famname
-
+        else:
+            authority = factoid.engdesc
     except Exception:
         pass
         authority= factoid.engdesc

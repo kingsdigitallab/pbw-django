@@ -3,8 +3,9 @@
 {% for f in factoids %}
     {% get_authority_list f as authority %}
     {% sameAsLast authority as same %}
-    {% if not sameAsLast %}
+    {% if not same %}
     <li>
+
         <dl>
             <dt>
                 {{ authority | add_persref_links |safe }}
@@ -31,6 +32,9 @@
                 {% if f.factoidtype.typename == "Ethnic label" or f.factoidtype.typename == "Location" or f.factoidtype.typename == "Dignity/Office" or f.factoidtype.typename == "Occupation" %}
                     {{ f.engdesc | add_persref_links |safe }}
                 {% endif %}
+        {% for scdate in f.getScDates %}
+            <p>{{ scdate }}</p>
+        {% endfor %}
                 {{ f.origldesc }}
 
                 {% if f.boulloterionkey > 1 %}
