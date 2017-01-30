@@ -124,27 +124,30 @@ class PersonDetailView(DetailView):
         return groups
 
     def get_factoid_group(self, person, type):
-        authOrder = ''
+        authOrder = 'engdesc'
         if type.typename == "Ethnic label":
             authOrder = 'factoidlocation__location'
         elif type.typename == "Location":
             authOrder = 'factoidlocation__location'
         elif type.typename == "Dignity/Office":
-            authOrder = 'dignityfaction__dignityoffice'
+            authOrder = 'dignityfactoid__dignityoffice'
         elif type.typename == "Occupation/Vocation":
             authOrder = 'occupationfactoid__ocupation'
         elif type.typename == "Language Skill":
             authOrder = 'langfactoid__languageskill'
         elif type.typename == "Alternative Name":
-            authOrder = 'Dignityfaction__dignityoffice'
+            authOrder = 'vnamefactoid__variantname'
         elif type.typename == "Religion":
             authOrder = 'religionfactoid__religion'
         elif type.typename == "Possession":
             authOrder = 'possessionfactoid__possession'
         elif type.typename == "Second Name":
             authOrder = 'famnamefactoid__familyname'
+        elif type.typename == "Kinship":
+            authOrder = 'kinfactoid__kinship'
         else:
-            authOrder = "id"
+            #todo may be scdate
+            authOrder = "engdesc"
             #kinship,education,authorship,death,narrative
         factoids = Factoid.objects.filter(
             factoidperson__person=person,

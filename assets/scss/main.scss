@@ -166,6 +166,10 @@ nav {
   color: $black;
 }
 
+#personContent ul.nestedfactoidgroup{
+	list-style-type: none;
+}
+
 #boulloterionContent .heading,#personContent .heading{
   color: $primary-color;
 }
