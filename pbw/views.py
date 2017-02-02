@@ -145,6 +145,8 @@ class PersonDetailView(DetailView):
             authOrder = 'famnamefactoid__familyname'
         elif type.typename == "Kinship":
             authOrder = 'kinfactoid__kinship'
+        elif type.typename == "Narrative ":
+            authOrder ='scdate__year,scdate__yrorder'
         else:
             #todo may be scdate
             authOrder = "engdesc"
@@ -155,8 +157,7 @@ class PersonDetailView(DetailView):
             factoidtype=type).order_by(
             authOrder).distinct()
         # ,
-        # 'scdate__year',
-        # 'scdate__yrorder'
+        #
         return factoids
 
 

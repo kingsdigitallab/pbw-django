@@ -672,6 +672,7 @@ class Kinshiptype(models.Model):
     creationdate = models.DateTimeField(
         db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
+    kinorder = models.SmallIntegerField(default=1)
 
     class Meta:
         db_table = 'KinshipType'
