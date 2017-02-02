@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.ssh.insert_key = false
 
   config.vm.box = "debian/contrib-jessie64"
+  config.vm.boot_timeout = 600
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = ".vagrant_provisioning/playbook.yml"

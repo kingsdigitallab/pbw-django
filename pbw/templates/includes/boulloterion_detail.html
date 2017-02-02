@@ -10,7 +10,7 @@
 
                 <h2>{{ boulloterion.title }}</h2>
 
-                <h3>{{ boulloterion.origltext }}</h3>
+
             </div>
         </div>
         {% if user.is_authenticated %}
@@ -36,6 +36,7 @@
         </div>
         <div class="row">
             <div class="large-12 columns">
+                <p>{{ boulloterion.origltext }}</p>
                 <p>{{ boulloterion.text }} </p>
 
                 <p><span class="heading">Diameter:</span> {{ boulloterion.diameter }}</p>
