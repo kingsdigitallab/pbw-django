@@ -132,7 +132,7 @@ class PersonDetailView(DetailView):
         elif type.typename == "Dignity/Office":
             authOrder = 'dignityfactoid__dignityoffice'
         elif type.typename == "Occupation/Vocation":
-            authOrder = 'occupationfactoid__ocupation'
+            authOrder = 'occupationfactoid__occupation'
         elif type.typename == "Language Skill":
             authOrder = 'langfactoid__languageskill'
         elif type.typename == "Alternative Name":

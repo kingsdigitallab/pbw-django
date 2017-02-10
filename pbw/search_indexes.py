@@ -1,20 +1,44 @@
+from django.db.models import Q
 from haystack import indexes
+import re
 
+from pbw.models import Sexauth
 from settings import DISPLAYED_FACTOID_TYPES
 from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Variantname, Languageskill, Occupation, Source
 
+#Break down floruits into separate facets
+#obj = person object
+def get_floruits(obj):
+    floruits = list()
+    floruit = obj.floruit
+    # Todo break down E/M/L XII
+    centuries = ['IX', 'XI', 'XII', 'XIII']
+    periods = ['E', 'M', 'L']
+    for p in periods:
+        for c in centuries:
+            if re.search(p + "\s+" + c, floruit) is not None:
+                floruits.append(p + " " + c)
+    return floruits
+
+#Fold probable eunuchs into main eunuch facet
+def get_sex(obj):
+    sex = obj.sex
+    if sex.sexvalue == "Eunuch (Probable)":
+        return Sexauth.objects.get(sexvalue="Eunuch (Probable)")
+    else:
+        return sex
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname', default='')
-    name = indexes.CharField(model_attr='name', faceted=True)
+    name = indexes.FacetMultiValueField()  # indexes.CharField(model_attr='name', faceted=True)
     nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetCharField()
     source = indexes.FacetMultiValueField()
     person = indexes.CharField()
-    sex = indexes.FacetCharField(model_attr='sex__sexvalue')
+    sex = indexes.FacetCharField()
     person_id = indexes.IntegerField(model_attr='id')
-    floruit = indexes.CharField(model_attr='floruit', faceted=True)
+    floruit = indexes.FacetMultiValueField()
     mdbcode = indexes.IntegerField(model_attr='mdbcode')
     oLangKey = indexes.IntegerField(model_attr='olangkey')
     tstamp = indexes.DateTimeField(model_attr='tstamp')
@@ -22,8 +46,27 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return Person
 
+
     def prepare_person(self, obj):
         return obj.name + " " + str(obj.mdbcode)
+
+    def prepare_sex(self, obj):
+        return get_sex(obj)
+
+
+    def prepare_floruit(self,obj):
+        return get_floruits(obj)
+
+
+
+    def prepare_name(self, obj):
+        factoids = Factoid.objects.filter(factoidperson__person=obj).filter(Q(factoidtype__typename="Second Name")|Q(
+            factoidtype__typename="Alternative Name"))
+        names = list(obj.name)
+        for f in factoids:
+            if len(f.engdesc) > 1:
+                names.append(f.engdesc)
+        return names
 
     def prepare_letter(self, obj):
         if len(obj.name) > 0:
@@ -47,8 +90,10 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
 class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='engdesc', default='')
-    name = indexes.FacetCharField()
+    name = indexes.FacetMultiValueField()
     origldesc = indexes.FacetCharField(model_attr='origldesc')
+    sex = indexes.FacetCharField()
+    floruit = indexes.FacetMultiValueField()
     nameol = indexes.CharField()
     factoidtype = indexes.CharField(model_attr='factoidtype__typename')
     factoidtypekey = indexes.IntegerField(
@@ -89,6 +134,16 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return 0
 
+    def prepare_sex(self, obj):
+        if obj.person != None:
+            return get_sex(obj.person)
+
+
+    def prepare_floruit(self,obj):
+        if obj.person != None:
+            return get_floruits(obj.person)
+
+
     def prepare_nameol(self, obj):
         p = obj.person
         if p is not None:
@@ -97,11 +152,15 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_name(self, obj):
-        p = obj.person
-        if p is not None:
-            return p.name
-        else:
-            return ""
+        names = list()
+        if obj.person != None:
+            names.append(obj.person.name)
+            factoids = Factoid.objects.filter(factoidperson__person=obj.person).filter(Q(factoidtype__typename="Second Name")|Q(
+                factoidtype__typename="Alternative Name"))
+            for f in factoids:
+                if len(f.engdesc) > 1:
+                    names.append(f.engdesc)
+        return names
 
     def prepare_letter(self, obj):
         p = obj.person
