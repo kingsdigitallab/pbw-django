@@ -93,6 +93,12 @@ def get_authority_list(factoid):
                 sl=sls[0]
                 fm=Familyname.objects.get(id=sl.famnamekey)
                 authority= fm.famname
+        elif "Kinship" in factoid.factoidtype.typename:
+            kfs = Kinfactoid.objects.filter(factoid=factoid)
+            if kfs.count() > 0:
+                kf=kfs[0]
+                authority = kf.kinship.gspecrelat
+
         else:
             authority = factoid.engdesc
     except Exception:

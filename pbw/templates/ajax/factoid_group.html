@@ -20,7 +20,7 @@
 {% endif %}
 <li>
 
-    {% if f.factoidtype.typename == "Ethnic label" or f.factoidtype.typename == "Location" or f.factoidtype.typename == "Dignity/Office" or f.factoidtype.typename == "Occupation" %}
+    {% if f.factoidtype.typename == "Ethnic label" or f.factoidtype.typename == "Kinship" or f.factoidtype.typename == "Location" or f.factoidtype.typename != "Dignity/Office" or f.factoidtype.typename == "Occupation" %}
         {{ f.engdesc | add_persref_links |safe }}
     {% endif %}
     {{ f.origldesc }}

@@ -84,7 +84,7 @@ class FactoidGroup:
 class PersonDetailView(DetailView):
     model = Person
     template_name = 'includes/person_detail.html'
-    loadAllThreshold = 100
+    loadAllThreshold = 200
     loadAll = False
 
     def get_context_data(self, **kwargs):  # noqa
@@ -144,9 +144,9 @@ class PersonDetailView(DetailView):
         elif type.typename == "Second Name":
             authOrder = 'famnamefactoid__familyname'
         elif type.typename == "Kinship":
-            authOrder = 'kinfactoid__kinship'
-        elif type.typename == "Narrative ":
-            authOrder ='scdate__year,scdate__yrorder'
+            authOrder = 'kinfactoid__kinship__gspecrelat'
+        elif type.typename == "Narrative":
+            authOrder ='scdate'
         else:
             #todo may be scdate
             authOrder = "engdesc"

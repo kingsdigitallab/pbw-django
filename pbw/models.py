@@ -676,6 +676,8 @@ class Kinshiptype(models.Model):
 
     class Meta:
         db_table = 'KinshipType'
+        ordering = ['kinorder']
+
 
 
 class Langfactoid(models.Model):
@@ -1056,6 +1058,7 @@ class Scdate(models.Model):
 
     class Meta:
         db_table = 'ScDate'
+        ordering = ['year','yrorder']
 
 
 class Scsource(models.Model):

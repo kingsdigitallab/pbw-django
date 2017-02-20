@@ -28,12 +28,30 @@ def get_sex(obj):
     else:
         return sex
 
+def get_names(person):
+    names = list()
+    if person is not None:
+        factoids = Factoid.objects.filter(factoidperson__person=person).filter(Q(factoidtype__typename="Second Name")|Q(
+                factoidtype__typename="Alternative Name"))        
+        names.append(person.name)
+        for f in factoids:
+           if len(f.engdesc) > 1:
+                 names.append(f.engdesc)
+    return names
+
+def get_letters(names):
+    letters=list("")    
+    for name in names:
+       if name.upper() not in letters:
+          letters.append(name[0].upper())
+    return letters
+
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname', default='')
     name = indexes.FacetMultiValueField()  # indexes.CharField(model_attr='name', faceted=True)
     nameol = indexes.CharField(model_attr='nameol')
-    letter = indexes.FacetCharField()
+    letter = indexes.FacetMultiValueField()
     source = indexes.FacetMultiValueField()
     person = indexes.CharField()
     sex = indexes.FacetCharField()
@@ -58,19 +76,12 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         return get_floruits(obj)
 
 
-
     def prepare_name(self, obj):
-        factoids = Factoid.objects.filter(factoidperson__person=obj).filter(Q(factoidtype__typename="Second Name")|Q(
-            factoidtype__typename="Alternative Name"))
-        names = list(obj.name)
-        for f in factoids:
-            if len(f.engdesc) > 1:
-                names.append(f.engdesc)
-        return names
+        return get_names(obj)
+        
 
     def prepare_letter(self, obj):
-        if len(obj.name) > 0:
-            return obj.name[0].upper()
+        return get_letters(get_names(obj))
 
     def prepare_source(self, obj):
         sources = Source.objects.filter(
@@ -110,7 +121,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     language = indexes.FacetCharField()
     secondaryname = indexes.FacetCharField()
     occupation = indexes.FacetCharField()
-    letter = indexes.FacetCharField()
+    letter = indexes.FacetMultiValueField()
 
     def get_model(self):
         return Factoid
@@ -152,23 +163,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             return ""
 
     def prepare_name(self, obj):
-        names = list()
-        if obj.person != None:
-            names.append(obj.person.name)
-            factoids = Factoid.objects.filter(factoidperson__person=obj.person).filter(Q(factoidtype__typename="Second Name")|Q(
-                factoidtype__typename="Alternative Name"))
-            for f in factoids:
-                if len(f.engdesc) > 1:
-                    names.append(f.engdesc)
-        return names
+        return get_names(obj.person)
 
     def prepare_letter(self, obj):
-        p = obj.person
-        if p is not None:
-            name = p.name
-            if len(name) > 0:
-                return name[0].upper()
-        return ""
+        return get_letters(get_names(obj.person))
+
 
     def prepare_location(self, obj):
         # Location
