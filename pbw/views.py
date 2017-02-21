@@ -144,7 +144,7 @@ class PersonDetailView(DetailView):
         elif type.typename == "Second Name":
             authOrder = 'famnamefactoid__familyname'
         elif type.typename == "Kinship":
-            authOrder = 'kinfactoid__kinship__gspecrelat'
+            authOrder = 'kinfactoid__kinship'
         elif type.typename == "Narrative":
             authOrder ='scdate'
         else:

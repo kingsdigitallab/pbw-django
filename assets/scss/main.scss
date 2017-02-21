@@ -301,6 +301,10 @@ ul.inline-list li{
 	}
 }
 
+.floruit li {
+	display: inline;
+}
+
 /*** Footer ***/
 
 footer.main-footer {
@@ -363,6 +367,9 @@ footer.main-footer {
 	}
 }
 
+.kinDesc {
+	color:black;
+}
 
 /* Printing search results */
 

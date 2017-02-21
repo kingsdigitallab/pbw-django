@@ -88,6 +88,7 @@
                                         {% endfor %}
                                     </div>
 
+
                                     {{ form.name }}
                                     {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
                                     <div class="panel radius fixed-height">
@@ -99,6 +100,27 @@
 
                                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"name" }}name=%22{{ value }}%22">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
+                                                {% endif %}{% endwith %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row do-not-print">
+                            <div class="large-12 columns">
+                                <div class="panel callout">
+                                    <h2 class="panel-heading">Floruit</h2>                                    
+                                    <div class="panel radius">
+                                        <ul class="no-bullet floruit">
+                                            {% for term in facets.fields|get_item:"floruit" %}
+                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                                    <li>
+                                                        <a href="
+
+                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ value }}%22">{{ value }}</a>
+                                                        <span class="label radius">{{ count }}</span>
+                                                    </li>
                                                 {% endif %}{% endwith %}
                                             {% endfor %}
                                         </ul>

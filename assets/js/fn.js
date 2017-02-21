@@ -65,6 +65,8 @@ define([
                     //Add html
             console.log(event.target+'opened!');
         });
+
+       
     });
 
     return module;

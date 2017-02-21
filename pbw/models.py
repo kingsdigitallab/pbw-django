@@ -416,6 +416,7 @@ class Ethnicity(models.Model):
 
     class Meta:
         db_table = 'Ethnicity'
+        ordering = ['ethname']
 
 
 class Ethnicityfactoid(models.Model):
@@ -676,7 +677,7 @@ class Kinshiptype(models.Model):
 
     class Meta:
         db_table = 'KinshipType'
-        ordering = ['kinorder']
+        ordering = ['kinorder','gspecrelat']
 
 
 
