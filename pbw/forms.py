@@ -11,6 +11,12 @@ class PBWFacetedSearchForm(FacetedSearchForm):
     letter = forms.CharField(required=False, widget=forms.HiddenInput(
         attrs={}))
 
+    floruit = forms.CharField(required=False, widget=forms.HiddenInput(
+        attrs={}))
+
+    sex = forms.CharField(required=False, widget=forms.HiddenInput(
+        attrs={}))
+
     source = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 

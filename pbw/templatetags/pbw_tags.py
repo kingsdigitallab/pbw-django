@@ -16,6 +16,14 @@ def get_item(dictionary, key):
 
     return None
 
+@register.filter
+def get_item_count(floruits, floruit):
+    for f in floruits:
+        if floruit == f[0]:
+            return f[1]
+    return 0
+
+
 #Replaces the custom tags denoting a link to a person with a proper link.
 @register.filter
 def add_persref_links(desc):

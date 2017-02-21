@@ -107,24 +107,65 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row do-not-print">
                             <div class="large-12 columns">
                                 <div class="panel callout">
-                                    <h2 class="panel-heading">Floruit</h2>                                    
-                                    <div class="panel radius">
-                                        <ul class="no-bullet floruit">
-                                            {% for term in facets.fields|get_item:"floruit" %}
-                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
+                                    <h2 class="panel-heading">Sex</h2>  
+                                    <ul class="no-bullet floruit">
+                                        {%with sexes=facets.fields|get_item:"sex"%}
+
+                                        {%for g in genders%}
+                                        {% with count=sexes|get_item_count:g%}
+                                            {%if count > 0%}                                            
                                                     <li>
                                                         <a href="
 
-                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ value }}%22">{{ value }}</a>
-                                                        <span class="label radius">{{ count }}</span>
-                                                    </li>
-                                                {% endif %}{% endwith %}
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
+                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                            {%endif%}                                                
+                                        {% endwith %}
+                                        {%endfor%}
+                                        {% endwith %}
+                                        </ul>  
+                                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row do-not-print">
+                            <div class="large-12 columns">
+                                <div class="panel callout">
+                                    <h2 class="panel-heading">Floruit</h2>    
+                                    <p class="info"><i class="fa fa-info-circle"></i> E= Early, M= Middle, L= Late</p>                                
+                                    <div class="panel radius">
+                                    <ul class="floruit">
+                                     {% with  floruits=facets.fields|get_item:"floruit" %}                                     
+
+                                     {%for c in centuries%}
+                                        {% for p in periods %}
+                                        
+                                        {% with floruit=p|add:" "|add:c %}                                        
+                                            {% with count=floruits|get_item_count:floruit%}
+                                            {%if count > 0%}
+                                            <li> <a href="{% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{floruit }}</a>
+                                                        <span class="label radius">{{ count }}</span></li>
+                                                        
+                                            {%endif%}
+                                            {% endwith %}
+                                        {% endwith %}
+                                        {%endfor%}
+                                    {%endfor%}
+
+                                    
+                                     
+                                     {% endwith%}
+
+                                     
+                                                    
+                                     
+                                    </ul>
+                                    
+                                            
                                 </div>
                             </div>
                         </div>
@@ -230,10 +271,8 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
 
-
-                                <div class="large-6 columns">
+                                    <div class="large-6 columns">
                                     <h4>Location</h4>
                                     {{ form.location }}
                                     <div class="panel radius fixed-height">
@@ -253,6 +292,11 @@
                                         </ul>
                                     </div>
                                 </div>
+
+                                </div>
+
+
+                                
                                 <div class="row">
                                     <div class="large-6 columns">
                                         <h4>Language</h4>

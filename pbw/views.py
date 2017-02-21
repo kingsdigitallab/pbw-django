@@ -60,6 +60,9 @@ class PBWFacetedSearchView(FacetedSearchView):
         context['autocomplete_facets'] = self.autocomplete_facets
         self.request.session[
             'query_string'] = self.request.META['QUERY_STRING']
+        context['centuries'] = ['IX', 'XI', 'XII', 'XIII']
+        context['periods'] = ['E', 'M', 'L']     
+        context['genders'] = ['Male', 'Female', 'Eunach']     
 
         return context
 
@@ -69,7 +72,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet, mincount=1, sort='index')
+            queryset = queryset.facet(facet, mincount=1, sort='index', limit=-1)
 
         return queryset
 
@@ -159,6 +162,39 @@ class PersonDetailView(DetailView):
         # ,
         #
         return factoids
+
+# def get_factoid_group(self, person, type):
+#         factoids = Factoid.objects.filter(
+#             factoidperson__person=person,
+#             factoidperson__factoidpersontype__fptypename="Primary").filter(
+#             factoidtype=type)
+#         if type.typename == "Ethnic label":
+#             factoids.order_by('ethnicityfactoid__ethnicity')
+#         elif type.typename == "Location":
+#             factoids.order_by('factoidlocation__location')            
+#         elif type.typename == "Dignity/Office":
+#             factoids.order_by('dignityfactoid__dignityoffice')
+#         elif type.typename == "Occupation/Vocation":
+#             factoids.order_by('occupationfactoid__occupation')
+#         elif type.typename == "Language Skill":
+#             factoids.order_by('langfactoid__languageskill')
+#         elif type.typename == "Alternative Name":
+#             factoids.order_by('vnamefactoid__variantname')
+#         elif type.typename == "Religion":
+#             factoids.order_by('religionfactoid__religion')
+#         elif type.typename == "Possession":
+#             factoids.order_by('possessionfactoid__possession')
+#         elif type.typename == "Second Name":
+#             factoids.order_by('famnamefactoid__familyname')
+#         elif type.typename == "Kinship":
+#             factoids.order_by('kinfactoid__kinship__kinorder')
+#         elif type.typename == "Narrative":
+#             factoids.order_by('scdate')
+#         else:            
+#             factoids.order_by("engdesc")
+#             #kinship,education,authorship,death,narrative
+        
+#         return factoids
 
 
 # Slight variation on person detail to accept the universal URI
