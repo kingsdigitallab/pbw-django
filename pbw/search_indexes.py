@@ -42,7 +42,7 @@ def get_names(person):
 def get_letters(names):
     letters=list("")    
     for name in names:
-       if name.upper() not in letters:
+       if len(name) > 0 and name.upper() not in letters:
           letters.append(name[0].upper())
     return letters
 
