@@ -109,9 +109,10 @@
                         </div>
 
                         <div class="row do-not-print">
-                            <div class="large-8 columns">
+                            <div class="large-4 columns">
                                 <div class="panel callout">
                                     <h2 class="panel-heading">Sex</h2>  
+                                    <p class="info"><i class="fa fa-info-circle"></i> Includes Eunuchs</p>
                                     <ul class="no-bullet floruit">
                                         {%with sexes=facets.fields|get_item:"sex"%}
 
@@ -127,17 +128,15 @@
                                         {% endwith %}
                                         {%endfor%}
                                         {% endwith %}
-                                        </ul>  
-                                            
+                                        </ul>                                              
                                 </div>
                             </div>
-                        </div>
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
+                        
+                            <div class="large-8 columns">
                                 <div class="panel callout">
                                     <h2 class="panel-heading">Floruit</h2>    
                                     <p class="info"><i class="fa fa-info-circle"></i> E= Early, M= Middle, L= Late</p>                                
-                                    <div class="panel radius">
+                                    
                                     <ul class="floruit">
                                      {% with  floruits=facets.fields|get_item:"floruit" %}                                     
 
@@ -166,7 +165,7 @@
                                     </ul>
                                     
                                             
-                                </div>
+                                
                             </div>
                         </div>
 

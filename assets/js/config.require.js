@@ -33,7 +33,8 @@ requirejs.config({
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
         'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
-        'requirejs': '../vendor/requirejs/require'
+        'requirejs': '../vendor/requirejs/require',
+        'main': 'main'
     },
     shim: {
         "easyautocomplete": ["jquery"],
