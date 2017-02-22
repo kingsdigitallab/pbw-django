@@ -2,7 +2,7 @@
 require([
     'requirejs',
     'jquery',
-    'clipboard',
+    //'clipboard',
     'fn',
     'ga',
     'easyautocomplete',
