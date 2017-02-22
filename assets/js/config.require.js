@@ -37,7 +37,10 @@ requirejs.config({
         'main': 'main'
     },
     shim: {
-        "easyautocomplete": ["jquery"],
+        "easyautocomplete":{ 
+            deps: ["jquery"],
+            exports: 'EasyAutocomplete'
+        },
         "clipboard": {
 
             deps: ["jquery"],
