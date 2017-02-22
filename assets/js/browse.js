@@ -103,15 +103,7 @@ define(['module',
             $('.search-box').slideToggle();
         });
         
-        //Accordion Toggles for person detail
-         $("#openAll").click( function(e) {
-            e.preventDefault();
-            $("ul.accordion").foundation('down',$(".accordion-content"));
-        });
-        $("#closeAll").click( function(e) {
-            e.preventDefault();
-            $("ul.accordion").foundation('up',$(".accordion-content"));
-        });
+        
 
     });
 
