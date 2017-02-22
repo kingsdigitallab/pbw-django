@@ -143,7 +143,7 @@ class PersonDetailView(DetailView):
         elif type.typename == "Religion":
             authOrder = 'religionfactoid__religion'
         elif type.typename == "Possession":
-            authOrder = 'possessionfactoid__possession'
+            authOrder = 'possessionfactoid'
         elif type.typename == "Second Name":
             authOrder = 'famnamefactoid__familyname'
         elif type.typename == "Kinship":

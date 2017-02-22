@@ -90,11 +90,11 @@ def get_authority_list(factoid):
             if rls.count() > 0:
                 rl=rls[0]
                 authority=rl.Religion.religionname
-        elif factoid.factoidtype.typename == "Possession":
+        elif factoid.factoidtype.typename == "Possession":            
             pls = Possessionfactoid.objects.filter(factoid=factoid)
             if pls.count() > 0:
                 pl=pls[0]
-                authority= pl.possessionName
+                authority= pl.possessionname
         elif factoid.factoidtype.typename == "Second Name":
             sls=Famnamefactoid.objects.filter(factoid=factoid)
             if sls.count() >0:

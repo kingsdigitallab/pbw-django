@@ -974,9 +974,11 @@ class Possessionfactoid(models.Model):
     possessionname = models.CharField(
         db_column='possessionName', max_length=100)
     tstamp = models.DateTimeField()
+    factoid = models.ForeignKey('Factoid',null=True,blank=True)
 
     class Meta:
         db_table = 'PossessionFactoid'
+        ordering = ['possessionname']
 
 
 class Published(models.Model):
