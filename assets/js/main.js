@@ -1,8 +1,7 @@
 // Main
 require([
     'requirejs',
-    'jquery',
-    //'clipboard',
+    'jquery',    
     'fn',
     'ga',
     'easyautocomplete',

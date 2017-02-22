@@ -11,7 +11,7 @@ requirejs.config({
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         'es6': '../vendor/requirejs-babel/es6',
         'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
-        //'clipboard': '../vendor/clipboard/dist/clipboard.min',
+        
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
@@ -39,11 +39,7 @@ requirejs.config({
     shim: {
         "easyautocomplete":["jquery"]
         ,
-       /* "clipboard": {
-
-            deps: ["jquery"],
-            exports: 'Clipboard'
-        },*/
+       
         'foundation': {
             deps: [
                 'jquery'
