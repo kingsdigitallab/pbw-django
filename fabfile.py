@@ -20,6 +20,7 @@ REPOSITORY = 'github.com/kingsdigitallab/pbw-django.git'
 
 env.user = settings.FABRIC_USER
 env.hosts = ['pbw2.kdl.kcl.ac.uk']
+env.gateway = 'ssh.cch.kcl.ac.uk'
 env.root_path = '/vol/pbw2/webroot/'
 env.envs_path = os.path.join(env.root_path, 'envs')
 
