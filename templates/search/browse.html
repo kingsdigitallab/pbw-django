@@ -183,7 +183,7 @@
 
                                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span>
-                                                        <a href="{% slugurl 'bibliography' %}?source={{ value }}"
+                                                        <a href="{% slugurl 'sources' %}?source={{ value }}"
                                                            title="Sources"><span
                                                                 class="info"><i
                                                                 class="fa fa-info-circle"></i></span></a></li>
