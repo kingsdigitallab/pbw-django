@@ -52,7 +52,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
         data = self.cleaned_data
         if "selected_facets" in data:
             if data.get("selected_facets"):
-                print data.get("selected_facets")
+                print (data.get("selected_facets"))
 
         for field in (
             'dignityoffice',
@@ -68,7 +68,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
                 'floruit'):
             if field in data:
                 if data.get(field):
-                    print data.get(field)
+                    print (data.get(field))
                     sqs = sqs.narrow('{}:{}'.format(
                         field, data.get(field)))
 

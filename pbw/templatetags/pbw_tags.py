@@ -152,13 +152,14 @@ def sameAsLast(context, authority):
 @register.filter(is_safe=True)
 def filter_selected_facets(form, filter):
     selected_facets = "?"
-    for key, value in form.cleaned_data.iteritems():
-        if key != filter and len(value) > 0:
-            if len(selected_facets) > 1:
-                selected_facets += "&"
-            selected_facets += str(key) + "=" + unicode(value)
-    if len(selected_facets) > 1:
-        selected_facets += "&"
+    if form.is_valid():
+        for key, value in form.cleaned_data.iteritems():
+            if key != filter and len(value) > 0:
+                if len(selected_facets) > 1:
+                    selected_facets += "&"
+                selected_facets += str(key) + "=" + unicode(value)
+        if len(selected_facets) > 1:
+            selected_facets += "&"
     return selected_facets
 
 
