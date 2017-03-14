@@ -34,6 +34,7 @@
 
 
 
+
                                                                     {% url 'pbw_browse' %}{{ form | filter_selected_facets:field.name }}"><i
                                                             class="fa fa-times-circle"></i></a></span>
                                     </li>
@@ -85,6 +86,7 @@
 
 
 
+
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:'letter' }}letter={{ value }}">{{ value }}
                                                         <span class="secondary label">{{ count }}</span></a>
                                                 {% endif %}
@@ -101,6 +103,7 @@
                                                 {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                                     <li>
                                                         <a href="
+
 
 
 
@@ -131,6 +134,7 @@
 
 
 
+
                                                                         {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}</a>
                                                                 <span class="label radius">{{ count }}</span></li>
                                                         {% endif %}
@@ -151,23 +155,28 @@
 
                                     <ul class="floruit">
                                         {% with  floruits=facets.fields|get_item:"floruit" %}
+                                            {{ floruits }}
+                                            {% if floruits %}
 
-                                            {% for c in centuries %}
-                                                {% for p in periods %}
+                                                {% for c in centuries %}
+                                                    {% for p in periods %}
 
-                                                    {% with floruit=p|add:" "|add:c %}
-                                                        {% with count=floruits|get_item_count:floruit %}
-                                                            {% if count > 0 %}
-                                                                <li><a href="
+                                                        {% with floruit=p|add:" "|add:c %}
+                                                            {% with count=floruits|get_item_count:floruit %}
+                                                                {% if count > 0 %}
+                                                                    <li><a href="
 
-                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{ floruit }}</a>
-                                                                    <span class="label radius">{{ count }}</span></li>
 
-                                                            {% endif %}
+                                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{ floruit }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+
+                                                                {% endif %}
+                                                            {% endwith %}
                                                         {% endwith %}
-                                                    {% endwith %}
+                                                    {% endfor %}
                                                 {% endfor %}
-                                            {% endfor %}
+                                            {% endif %}
 
 
 
@@ -191,6 +200,7 @@
                                                     {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                                         <li>
                                                             <a href="
+
 
 
 
@@ -229,6 +239,7 @@
 
 
 
+
                                                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22">{{ value }}</a>
                                                                         <span class="label radius">{{ count }}</span>
                                                                     </li>
@@ -250,6 +261,7 @@
                                                                 {% if count > 0 %}
                                                                     <li>
                                                                         <a href="
+
 
 
 
@@ -279,6 +291,7 @@
 
 
 
+
                                                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22">{{ value }}</a>
                                                                         <span class="label radius">{{ count }}</span>
                                                                     </li>
@@ -299,6 +312,7 @@
                                                                 {% if count > 0 %}
                                                                     <li>
                                                                         <a href="
+
 
 
 
@@ -326,6 +340,7 @@
                                                                 {% if count > 0 %}
                                                                     <li>
                                                                         <a href="
+
 
 
 
@@ -384,6 +399,7 @@
 
 
 
+
                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
                 </li>
                 <li>
@@ -394,11 +410,13 @@
 
 
 
+
                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
                 </li>
                 {% if page_obj.number < paginator.num_pages %}
                     <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
                         <a href="
+
 
 
 
