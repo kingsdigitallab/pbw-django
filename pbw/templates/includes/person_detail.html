@@ -36,12 +36,13 @@
                 {% if user.is_authenticated %}
                     <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
                 {% endif %}
-                <a id="openAll" href="#">Open all</a>  <a id="closeAll" href="#">Close all</a>
+                <a id="openAll" href="#">Open all</a> <a id="closeAll" href="#">Close all</a>
                 <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
                     {% for group in factoidGroups %}
                         <li class="accordion-item" data-accordion-item>
-                            <a href="#" class="accordion-title"><h3>{{ group.factoidtype.typename }}
-                                ({{ group.factoids.count }})</h3></a>
+                            <a href="#" class="accordion-title{% if not loadAll %} async{% endif %}" {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}" data-personid="{{ person.id }}"{% endif %}>
+                                <h3>{{ group.factoidtype.typename }}
+                                    ({{ group.factoids.count }})</h3></a>
 
                             <div class="accordion-content" data-tab-content>
                                 <ul>
@@ -60,6 +61,7 @@
             </div>
         </div>
     </div>
+
 
 
 {% endblock %}

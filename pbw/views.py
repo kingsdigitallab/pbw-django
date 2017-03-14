@@ -61,8 +61,8 @@ class PBWFacetedSearchView(FacetedSearchView):
         self.request.session[
             'query_string'] = self.request.META['QUERY_STRING']
         context['centuries'] = ['IX', 'XI', 'XII', 'XIII']
-        context['periods'] = ['E', 'M', 'L']     
-        context['genders'] = ['Male', 'Female', 'Eunach']     
+        context['periods'] = ['E', 'M', 'L']
+        context['genders'] = ['Male', 'Female', 'Eunach']
 
         return context
 
@@ -149,11 +149,11 @@ class PersonDetailView(DetailView):
         elif type.typename == "Kinship":
             authOrder = 'kinfactoid__kinship'
         elif type.typename == "Narrative":
-            authOrder ='scdate'
+            authOrder = 'scdate'
         else:
-            #todo may be scdate
+            # todo may be scdate
             authOrder = "engdesc"
-            #kinship,education,authorship,death,narrative
+            # kinship,education,authorship,death,narrative
         factoids = Factoid.objects.filter(
             factoidperson__person=person,
             factoidperson__factoidpersontype__fptypename="Primary").filter(
@@ -162,6 +162,7 @@ class PersonDetailView(DetailView):
         # ,
         #
         return factoids
+
 
 # def get_factoid_group(self, person, type):
 #         factoids = Factoid.objects.filter(
@@ -193,7 +194,7 @@ class PersonDetailView(DetailView):
 #         else:            
 #             factoids.order_by("engdesc")
 #             #kinship,education,authorship,death,narrative
-        
+
 #         return factoids
 
 
@@ -245,7 +246,7 @@ class PersonJsonView(PersonDetailView):
 
 class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
-    results_per_page = 10
+    results_per_page = 1000
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
