@@ -32,6 +32,8 @@
                                                     <span class="label radius">{{ field.name }}:{{ field.value }}<a
                                                             href="
 
+
+
                                                                     {% url 'pbw_browse' %}{{ form | filter_selected_facets:field.name }}"><i
                                                             class="fa fa-times-circle"></i></a></span>
                                     </li>
@@ -81,6 +83,8 @@
                                                 {% if count > 0 %}
                                                     <a class="button" href="
 
+
+
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:'letter' }}letter={{ value }}">{{ value }}
                                                         <span class="secondary label">{{ count }}</span></a>
                                                 {% endif %}
@@ -98,6 +102,8 @@
                                                     <li>
                                                         <a href="
 
+
+
                                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"name" }}name=%22{{ value }}%22">{{ value }}</a>
                                                         <span class="label radius">{{ count }}</span></li>
                                                 {% endif %}{% endwith %}
@@ -111,220 +117,235 @@
                         <div class="row do-not-print">
                             <div class="large-4 columns">
                                 <div class="panel callout">
-                                    <h2 class="panel-heading">Sex</h2>  
+                                    <h2 class="panel-heading">Sex</h2>
                                     <p class="info"><i class="fa fa-info-circle"></i> Includes Eunuchs</p>
                                     <ul class="no-bullet floruit">
-                                        {%with sexes=facets.fields|get_item:"sex"%}
+                                        {% with sexes=facets.fields|get_item:"sex" %}
+                                            {% if sexes %}
 
-                                        {%for g in genders%}
-                                        {% with count=sexes|get_item_count:g%}
-                                            {%if count > 0%}                                            
-                                                    <li>
-                                                        <a href="
+                                                {% for g in genders %}
+                                                    {% with count=sexes|get_item_count:g %}
+                                                        {% if count > 0 %}
+                                                            <li>
+                                                                <a href="
 
-                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}</a>
-                                                        <span class="label radius">{{ count }}</span></li>
-                                            {%endif%}                                                
+
+
+                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}</a>
+                                                                <span class="label radius">{{ count }}</span></li>
+                                                        {% endif %}
+
+                                                    {% endwith %}
+
+                                                {% endfor %}
+                                            {% endif %}
                                         {% endwith %}
-                                        {%endfor%}
-                                        {% endwith %}
-                                        </ul>                                              
+                                    </ul>
                                 </div>
                             </div>
-                        
+
                             <div class="large-8 columns">
                                 <div class="panel callout">
-                                    <h2 class="panel-heading">Floruit</h2>    
-                                    <p class="info"><i class="fa fa-info-circle"></i> E= Early, M= Middle, L= Late</p>                                
-                                    
+                                    <h2 class="panel-heading">Floruit</h2>
+                                    <p class="info"><i class="fa fa-info-circle"></i> E= Early, M= Middle, L= Late</p>
+
                                     <ul class="floruit">
-                                     {% with  floruits=facets.fields|get_item:"floruit" %}                                     
+                                        {% with  floruits=facets.fields|get_item:"floruit" %}
 
-                                     {%for c in centuries%}
-                                        {% for p in periods %}
-                                        
-                                        {% with floruit=p|add:" "|add:c %}                                        
-                                            {% with count=floruits|get_item_count:floruit%}
-                                            {%if count > 0%}
-                                            <li> <a href="{% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{floruit }}</a>
-                                                        <span class="label radius">{{ count }}</span></li>
-                                                        
-                                            {%endif%}
-                                            {% endwith %}
-                                        {% endwith %}
-                                        {%endfor%}
-                                    {%endfor%}
+                                            {% for c in centuries %}
+                                                {% for p in periods %}
 
-                                    
-                                     
-                                     {% endwith%}
-
-                                     
-                                                    
-                                     
-                                    </ul>
-                                    
-                                            
-                                
-                            </div>
-                        </div>
-
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <div class="panel callout">
-                                    <h2 class="panel-heading">Sources</h2>
-                                    {{ form.source }}
-                                    <div class="panel radius fixed-height">
-                                        <ul class="no-bullet">
-                                            {% for term in facets.fields|get_item:"source" %}
-                                                {% with value=term.0 count=term.1 %} {% if count > 0 %}
-                                                    <li>
-                                                        <a href="
-
-                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">{{ value }}</a>
-                                                        <span class="label radius">{{ count }}</span>
-                                                        <a href="{% slugurl 'sources' %}?source={{ value }}"
-                                                           title="Sources"><span
-                                                                class="info"><i
-                                                                class="fa fa-info-circle"></i></span></a></li>
-                                                {% endif %}{% endwith %}
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <div class="panel callout">
-                                    <h2 class="panel-heading">Other categories</h2>
-
-                                    <div class="row">
-
-
-                                        <div class="large-6 columns">
-                                            <h4>Occupation</h4>
-                                            {{ form.occupation }}
-                                            <div class="panel radius fixed-height">
-                                                <ul class="no-bullet">
-                                                    {% for term in facets.fields|get_item:"occupation" %}
-                                                        {% with value=term.0 count=term.1 %}
+                                                    {% with floruit=p|add:" "|add:c %}
+                                                        {% with count=floruits|get_item_count:floruit %}
                                                             {% if count > 0 %}
-                                                                <li>
-                                                                    <a href="
+                                                                <li><a href="
 
-                                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22">{{ value }}</a>
-                                                                    <span class="label radius">{{ count }}</span>
-                                                                </li>
+                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{ floruit }}</a>
+                                                                    <span class="label radius">{{ count }}</span></li>
+
                                                             {% endif %}
                                                         {% endwith %}
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-
-
-
-                                    <div class="large-6 columns">
-                                        <h4>Dignity / Office</h4>
-                                        {{ form.dignityoffice }}
-                                        <div class="panel radius fixed-height">
-                                            <ul class="no-bullet">
-                                                {% for term in facets.fields|get_item:"dignityoffice" %}
-                                                    {% with value=term.0 count=term.1 %}
-                                                        {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}dignityoffice=%22{{ value }}%22">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span>
-                                                            </li>
-                                                        {% endif %}
                                                     {% endwith %}
                                                 {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
+                                            {% endfor %}
+
+
+
+                                        {% endwith %}
+
+
+                                    </ul>
+
+
                                 </div>
+                            </div>
 
-                                <div class="row">
-
-                                    <div class="large-6 columns">
-                                        <h4>Ethnicity</h4>
-                                        {{ form.ethnicity }}
+                            <div class="row do-not-print">
+                                <div class="large-12 columns">
+                                    <div class="panel callout">
+                                        <h2 class="panel-heading">Sources</h2>
+                                        {{ form.source }}
                                         <div class="panel radius fixed-height">
                                             <ul class="no-bullet">
-                                                {% for term in facets.fields|get_item:"ethnicity" %}
-                                                    {% with value=term.0 count=term.1 %}
-                                                        {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span>
-                                                            </li>
-                                                        {% endif %}
-                                                    {% endwith %}
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="large-6 columns">
-                                    <h4>Location</h4>
-                                    {{ form.location }}
-                                    <div class="panel radius fixed-height">
-                                        <ul class="no-bullet">
-                                            {% for term in facets.fields|get_item:"location" %}
-                                                {% with value=term.0 count=term.1 %}
-                                                    {% if count > 0 %}
+                                                {% for term in facets.fields|get_item:"source" %}
+                                                    {% with value=term.0 count=term.1 %} {% if count > 0 %}
                                                         <li>
                                                             <a href="
 
-                                                                    {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}location=%22{{ value }}%22">{{ value }}</a>
+
+
+                                                                    {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">{{ value }}</a>
                                                             <span class="label radius">{{ count }}</span>
-                                                        </li>
-                                                    {% endif %}
-                                                {% endwith %}
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                </div>
-
-
-                                
-                                <div class="row">
-                                    <div class="large-6 columns">
-                                        <h4>Language</h4>
-                                        {{ form.language }}
-                                        <div class="panel radius fixed-height">
-                                            <ul class="no-bullet">
-                                                {% for term in facets.fields|get_item:"language" %}
-                                                    {% with value=term.0 count=term.1 %}
-                                                        {% if count > 0 %}
-                                                            <li>
-                                                                <a href="
-
-                                                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}language=%22{{ value }}%22">{{ value }}</a>
-                                                                <span class="label radius">{{ count }}</span>
-                                                            </li>
-                                                        {% endif %}
-                                                    {% endwith %}
+                                                            <a href="{% slugurl 'sources' %}?source={{ value }}"
+                                                               title="Sources"><span
+                                                                    class="info"><i
+                                                                    class="fa fa-info-circle"></i></span></a></li>
+                                                    {% endif %}{% endwith %}
                                                 {% endfor %}
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <div class="row do-not-print">
+                                <div class="large-12 columns">
+                                    <div class="panel callout">
+                                        <h2 class="panel-heading">Other categories</h2>
+
+                                        <div class="row">
+
+
+                                            <div class="large-6 columns">
+                                                <h4>Occupation</h4>
+                                                {{ form.occupation }}
+                                                <div class="panel radius fixed-height">
+                                                    <ul class="no-bullet">
+                                                        {% for term in facets.fields|get_item:"occupation" %}
+                                                            {% with value=term.0 count=term.1 %}
+                                                                {% if count > 0 %}
+                                                                    <li>
+                                                                        <a href="
+
+
+
+                                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22">{{ value }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="large-6 columns">
+                                                <h4>Dignity / Office</h4>
+                                                {{ form.dignityoffice }}
+                                                <div class="panel radius fixed-height">
+                                                    <ul class="no-bullet">
+                                                        {% for term in facets.fields|get_item:"dignityoffice" %}
+                                                            {% with value=term.0 count=term.1 %}
+                                                                {% if count > 0 %}
+                                                                    <li>
+                                                                        <a href="
+
+
+
+                                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}dignityoffice=%22{{ value }}%22">{{ value }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="large-6 columns">
+                                                <h4>Ethnicity</h4>
+                                                {{ form.ethnicity }}
+                                                <div class="panel radius fixed-height">
+                                                    <ul class="no-bullet">
+                                                        {% for term in facets.fields|get_item:"ethnicity" %}
+                                                            {% with value=term.0 count=term.1 %}
+                                                                {% if count > 0 %}
+                                                                    <li>
+                                                                        <a href="
+
+
+
+                                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22">{{ value }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="large-6 columns">
+                                                <h4>Location</h4>
+                                                {{ form.location }}
+                                                <div class="panel radius fixed-height">
+                                                    <ul class="no-bullet">
+                                                        {% for term in facets.fields|get_item:"location" %}
+                                                            {% with value=term.0 count=term.1 %}
+                                                                {% if count > 0 %}
+                                                                    <li>
+                                                                        <a href="
+
+
+
+                                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}location=%22{{ value }}%22">{{ value }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="large-6 columns">
+                                                <h4>Language</h4>
+                                                {{ form.language }}
+                                                <div class="panel radius fixed-height">
+                                                    <ul class="no-bullet">
+                                                        {% for term in facets.fields|get_item:"language" %}
+                                                            {% with value=term.0 count=term.1 %}
+                                                                {% if count > 0 %}
+                                                                    <li>
+                                                                        <a href="
+
+
+
+                                                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}language=%22{{ value }}%22">{{ value }}</a>
+                                                                        <span class="label radius">{{ count }}</span>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endwith %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
                 </div>
-                </section>
+            </form>
         </div>
-        </form>
-    </div>
     </div>
 
     <div class="row" id="search-results-box">
@@ -361,6 +382,8 @@
                 <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
                     <a href="
 
+
+
                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
                 </li>
                 <li>
@@ -369,11 +392,15 @@
                 <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
                     <a href="
 
+
+
                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
                 </li>
                 {% if page_obj.number < paginator.num_pages %}
                     <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
                         <a href="
+
+
 
                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}page={{ paginator.num_pages }}">&raquo;</a>
                     </li>
