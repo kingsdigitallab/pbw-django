@@ -23,7 +23,7 @@ env.hosts = ['pbw2.kdl.kcl.ac.uk']
 env.gateway = 'ssh.cch.kcl.ac.uk'
 env.root_path = '/vol/pbw2/webroot/'
 env.envs_path = os.path.join(env.root_path, 'envs')
-env.solr='/opt/solr/solr-4.10.4/'
+env.solr='solr-4.10.4'
 
 
 def server(func):
@@ -196,9 +196,8 @@ def update_index():
 
     with cd(env.path), prefix(env.within_virtualenv):
         run('./manage.py build_solr_schema > schema.xml')
-        run('mv schema.xml {}collection1/conf/'.format(env.solr))
-        # Only one solr server at present, so always liv
-        sudo('service tomcat7-{} restart'.format('liv'))
+        run('mv schema.xml ../../solr/{}/collection1/conf/'.format(env.solr))
+        sudo('service tomcat7-{} restart'.format(env.srvr))
         run('./manage.py update_index')
 
 
