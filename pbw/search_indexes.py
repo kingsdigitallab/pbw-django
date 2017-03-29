@@ -131,7 +131,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         diglist = list("")
         digs = Dignityoffice.objects.filter(
             dignityfactoid__factoid__factoidperson__factoidpersontype__fptypename="Primary",
-            dignityfactoid__factoid__factoidperson__factoidperson__person=obj)
+            dignityfactoid__factoid__factoidperson__person=obj)
         for d in digs:
             diglist.append(d.stdname)
         return diglist
@@ -176,12 +176,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     source = indexes.FacetMultiValueField()
     sourceref = indexes.CharField(model_attr='sourceref')
     # Factoid Types
-    location = indexes.FacetCharField()
-    ethnicity = indexes.FacetCharField()
-    dignityoffice = indexes.FacetCharField()
-    language = indexes.FacetCharField()
-    secondaryname = indexes.FacetCharField()
-    occupation = indexes.FacetCharField()
+    location = indexes.FacetMultiValueField()
+    ethnicity = indexes.FacetMultiValueField()
+    dignityoffice = indexes.FacetMultiValueField()
+    language = indexes.FacetMultiValueField()
+    occupation = indexes.FacetMultiValueField()
     letter = indexes.FacetMultiValueField()
 
     def get_model(self):
@@ -263,16 +262,6 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         else:
             return ""
 
-    # Secondary names (= second names + alternative names)#}
-    def prepare_secondaryname(self, obj):
-        if obj.factoidtype.typename == "Second Name" or obj.factoidtype.typename == "Alternative Name":
-            secs = Variantname.objects.filter(vnamefactoid__factoid=obj)
-            if secs.count() > 0:
-                for s in secs:
-                    return s.name
-            return ""
-        else:
-            return ""
 
     def prepare_language(self, obj):
         if obj.factoidtype.typename == "Language Skill":
