@@ -59,7 +59,6 @@ class PBWFacetedSearchForm(FacetedSearchForm):
             'location',
             'ethnicity',
             'language',
-            'secondaryname',
             'occupation',
             'name',
             'letter',
@@ -68,7 +67,6 @@ class PBWFacetedSearchForm(FacetedSearchForm):
                 'floruit'):
             if field in data:
                 if data.get(field):
-                    print (data.get(field))
                     sqs = sqs.narrow('{}:{}'.format(
                         field, data.get(field)))
 
