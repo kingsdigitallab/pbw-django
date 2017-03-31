@@ -2,7 +2,6 @@
 {{ ethnicity}}
 {{ dignityoffice }}
 {{ language }}
-{{ secondaryname }}
 {{ occupation}}
 {{ object.engdesc }}
 {{object.origldesc}}

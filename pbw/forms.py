@@ -32,9 +32,6 @@ class PBWFacetedSearchForm(FacetedSearchForm):
     language = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 
-    secondaryname = forms.CharField(required=False, widget=forms.TextInput(
-        attrs={'class': 'autocomplete'}))
-
     occupation = forms.CharField(required=False, widget=forms.TextInput(
         attrs={'class': 'autocomplete'}))
 
