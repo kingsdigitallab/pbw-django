@@ -22,7 +22,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         Person, Factoid).group_by('person_id')
     load_all = True
     form_class = PBWFacetedSearchForm
-    facet_fields = ['name', 'letter', 'sex', 'floruit', 'secondaryname']
+    facet_fields = ['name', 'letter', 'sex', 'floruit']
     autocomplete_facets = [
         'location',
         'dignityoffice',
