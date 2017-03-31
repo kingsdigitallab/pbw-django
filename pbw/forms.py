@@ -69,6 +69,13 @@ class PBWFacetedSearchForm(FacetedSearchForm):
 
         return sqs
 
+    def __init__(self, *args, **kwargs):
+        if 'data' not in kwargs:
+            # this is enough to 'bind' the form, i.e. it will be processed
+            kwargs['data'] = {}
+        super(PBWFacetedSearchForm, self).__init__(
+            *args, **kwargs)
+
 
 class FactoidForm(forms.ModelForm):
 
