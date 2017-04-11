@@ -451,10 +451,10 @@ class Factoid(models.Model):
     # Field name made lowercase.
     olangkey = models.IntegerField(db_column='oLangKey')
     # Field name made lowercase.
-    origldesc = models.TextField(db_column='origLDesc')
+    origldesc = models.TextField(db_column='origLDesc', blank=True)
     # Field name made lowercase.
     needsattn = models.IntegerField(db_column='needsAttn')
-    notes = models.TextField()
+    notes = models.TextField(blank=True)
     # Field name made lowercase.
     colldbkey = models.SmallIntegerField(db_column='collDBKey')
     # Field name made lowercase.
@@ -828,7 +828,7 @@ class Person(models.Model):
     mdbcode = models.IntegerField(db_column='mdbCode')
     # Field name made lowercase.
     descname = models.CharField(db_column='descName', max_length=100)
-    floruit = models.CharField(max_length=15)
+    floruit = models.CharField(max_length=15, blank=True)
     # Field name made lowercase.
     firstdate = models.SmallIntegerField(db_column='firstDate')
     # Field name made lowercase.
@@ -840,7 +840,7 @@ class Person(models.Model):
     # Field name made lowercase.
     sex = models.ForeignKey('Sexauth', db_column='sexKey')
     # Field name made lowercase.
-    nameol = models.CharField(db_column='nameOL', max_length=100)
+    nameol = models.CharField(db_column='nameOL', max_length=100, blank=True)
     # Field name made lowercase.
     olangkey = models.IntegerField(db_column='oLangKey')
     bibliography = models.TextField(blank=True, null=True)
