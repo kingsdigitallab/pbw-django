@@ -721,6 +721,8 @@ class Location(models.Model):
     creationdate = models.DateTimeField(
         db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField()
+    pleiades_id = models.IntegerField(blank=True, null=True)
+    geonames_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'Location'
