@@ -98,13 +98,6 @@ class PersonDetailView(DetailView):
             (DISPLAYED_FACTOID_TYPES)
         context['lastAuthority'] = ''
         context['loadAll'] = self.loadAll
-        # Get Uncertain Identity if present
-        uncertain = Factoid.objects.filter(
-            factoidperson__person=person,
-            factoidtype__id=18
-        )
-        if (uncertain.count() > 0):
-            context['uncertain_factoids'] = uncertain
         # Get referred search from session to go back
         try:
             query = self.request.session['query_string']
