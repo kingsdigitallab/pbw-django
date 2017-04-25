@@ -1,6 +1,7 @@
 from django.contrib import admin
-from models import Person, Factoid, Source
+from models import Person, Factoid, Source, Location
 from models import Factoidperson, Boulloterion, Bibliography
+from models import Ethnicity, Dignityoffice, Kinshiptype, Languageskill, Occupation
 __author__ = 'elliotthall'
 # Basic admin objects to fix typos etc in perons, factoids
 # Will be expanded incrementally into a proper dbmi as resource permits
@@ -9,6 +10,12 @@ __author__ = 'elliotthall'
 admin.site.register(Source)
 admin.site.register(Boulloterion)
 admin.site.register(Bibliography)
+admin.site.register(Location)
+admin.site.register(Ethnicity)
+admin.site.register(Dignityoffice)
+admin.site.register(Kinshiptype)
+admin.site.register(Languageskill)
+admin.site.register(Occupation)
 
 
 class FactoidInline(admin.StackedInline):
