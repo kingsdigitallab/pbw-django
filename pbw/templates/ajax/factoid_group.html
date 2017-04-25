@@ -22,6 +22,15 @@
         {% if f.factoidtype.typename != "Narrative" and f.factoidtype.typename != "Dignity/Office" %}
             {% if f.factoidtype.typename == "Ethnic label"  or f.factoidtype.typename == "Location" or f.factoidtype.typename == "Occupation" %}
                 {{ f.engdesc | add_persref_links |safe }}
+                {% if f.factoidtype.typename == "Location"%}
+                    {% get_linked_location_uris f as linkdict%}
+                    {%  if 'pleiades' in linkdict %}
+                        <a href="{{ linkdict.pleiades }}">Pleiades</a>
+                    {% endif %}
+                    {%  if 'geonames' in linkdict %}
+                        <a href="{{ linkdict.geonames }}">Geonames</a>
+                    {% endif %}
+                {% endif %}
             {% endif %}
         {% endif %}
         {% if f.factoidtype.typename == "Kinship" %}

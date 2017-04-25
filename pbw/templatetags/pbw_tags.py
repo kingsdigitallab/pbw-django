@@ -9,7 +9,7 @@ from wagtail.wagtailcore.models import Page
 from pbw.models import Dignityfactoid, Occupationfactoid, Langfactoid, \
     Vnamefactoid, Religionfactoid, Possessionfactoid, Famnamefactoid, \
     Kinfactoid, Familyname
-from pbw.models import Factoidperson, Ethnicityfactoid, Factoidlocation
+from pbw.models import Factoidperson, Ethnicityfactoid, Factoidlocation, Location
 
 register = template.Library()
 
@@ -51,6 +51,18 @@ def add_persref_links(desc):
                     unicode(person.mdbcode) + "</a>"
                 parsedDesc = parsedDesc.replace(tag.group(0), personTag)
     return parsedDesc
+
+# Add the Pleiades and Geonames links for a location factoid
+# if present
+@register.simple_tag()
+def get_linked_location_uris(factoid):
+    location = Location.objects.filter(factoidlocation__factoid=factoid)
+    linkdict= {}
+    if location.geonames_id:
+        linkdict['geonames'] = "http://sws.geonames.org/{}/".format(location.geonames_id)
+    if location.pleiades_id:
+        linkdict['pleiades'] = "https://pleiades.stoa.org/places/{}".format(location.pleiades_id)
+    return linkdict
 
 
 # A modification of the highlighter to make it play nice with add_persref
