@@ -16,6 +16,7 @@
                 <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
             </div>
         </div>
+
         <div class="row">
             <div class="large-4 columns">
                 <p>
@@ -41,7 +42,9 @@
                 <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
                     {% for group in factoidGroups %}
                         <li class="accordion-item" data-accordion-item>
-                            <a href="#" class="accordion-title{% if not loadAll %} async{% endif %}" {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}" data-personid="{{ person.id }}"{% endif %}>
+                            <a href="#" class="accordion-title{% if not loadAll %} async{% endif %}"
+                               {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}"
+                               data-personid="{{ person.id }}"{% endif %}>
                                 <h3>{{ group.factoidtype.typename }}
                                     ({{ group.factoids.count }})</h3></a>
 

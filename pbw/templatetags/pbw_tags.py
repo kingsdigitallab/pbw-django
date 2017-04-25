@@ -97,11 +97,11 @@ def get_authority_list(factoid):
             if lls.count() > 0:
                 ll = lls[0]
                 authority = ll.languageskill.languagename
-        elif factoid.factoidtype.typename == "Alternative Name":
-            vls = Vnamefactoid.objects.filter(factoid=factoid)
-            if vls.count() > 0:
-                vl = vls[0]
-                authority = vl.variantname.name
+        # elif factoid.factoidtype.typename == "Alternative Name":
+        #     vls = Vnamefactoid.objects.filter(factoid=factoid)
+        #     if vls.count() > 0:
+        #         vl = vls[0]
+        #         authority = vl.variantname.name
         elif factoid.factoidtype.typename == "Religion":
             rls = Religionfactoid.objects.filter(factoid=factoid)
             if rls.count() > 0:

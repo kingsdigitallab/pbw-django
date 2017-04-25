@@ -98,6 +98,13 @@ class PersonDetailView(DetailView):
             (DISPLAYED_FACTOID_TYPES)
         context['lastAuthority'] = ''
         context['loadAll'] = self.loadAll
+        # Get Uncertain Identity if present
+        uncertain = Factoid.objects.filter(
+            factoidperson__person=person,
+            factoidtype__id=18
+        )
+        if (uncertain.count() > 0):
+            context['uncertain_factoids'] = uncertain
         # Get referred search from session to go back
         try:
             query = self.request.session['query_string']
@@ -121,9 +128,10 @@ class PersonDetailView(DetailView):
                     total += factoids.count()
             except ObjectDoesNotExist:
                 pass
-        if total <= self.loadAllThreshold:
+        # Set to false because of long load times
+        #if total <= self.loadAllThreshold:
             # Pre-load all factoids
-            self.loadAll = True
+            #self.loadAll = True
         return groups
 
     def get_factoid_group(self, person, type):
@@ -159,8 +167,7 @@ class PersonDetailView(DetailView):
             factoidperson__factoidpersontype__fptypename="Primary").filter(
             factoidtype=type).order_by(
             authOrder).distinct()
-        # ,
-        #
+
         return factoids
 
 
