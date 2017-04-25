@@ -49,9 +49,7 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^autocomplete/',
                    AutoCompleteView.as_view(),
                    name='pbw_autocomplete'),
-               # For anything not caught by a more specific rule above, hand over to
-               # Wagtail's serving mechanism
-               url(r'^', include(wagtail_urls)),
+
                ]
 
 # -----------------------------------------------------------------------------
@@ -78,3 +76,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL + 'images/',
                           document_root=os.path.join(settings.MEDIA_ROOT,
                                                      'images'))
+# For anything not caught by a more specific rule above, hand over to
+               # Wagtail's serving mechanism
+urlpatterns.append(url(r'^', include(wagtail_urls)))
