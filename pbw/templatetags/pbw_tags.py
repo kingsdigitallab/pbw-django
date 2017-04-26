@@ -54,14 +54,17 @@ def add_persref_links(desc):
 
 # Add the Pleiades and Geonames links for a location factoid
 # if present
+# update Location set geonames_id=361885,pleiades_id=501325 where locname='Abydos';
 @register.simple_tag()
 def get_linked_location_uris(factoid):
-    location = Location.objects.filter(factoidlocation__factoid=factoid)
-    linkdict= {}
-    if location.geonames_id:
-        linkdict['geonames'] = "http://sws.geonames.org/{}/".format(location.geonames_id)
-    if location.pleiades_id:
-        linkdict['pleiades'] = "https://pleiades.stoa.org/places/{}".format(location.pleiades_id)
+    locations = Location.objects.filter(factoidlocation__factoid=factoid)
+    linkdict = {}
+    if locations.count() >0:
+        location = locations[0]
+        if location.geonames_id:
+            linkdict['geonames'] = "http://sws.geonames.org/{}/".format(location.geonames_id)
+        if location.pleiades_id:
+            linkdict['pleiades'] = "https://pleiades.stoa.org/places/{}".format(location.pleiades_id)
     return linkdict
 
 
