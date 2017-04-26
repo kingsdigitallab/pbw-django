@@ -344,9 +344,11 @@ class Dignityoffice(models.Model):
 
     class Meta:
         db_table = 'DignityOffice'
+        ordering = ['stdname']
 
     def __unicode__(self):
         return self.stdname
+
 
 
 class Dignityofficetype(models.Model):
@@ -817,6 +819,7 @@ class Occupation(models.Model):
 
     class Meta:
         db_table = 'Occupation'
+        ordering = ['occupationname']
 
     def __unicode__(self):
         return self.occupationname
