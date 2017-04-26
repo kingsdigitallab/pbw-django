@@ -80,9 +80,7 @@ def highlighted_persref(text, query, **kwargs):
     return format_html(parsedText)
 
 
-# Get the authority label attached to the factoid
-
-
+# Get the authority list label attached to the factoid
 @register.simple_tag()
 def get_authority_list(factoid):
     authority = ''
@@ -124,9 +122,12 @@ def get_authority_list(factoid):
                 authority = rl.Religion.religionname
         elif factoid.factoidtype.typename == "Possession":
             pls = Possessionfactoid.objects.filter(factoid=factoid)
+            authority = ""
             if pls.count() > 0:
                 pl = pls[0]
                 authority = pl.possessionname
+            if len(authority) == 0:
+                authority = factoid.engdesc
         elif factoid.factoidtype.typename == "Second Name":
             sls = Famnamefactoid.objects.filter(factoid=factoid)
             if sls.count() > 0:

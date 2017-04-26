@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load pbw_tags wagtailcore_tags %}
+{% load staticfiles pbw_tags wagtailcore_tags %}
 
 {% block meta_title %}Person Details{% endblock %}
 
@@ -55,7 +55,7 @@
                                             {% include 'ajax/factoid_group.html' %}
                                         {% endwith %}
                                     {% else %}
-                                        <li class="placeholder"><img src="assets/images/loading.svg"/> </li>
+                                        <li class="placeholder"><img src="{% static "images/loading.svg" %}"/> </li>
                                     {% endif %}
                                 </ul>
                             </div>

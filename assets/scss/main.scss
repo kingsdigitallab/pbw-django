@@ -177,6 +177,10 @@ nav {
   color: $primary-color;
 }
 
+li.placeholder {
+	list-style: none;
+}
+
 #permalink {
   width: 90%;
   font-size: 12px;
