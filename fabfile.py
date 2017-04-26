@@ -43,6 +43,7 @@ def server(func):
 @server
 def dev():
     env.srvr = 'dev'
+    env.solr = '/vol/pbw2/webroot/stg/solr/'
     set_srvr_vars()
 
 
@@ -50,6 +51,7 @@ def dev():
 @server
 def stg():
     env.srvr = 'stg'
+    env.solr = '/vol/pbw2/webroot/stg/solr/'
     set_srvr_vars()
 
 
@@ -196,7 +198,7 @@ def update_index():
 
     with cd(env.path), prefix(env.within_virtualenv):
         run('./manage.py build_solr_schema > schema.xml')
-        run('mv schema.xml ../../solr/{}/collection1/conf/'.format(env.solr))
+        run('mv schema.xml {}collection1/conf/'.format(env.solr))
         sudo('service tomcat7-{} restart'.format(env.srvr))
         run('./manage.py update_index')
 
