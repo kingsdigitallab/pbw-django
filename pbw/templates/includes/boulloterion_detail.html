@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load pbw_tags wagtailcore_tags %}
+{% load staticfiles pbw_tags wagtailcore_tags %}
 
 {% block meta_title %}Boulloterion Details{% endblock %}
 
@@ -19,7 +19,26 @@
                     <p><a href="{% url 'admin:pbw_boulloterion_change' boulloterion.pk %}">Edit</a></p>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <p><a href="http://db.pbw.kcl.ac.uk/jsp/boulloterion.jsp?bKey={{ boulloterion.pk }}">In PBW 2011</a>
+                    </p>
+                </div>
+            </div>
         {% endif %}
+        <div class="row">
+            <div class="large-4 columns">
+                <p>
+                    <label for="permalink">Permalink</label><input id="permalink" name="permalink"
+                                                                   value="http://pbw2016.kdl.kcl.ac.uk/boulloterion/{{ boulloterion.pk }}/">
+                    <button class="clip_btn" data-clipboard-target="#permalink">
+                        <img src="{% static 'images/clippy.svg'%}" alt="Copy to clipboard">
+                    </button>
+                </p>
+            </div>
+
+        </div>
 
         <div class="row">
             <div class="large-4 columns">
