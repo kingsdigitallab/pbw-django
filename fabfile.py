@@ -43,7 +43,7 @@ def server(func):
 @server
 def dev():
     env.srvr = 'dev'
-    env.solr = '/vol/pbw2/webroot/stg/solr/'
+    env.solr = '/vol/pbw2/webroot/stg/solr/solr-4.10.4/'
     set_srvr_vars()
 
 
@@ -51,7 +51,7 @@ def dev():
 @server
 def stg():
     env.srvr = 'stg'
-    env.solr = '/vol/pbw2/webroot/stg/solr/'
+    env.solr = '/vol/pbw2/webroot/stg/solr/solr-4.10.4/'
     set_srvr_vars()
 
 

@@ -345,6 +345,9 @@ class Dignityoffice(models.Model):
     class Meta:
         db_table = 'DignityOffice'
 
+    def __unicode__(self):
+        return self.stdname
+
 
 class Dignityofficetype(models.Model):
     # Field name made lowercase.
@@ -417,6 +420,9 @@ class Ethnicity(models.Model):
     class Meta:
         db_table = 'Ethnicity'
         ordering = ['ethname']
+
+    def __unicode__(self):
+        return self.ethname
 
 
 class Ethnicityfactoid(models.Model):
@@ -679,6 +685,9 @@ class Kinshiptype(models.Model):
         db_table = 'KinshipType'
         ordering = ['kinorder','gspecrelat']
 
+    def __unicode__(self):
+        return self.gspecrelat
+
 
 
 class Langfactoid(models.Model):
@@ -703,6 +712,9 @@ class Languageskill(models.Model):
     class Meta:
         db_table = 'LanguageSkill'
 
+    def __unicode__(self):
+        return self.languagename
+
 
 class Location(models.Model):
     # Field name made lowercase.
@@ -726,6 +738,9 @@ class Location(models.Model):
 
     class Meta:
         db_table = 'Location'
+
+    def __unicode__(self):
+        return self.locname
 
 
 class Locationselector(models.Model):
@@ -802,6 +817,9 @@ class Occupation(models.Model):
 
     class Meta:
         db_table = 'Occupation'
+
+    def __unicode__(self):
+        return self.occupationname
 
 
 class Occupationfactoid(models.Model):

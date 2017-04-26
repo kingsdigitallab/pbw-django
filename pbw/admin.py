@@ -10,7 +10,6 @@ __author__ = 'elliotthall'
 admin.site.register(Source)
 admin.site.register(Boulloterion)
 admin.site.register(Bibliography)
-admin.site.register(Location)
 admin.site.register(Ethnicity)
 admin.site.register(Dignityoffice)
 admin.site.register(Kinshiptype)
@@ -23,6 +22,10 @@ class FactoidInline(admin.StackedInline):
     model = Factoid
     extra = 1
 
+@admin.register(Location)
+class LocationAdin(admin.ModelAdmin):
+    list_display = ('locname','locnameol','pleiades_id','geonames_id')
+    search_fields = ['locname']
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
