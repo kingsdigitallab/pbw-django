@@ -3,4 +3,5 @@
 {{object.floruit}}
 {{object.nameol}}
 {{object.bibliography}}
-
+{{ factoid_engdescs }}
+{{ factoid_oldescs }}

@@ -2,7 +2,7 @@ import re
 from django.db.models import Q
 from haystack import indexes
 
-from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Variantname, Languageskill, Occupation, Source
+from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Languageskill, Occupation, Source
 from pbw.models import Sexauth
 from settings import DISPLAYED_FACTOID_TYPES
 
@@ -59,6 +59,8 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetMultiValueField()
     source = indexes.FacetMultiValueField()
+    factoid_engdescs = indexes.MultiValueField()
+    factoid_oldescs = indexes.MultiValueField()
     person = indexes.CharField()
     sex = indexes.FacetCharField()
     person_id = indexes.IntegerField(model_attr='id')
@@ -73,6 +75,29 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     dignityoffice = indexes.FacetMultiValueField()
     language = indexes.FacetMultiValueField()
     occupation = indexes.FacetMultiValueField()
+
+    def prepare(self, obj):
+        self.prepared_data = super(PersonIndex, self).prepare(obj)
+        factoid_engdescs = list()
+        factoid_oldescs = list()
+
+        # Get all Factoid types
+        factoids = Factoid.objects.filter(
+            factoidperson__factoidpersontype__fptypename="Primary",
+            factoidperson__person=obj)
+
+        for factoid_descs in factoids.values('engdesc', 'origldesc'):
+            # Append their descriptions so that they can be added
+            # to the document
+            if 'engdesc' in factoid_descs:
+                factoid_engdescs.append(factoid_descs['engdesc'])
+            if 'origldesc' in factoid_descs:
+                factoid_oldescs.append(factoid_descs['origldesc'])
+
+        self.prepared_data['factoid_engdescs'] = factoid_engdescs
+        self.prepared_data['factoid_oldescs'] = factoid_oldescs
+
+        return self.prepared_data
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
@@ -104,7 +129,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         sources = Source.objects.filter(
             factoid__factoidperson__person=obj,
             factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
-        return list(sources)
+        return list(set(sources))
 
     def prepare_location(self, obj):
         # Location
@@ -115,7 +140,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         if locations.count() > 0:
             for location in locations:
                 loclist.append(location.locname)
-        return loclist
+        return list(set(loclist))
 
     def prepare_ethnicity(self, obj):
         # Ethnicity
@@ -134,7 +159,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             dignityfactoid__factoid__factoidperson__person=obj)
         for d in digs:
             diglist.append(d.stdname)
-        return diglist
+        return list(set(diglist))
 
     def prepare_language(self, obj):
         langlist = list("")
@@ -145,7 +170,6 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             langlist.append(l.languagename)
         return langlist
 
-
     def prepare_occupation(self, obj):
         occlist = list("")
         occs = Occupation.objects.filter(
@@ -155,139 +179,3 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             occlist.append(o.occupationname)
 
         return occlist
-
-
-
-
-class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
-    description = indexes.CharField(model_attr='engdesc', default='')
-    name = indexes.FacetMultiValueField()
-    origldesc = indexes.FacetCharField(model_attr='origldesc')
-    sex = indexes.FacetCharField()
-    floruit = indexes.FacetMultiValueField()
-    nameol = indexes.CharField()
-    factoidtype = indexes.CharField(model_attr='factoidtype__typename')
-    factoidtypekey = indexes.IntegerField(
-        model_attr='factoidtype__id', faceted=True)
-    person = indexes.CharField()
-    person_id = indexes.IntegerField()
-    source_id = indexes.IntegerField(model_attr='source__id')
-    source = indexes.FacetMultiValueField()
-    sourceref = indexes.CharField(model_attr='sourceref')
-    # Factoid Types
-    location = indexes.FacetMultiValueField()
-    ethnicity = indexes.FacetMultiValueField()
-    dignityoffice = indexes.FacetMultiValueField()
-    language = indexes.FacetMultiValueField()
-    occupation = indexes.FacetMultiValueField()
-    letter = indexes.FacetMultiValueField()
-
-    def get_model(self):
-        return Factoid
-
-    def prepare_person(self, obj):
-        p = obj.person
-        if p is not None:
-            return p.name + " " + unicode(p.mdbcode)
-        else:
-            print "ERROR No primary person found for factoid " + str(obj.id)
-        return None
-
-    def prepare_source(self, obj):
-        # model_attr='source__sourceid'
-        return [obj.source.sourceid]
-
-    def prepare_person_id(self, obj):
-        p = obj.person
-        if p is not None:
-            return p.id
-        else:
-            return 0
-
-    def prepare_sex(self, obj):
-        if obj.person != None:
-            return get_sex(obj.person)
-
-    def prepare_floruit(self, obj):
-        if obj.person != None:
-            return get_floruits(obj.person)
-
-    def prepare_nameol(self, obj):
-        p = obj.person
-        if p is not None:
-            return obj.person.nameol
-        else:
-            return ""
-
-    def prepare_name(self, obj):
-        return get_names(obj.person)
-
-    def prepare_letter(self, obj):
-        return get_letters(get_names(obj.person))
-
-    def prepare_location(self, obj):
-        # Location
-        if obj.factoidtype.typename == "Location":
-            locations = Location.objects.filter(factoidlocation__factoid=obj)
-            if locations.count() > 0:
-                for location in locations:
-                    return location.locname
-            else:
-                return ""
-        else:
-            return ""
-
-    def prepare_ethnicity(self, obj):
-        # Ethnicity
-        if obj.factoidtype.typename == "Ethnic label":
-            ethnicities = Ethnicity.objects.filter(
-                ethnicityfactoid__factoid=obj)
-            if ethnicities.count() > 0:
-                for eth in ethnicities:
-                    return eth.ethname
-            else:
-                return ""
-        else:
-            return ""
-
-    def prepare_dignityoffice(self, obj):
-        if obj.factoidtype.typename == "Dignity/Office":
-            digs = Dignityoffice.objects.filter(dignityfactoid__factoid=obj)
-            if digs.count() > 0:
-                for d in digs:
-                    return d.stdname
-            else:
-                return ""
-        else:
-            return ""
-
-
-    def prepare_language(self, obj):
-        if obj.factoidtype.typename == "Language Skill":
-            langs = Languageskill.objects.filter(langfactoid__factoid=obj)
-            if langs.count() > 0:
-                for l in langs:
-                    return l.languagename
-            return ""
-        else:
-            return ""
-
-    def prepare_occupation(self, obj):
-        if obj.factoidtype.typename == "Occupation/Vocation":
-            occs = Occupation.objects.filter(occupationfactoid__factoid=obj)
-            if occs.count() > 0:
-                for o in occs:
-                    return o.occupationname
-            else:
-                return ""
-        else:
-            return ""
-
-    def index_queryset(self, using=None):
-        """Used when the entire index for model is updated.
-        Filter factoids by type for only those used in browser"""
-        factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(
-            factoidperson__factoidpersontype__fptypename="Primary",
-            factoidtype__id__in=factoidtypekeys).distinct()
