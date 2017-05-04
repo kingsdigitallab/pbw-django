@@ -72,9 +72,6 @@ class PBWFacetedSearchView(FacetedSearchView):
             # only return results with a mincount of 1
             queryset = queryset.facet(facet, mincount=1, sort='index', limit=-1)
 
-        # default order by name
-        queryset.order_by('person')
-
         return queryset
 
 
