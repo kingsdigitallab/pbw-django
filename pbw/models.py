@@ -445,7 +445,7 @@ class Ethnicityfactoid(models.Model):
 class Factoid(models.Model):
     # Field name made lowercase.
     id = models.AutoField(db_column='factoidKey', primary_key=True)
-    source = models.ForeignKey('Source', db_column='sourceKey')
+    source = models.ForeignKey('Source', db_column='sourceKey', blank=True, null=True)
     # Field name made lowercase.
     sourceref = models.CharField(db_column='sourceRef', max_length=250)
     factoidtype = models.ForeignKey(

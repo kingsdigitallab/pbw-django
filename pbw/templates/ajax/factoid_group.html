@@ -25,10 +25,10 @@
                 {% if f.factoidtype.typename == "Location"%}
                     {% get_linked_location_uris f as linkdict%}
                     {%  if 'pleiades' in linkdict %}
-                        <a href="{{ linkdict.pleiades }}">Pleiades</a>
+                        <a class="geo_link" href="{{ linkdict.pleiades }}">Pleiades</a>
                     {% endif %}
                     {%  if 'geonames' in linkdict %}
-                        <a href="{{ linkdict.geonames }}">Geonames</a>
+                        <a class="geo_link" href="{{ linkdict.geonames }}">Geonames</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -40,7 +40,7 @@
 
         {% if f.boulloterionkey > 1 %}
             <a href="{% url 'boulloterion-detail' f.boulloterionkey %}">{{ f.source.sourceid }} {{ f.boulloterionkey }}</a>
-        {% else %}
+        {% elif f.source %}
             <a href="{% slugurl 'sources' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }} {{ f.sourceref }}</a>
         {% endif %}
     </li>
