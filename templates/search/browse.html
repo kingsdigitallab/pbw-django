@@ -371,17 +371,15 @@
             <ol start="{{ page_obj.start_index }}" class="search-results">
                 {% for result in object_list %}
                     <li>
-                        {% with doc=result.documents.0 %}
+                        {% with person=result.object %}
                             <h3>
-                                <a href="{% url 'person-detail' doc.person_id %}">{{ doc.person }}</a>
+                                <a href="{% url 'person-detail' person.id %}">{{ person }}</a>
                             </h3>
-                            <h5>{{ doc.nameol }}</h5>
-
-                            {% for dd in result.documents %}
+                            <h5>{{ person.nameol }}</h5>
                                 <p>
-                                    {% highlighted_persref dd.text query %}
+                                    {% highlighted_persref result.text query %}
                                 </p>
-                            {% endfor %}
+
                         {% endwith %}
                     </li>
                 {% empty %}

@@ -878,6 +878,9 @@ class Person(models.Model):
         db_table = 'Person'
         ordering = ['name', 'mdbcode']
 
+    def __unicode__(self):
+        return '{} {}'.format(self.name, self.mdbcode)
+
     def __str__(self):
         return '%s %s' % (self.name, self.mdbcode)
 
