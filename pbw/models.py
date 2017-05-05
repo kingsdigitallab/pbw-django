@@ -762,6 +762,7 @@ class Locationselector(models.Model):
 
 
 class Narrativefactoid(models.Model):
+    id = models.AutoField(primary_key=True)
     # Field name made lowercase.
     factoidkey = models.IntegerField(db_column='factoidKey')
     # Field name made lowercase.
@@ -772,10 +773,20 @@ class Narrativefactoid(models.Model):
         db_column='chronOrder', blank=True, null=True)
     # Field name made lowercase.
     fmkey = models.IntegerField(db_column='fmKey')
+    factoid = models.ForeignKey(
+        'Factoid',
+        blank=True,
+        null=True,
+    )
+    narrativeunit = models.ForeignKey(
+        'Narrativeunit',
+        blank=True,
+        null=True,
+    )  #
 
     class Meta:
         db_table = 'NarrativeFactoid'
-        unique_together = (('factoidkey', 'narrativeunitid'),)
+
 
 
 class Narrativeunit(models.Model):
@@ -802,6 +813,10 @@ class Narrativeunit(models.Model):
     fmkey = models.IntegerField(db_column='fmKey')
     notes = models.TextField(blank=True, null=True)
     number = models.IntegerField()
+    # yearorder will be used for narrative view
+    yearorder = models.IntegerField(blank=True, null=True)
+    # These are old nested set trees from hierarchy unit.
+    # Should be delete.
     year = models.IntegerField()
     reign = models.IntegerField()
     event = models.IntegerField()
@@ -1078,6 +1093,7 @@ class Scdate(models.Model):
     tstamp = models.DateTimeField()
     # Field name made lowercase.
     acckey = models.IntegerField(db_column='accKey')
+    certainty = models.IntegerField(default=1)
     yeargivenform = models.CharField(
         db_column='yearGivenForm',
         max_length=25,
