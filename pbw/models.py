@@ -116,6 +116,9 @@ class Boulloterion(models.Model):
     # Field name made lowercase.
     hasimage = models.IntegerField(db_column='hasImage', blank=True, null=True)
 
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         db_table = 'Boulloterion'
 
@@ -1083,7 +1086,7 @@ class Scdate(models.Model):
     factoid = models.ForeignKey('Factoid', default=1)
 
     def __unicode__(self):
-        return self.year
+        return unicode(self.year)
 
     class Meta:
         db_table = 'ScDate'
@@ -1121,6 +1124,9 @@ class Seal(models.Model):
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')
     # Field name made lowercase.
     boulloterion = models.ForeignKey('Boulloterion')
+
+    def __unicode__(self):
+        return self.boulloterion.title
 
     class Meta:
         db_table = 'Seal'

@@ -7,16 +7,12 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 For production settings see
 https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 """
-# from ddhldap.settings import *
+from ddhldap.settings import *
 
 import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
-#DDH LDAP
-from ddhldap.settings import *
-AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
-AUTH_LDAP_ALWAYS_UPDATE_USER = False
 
 PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
@@ -142,11 +138,11 @@ LOGGING = {
             'level': LOGGING_LEVEL,
             'propagate': True
         },
-        # 'django_auth_ldap': {
-        #     'handlers': ['file'],
-        #     'level': LOGGING_LEVEL,
-        #     'propagate': True
-        # },
+        'django_auth_ldap': {
+            'handlers': ['file'],
+            'level': LOGGING_LEVEL,
+            'propagate': True
+        },
         'pbw': {
             'handlers': ['file'],
             'level': LOGGING_LEVEL,
@@ -215,7 +211,15 @@ WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 # https://scm.cch.kcl.ac.uk/hg/ddhldap-django
 # -----------------------------------------------------------------------------
 
-# AUTH_LDAP_REQUIRE_GROUP = 'cn=GROUP_NAME,' + LDAP_BASE_OU
+#DDH LDAP
+AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
+AUTH_LDAP_ALWAYS_UPDATE_USER = False
+AUTH_LDAP_USER_FLAGS_BY_GROUP['is_staff'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
+AUTH_LDAP_USER_FLAGS_BY_GROUP['is_superuser'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
+
+LOGIN_URL = 'django.contrib.auth.views.login'
+LOGIN_REDIRECT_URL = 'wagtailadmin_home'
+
 
 
 # -----------------------------------------------------------------------------
@@ -343,9 +347,7 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# Auth settings
-LOGIN_URL = 'wagtailadmin_login'
-LOGIN_REDIRECT_URL = 'wagtailadmin_home'
+
 
 # WAGTAIL SETTINGS
 
