@@ -825,6 +825,7 @@ class Narrativeunit(models.Model):
 
     class Meta:
         db_table = 'NarrativeUnit'
+        ordering = ['yearorder']
 
 
 class Occupation(models.Model):
