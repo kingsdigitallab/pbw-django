@@ -1100,6 +1100,7 @@ class Scdate(models.Model):
         blank=True,
         null=True)  # Field name made lowercase.
     factoid = models.ForeignKey('Factoid', default=1)
+    datetype = models.ForeignKey('Datetypes', default=7)
 
     def __unicode__(self):
         return unicode(self.year)

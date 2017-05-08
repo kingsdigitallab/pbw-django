@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 from django.core.exceptions import ObjectDoesNotExist
 
-def populdate_narrative_factoids(apps, schema_editor):
+def populate_narrative_factoids(apps, schema_editor):
     NarrativeFactoid = apps.get_model("pbw", "Narrativefactoid")
     Factoid = apps.get_model("pbw", "Factoid")
     Narrativeunit = apps.get_model("pbw", "Narrativeunit")
@@ -26,5 +26,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(populdate_narrative_factoids),
+        migrations.RunPython(populate_narrative_factoids),
     ]
