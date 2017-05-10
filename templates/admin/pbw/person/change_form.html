@@ -32,15 +32,7 @@
 
                 <!-- Inlines -->
                 {% block inline_field_sets %}
-                    <div id="factoidList">
-                        <h2>Factoids owned by this person </h2>
-                    <dl>
-                        {% for factoid in original.getPrimaryFactoids %}
-                            <dt>{{ factoid.factoidtype }} <a href="{% url 'admin:pbw_factoid_change' factoid.id %}">Edit</a></dt>
-                            <dd> {{ factoid.engdesc }} </dd>
-                        {% endfor %}
-                    </dl>
-                    </div>
+
                     {% for inline_admin_formset in inline_admin_formsets %}
                         {% include inline_admin_formset.opts.template %}
                     {% endfor %}

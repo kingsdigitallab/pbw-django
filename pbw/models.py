@@ -544,6 +544,9 @@ class Factoidperson(models.Model):
     person = models.ForeignKey('Person', blank=False, null=False, default=1,
                                db_column='personKey')  # Field name made lowercase.
 
+    def __unicode__(self):
+        return u'{} ({}): {}'.format(self.person,self.factoidpersontype,self.factoid)
+
     class Meta:
         db_table = 'FactoidPerson'
 
@@ -553,6 +556,9 @@ class Factoidpersontype(models.Model):
     fptypekey = models.AutoField(db_column='fpTypeKey', primary_key=True)
     # Field name made lowercase.
     fptypename = models.CharField(db_column='fpTypeName', max_length=15)
+
+    def __unicode__(self):
+        return self.fptypename
 
     class Meta:
         db_table = 'FactoidPersonType'
@@ -564,6 +570,9 @@ class Factoidtype(models.Model):
     # Field name made lowercase.
     typename = models.CharField(db_column='typeName', max_length=20)
     orderno = models.IntegerField(null=False, default=99)
+
+    def __unicode__(self):
+        return self.typename
 
     def __str__(self):
         return self.typename
@@ -764,15 +773,15 @@ class Locationselector(models.Model):
 class Narrativefactoid(models.Model):
     id = models.AutoField(primary_key=True)
     # Field name made lowercase.
-    factoidkey = models.IntegerField(db_column='factoidKey')
+    factoidkey = models.IntegerField(db_column='factoidKey',null=True)
     # Field name made lowercase.
-    narrativeunitid = models.IntegerField(db_column='narrativeUnitID')
-    hide = models.IntegerField()
+    narrativeunitid = models.IntegerField(db_column='narrativeUnitID',null=True)
+    hide = models.IntegerField(default=0)
     # Field name made lowercase.
     chronorder = models.SmallIntegerField(
         db_column='chronOrder', blank=True, null=True)
     # Field name made lowercase.
-    fmkey = models.IntegerField(db_column='fmKey')
+    fmkey = models.IntegerField(db_column='fmKey',null=True)
     factoid = models.ForeignKey(
         'Factoid',
         blank=True,
@@ -783,6 +792,9 @@ class Narrativefactoid(models.Model):
         blank=True,
         null=True,
     )  #
+
+    def __unicode__(self):
+        return u'{}: {}'.format(self.narrativeunit.description,self.factoid)
 
     class Meta:
         db_table = 'NarrativeFactoid'
@@ -815,6 +827,7 @@ class Narrativeunit(models.Model):
     number = models.IntegerField()
     # yearorder will be used for narrative view
     yearorder = models.IntegerField(blank=True, null=True)
+    factoids = models.ManyToManyField(Factoid,through='Narrativefactoid',related_name='narrativeunits')
     # These are old nested set trees from hierarchy unit.
     # Should be delete.
     year = models.IntegerField()
@@ -822,6 +835,9 @@ class Narrativeunit(models.Model):
     event = models.IntegerField()
     problem = models.IntegerField()
     heading = models.IntegerField()
+
+    def __unicode__(self):
+        return u'{}: {}'.format(self.yearorder,self.description)
 
     class Meta:
         db_table = 'NarrativeUnit'
@@ -891,6 +907,12 @@ class Person(models.Model):
     creationdate = models.DateTimeField(
         db_column='creationDate', blank=True, null=True)
     tstamp = models.DateTimeField(db_column='tstamp')
+    factoids = models.ManyToManyField(
+        Factoid,
+        through='Factoidperson',
+        related_name='persons',
+        limit_choices_to={'factoidpersontype_id':2}
+    )
 
     class Meta:
 

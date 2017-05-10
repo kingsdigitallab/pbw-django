@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from models import Ethnicity, Dignityoffice, Kinshiptype, Languageskill, Occupation
 from models import Factoidperson, Boulloterion, Bibliography, Factoidtype
-from models import Person, Factoid, Source, Location, Seal, Collection, Scdate
+from models import Person, Factoid, Source, Location, Seal, Collection, Scdate, Narrativefactoid, Narrativeunit
 from django.forms import inlineformset_factory
 
 __author__ = 'elliotthall'
@@ -20,17 +20,32 @@ admin.site.register(Languageskill)
 admin.site.register(Occupation)
 admin.site.register(Factoidtype)
 admin.site.register(Scdate)
+admin.site.register(Narrativefactoid)
 
 
 class FactoidInline(admin.StackedInline):
     # fk_name = 'factoidKey'
+
     model = Factoid
     extra = 1
+
+class FactoidPersonInline(admin.StackedInline):
+    verbose_name = u'Factoid-Person'
+    verbose_name_plural = u'Factoid-Person links'
+    model = Person.factoids.through
+    raw_id_fields = ('person','factoid')
+
 
 class ScdateInline(admin.StackedInline):
     model = Scdate
     extra = 1
     show_change_link = True
+
+class NarrativeFactoidInline(admin.StackedInline):
+    model = Narrativeunit.factoids.through
+    verbose_name = u'Narrative Factoid'
+    verbose_name_plural = u'Narrative Factoids'
+    raw_id_fields = ("factoid","narrativeunit")
 
 
 @admin.register(Location)
@@ -44,6 +59,10 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('name', 'mdbcode', 'descname')
     search_fields = ['name', 'mdbcode']
 
+    inlines = [
+        FactoidPersonInline,
+    ]
+
 
 @admin.register(Factoid)
 class FactoidAdmin(admin.ModelAdmin):
@@ -51,7 +70,20 @@ class FactoidAdmin(admin.ModelAdmin):
     search_fields = ['engdesc']
 
     inlines = [
+        FactoidPersonInline,
+        NarrativeFactoidInline,
         ScdateInline,
+    ]
+
+
+
+@admin.register(Narrativeunit)
+class NarrativeunitAdmin(admin.ModelAdmin):
+    model = Narrativeunit
+    list_display = ('description','summary','yearorder',)
+    search_fields = ('description', 'summary', 'yearorder',)
+    inlines = [
+        NarrativeFactoidInline
     ]
 
 
