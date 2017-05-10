@@ -7,10 +7,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from haystack.generic_views import FacetedSearchView
-
+from django.db.models import Max, Min
 from forms import PBWFacetedSearchForm
-from models import Person, Factoid, Boulloterion, Seal, Published, Factoidtype
+from models import Person, Factoid, Boulloterion, Seal, Published, Factoidtype, Narrativeunit
 from settings import DISPLAYED_FACTOID_TYPES
 from haystack.query import SearchQuerySet
 
@@ -294,3 +295,25 @@ class BoulloterionDetailView(DetailView):
         context['seals'] = seals
         context['published'] = published
         return context
+
+class NarrativeYearListView(ListView):
+    model = Narrativeunit
+    template_name = "narrative_year.html"
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            NarrativeYearListView,
+            self).get_context_data(
+            **kwargs)
+        context['first_year'] = Narrativeunit.objects.filter(yearorder__gt=0).aggregate(Min('yearorder'))['yearorder__min']
+        context['last_year'] = Narrativeunit.objects.all().aggregate(Max('yearorder'))['yearorder__max']
+        if self.request.GET.get("current_year"):
+            current_year = int(self.request.GET.get("current_year"))
+            context['current_year'] = current_year
+            context['object_list'] = Narrativeunit.objects.filter(yearorder=current_year)
+        else:
+            context['current_year'] = context['first_year']
+
+        return context
+
