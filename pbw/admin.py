@@ -29,11 +29,12 @@ class FactoidInline(admin.StackedInline):
     model = Factoid
     extra = 1
 
+
 class FactoidPersonInline(admin.StackedInline):
     verbose_name = u'Factoid-Person'
     verbose_name_plural = u'Factoid-Person links'
     model = Person.factoids.through
-    raw_id_fields = ('person','factoid')
+    raw_id_fields = ('person', 'factoid')
 
 
 class ScdateInline(admin.StackedInline):
@@ -41,11 +42,12 @@ class ScdateInline(admin.StackedInline):
     extra = 1
     show_change_link = True
 
+
 class NarrativeFactoidInline(admin.StackedInline):
     model = Narrativeunit.factoids.through
     verbose_name = u'Narrative Factoid'
     verbose_name_plural = u'Narrative Factoids'
-    raw_id_fields = ("factoid","narrativeunit")
+    raw_id_fields = ("factoid", "narrativeunit")
 
 
 @admin.register(Location)
@@ -76,11 +78,10 @@ class FactoidAdmin(admin.ModelAdmin):
     ]
 
 
-
 @admin.register(Narrativeunit)
 class NarrativeunitAdmin(admin.ModelAdmin):
     model = Narrativeunit
-    list_display = ('description','summary','yearorder',)
+    list_display = ('description', 'summary', 'yearorder',)
     search_fields = ('description', 'summary', 'yearorder',)
     inlines = [
         NarrativeFactoidInline
@@ -92,17 +93,19 @@ class FactoidPersonAdmin(admin.ModelAdmin):
     raw_id_fields = ("person", "factoid")
     # inlines = [FactoidInline]
 
+
 @admin.register(Seal)
 class SealAdmin(admin.ModelAdmin):
-    list_display = ('boulloterion','collection','collectionref')
-    readonly_fields = ['sealkey',]
-    search_fields = ['boulloterion', 'collection','collectionref']
+    list_display = ('boulloterion', 'collection', 'collectionref')
+    readonly_fields = ['sealkey', ]
+    search_fields = ['boulloterion', 'collection', 'collectionref']
 
     fields = (
-        ('sealkey','sealorder'),
+        ('sealkey', 'sealorder'),
         ('boulloterion',),
-        ('collection','collectionref',),
+        ('collection', 'collectionref',),
     )
+
 
 class SealInline(admin.StackedInline):
     model = Seal
@@ -110,12 +113,20 @@ class SealInline(admin.StackedInline):
     extra = 1
     max_num = 50
     ordering = ('sealorder',)
-    formset = inlineformset_factory(Collection,Seal, fields=('sealorder','boulloterion','collection','collectionref',), max_num=30)
+    formset = inlineformset_factory(
+        Collection,
+        Seal,
+        fields=(
+            'sealorder',
+            'boulloterion',
+            'collection',
+            'collectionref',
+        ),
+        max_num=30)
 
 
 @admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    search_fields = ['collectionname','shortname']
-    list_display = ('collectionname','shortname')
+    search_fields = ['collectionname', 'shortname']
+    list_display = ('collectionname', 'shortname')
     inlines = (SealInline,)
-

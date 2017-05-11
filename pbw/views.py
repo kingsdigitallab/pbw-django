@@ -12,7 +12,8 @@ from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
 from forms import PBWFacetedSearchForm
-from models import Person, Factoid, Boulloterion, Seal, Published, Factoidtype, Narrativeunit
+from models import (Person, Factoid, Boulloterion, Seal,
+                    Published, Factoidtype, Narrativeunit)
 from settings import DISPLAYED_FACTOID_TYPES
 
 
@@ -71,12 +72,14 @@ class PBWFacetedSearchView(FacetedSearchView):
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet, mincount=1, sort='index', limit=-1)
+            queryset = queryset.facet(
+                facet, mincount=1, sort='index', limit=-1)
 
         return queryset
 
 
 class FactoidGroup:
+
     def __init__(self, type, factoids):
         self.factoidtype = type
         self.factoids = factoids
@@ -92,9 +95,8 @@ class PersonDetailView(DetailView):
     def get_context_data(self, **kwargs):  # noqa
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)
-        person = self.get_object()
-        context['factoidGroups'] = self.get_factoid_groups \
-            (DISPLAYED_FACTOID_TYPES)
+        context['factoidGroups'] = self.get_factoid_groups(
+            DISPLAYED_FACTOID_TYPES)
         context['lastAuthority'] = ''
         context['loadAll'] = self.loadAll
         # Get referred search from session to go back
@@ -211,7 +213,7 @@ class PersonJsonView(PersonDetailView):
 
 class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
-    #results_per_page = 1000
+    # results_per_page = 1000
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -233,7 +235,7 @@ class FactoidGroupView(PersonDetailView):
         # except EmptyPage:
         #     page = paginator.page(paginator.num_pages)
         #     context['factoids'] = paginator
-        context['factoids'] = factoids #page
+        context['factoids'] = factoids  # page
         return context
 
 
@@ -245,8 +247,6 @@ class AutoCompleteView(PBWFacetedSearchView):
             PBWFacetedSearchView, self).get_context_data(**kwargs)
         if self.request.GET.get("facet"):
             facet = self.request.GET.get("facet")
-            search = self.request.GET.get("search")
-
             context["ajax_facet"] = facet
             context['query'] = self.get_queryset()
         return context
@@ -306,15 +306,14 @@ class NarrativeYearListView(ListView):
     first_year = 0
     last_year = 0
 
-
     def __init__(self, **kwargs):
-        super(NarrativeYearListView,self).__init__(**kwargs)
-        units = Narrativeunit.objects.filter(yearorder__gt=0).order_by('yearorder')
+        super(NarrativeYearListView, self).__init__(**kwargs)
+        units = Narrativeunit.objects.filter(
+            yearorder__gt=0).order_by('yearorder')
         # Get the earliest and last year currently in the database
         if units.count() > 0:
             self.first_year = units.first().yearorder
             self.last_year = units.last().yearorder
-
 
     def get_queryset(self):
         if 'current_year' in self.request.GET:
@@ -322,7 +321,6 @@ class NarrativeYearListView(ListView):
         else:
             current_year = self.first_year
         return Narrativeunit.objects.filter(yearorder=current_year)
-
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(

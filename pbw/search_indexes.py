@@ -55,7 +55,8 @@ def get_letters(names):
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname', default='')
-    name = indexes.FacetMultiValueField()  # indexes.CharField(model_attr='name', faceted=True)
+    # indexes.CharField(model_attr='name', faceted=True)
+    name = indexes.FacetMultiValueField()
     nameol = indexes.CharField(model_attr='nameol')
     letter = indexes.FacetMultiValueField()
     source = indexes.FacetMultiValueField()

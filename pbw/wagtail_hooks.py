@@ -15,6 +15,8 @@ OCTYPE", "dt", "em", "fieldset", "form", "h1", "h2", "h3", "h4", "h5", "h6", "he
 ol", "optgroup", "option", "p", "param", "pre", "q", "samp", "script", "select", "small", "span", "strong", "style", "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title", "t\
 r", "tt", "ul", "var"]
     return dict((tag, allow_all_attributes) for tag in tags)
+
+
 hooks.register(
     'construct_whitelister_element_rules',
     whitelister_element_rules)

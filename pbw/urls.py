@@ -46,9 +46,9 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                    BoulloterionDetailView.as_view(),
                    name='boulloterion-detail'),
 
-                url(r'^narrative/$',
-                    NarrativeYearListView.as_view(),
-                    name='narrative-list'),
+               url(r'^narrative/$',
+                   NarrativeYearListView.as_view(),
+                   name='narrative-list'),
 
                url(r'^autocomplete/',
                    AutoCompleteView.as_view(),
@@ -81,5 +81,5 @@ if settings.DEBUG:
                           document_root=os.path.join(settings.MEDIA_ROOT,
                                                      'images'))
 # For anything not caught by a more specific rule above, hand over to
-               # Wagtail's serving mechanism
+    # Wagtail's serving mechanism
 urlpatterns.append(url(r'^', include(wagtail_urls)))
