@@ -7,19 +7,20 @@
     <li>
         <a href="{% url 'pbw_browse' %}">PBW 2016</a>
     </li>
+    <li><a href="{% url 'narrative-list' %}">Narrative</a></li>
     {% for page in menu_pages %}
-    {% if page.get_children %}
-    <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
-        <a href="#">{{ page.title }}</a>
-        <ul class="menu">
-            {% for child in page.get_children %}
-            <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-    <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
-        <a href="{% pageurl page %}">{{ page.title }}</a>
-    {% endif %}
+        {% if page.get_children %}
+            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
+                <a href="#">{{ page.title }}</a>
+                <ul class="menu">
+                    {% for child in page.get_children %}
+                        <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+            <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">
+            <a href="{% pageurl page %}">{{ page.title }}</a>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

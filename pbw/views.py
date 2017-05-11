@@ -9,11 +9,11 @@ from django.http import Http404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from haystack.generic_views import FacetedSearchView
-from django.db.models import Max, Min
+from haystack.query import SearchQuerySet
+
 from forms import PBWFacetedSearchForm
 from models import Person, Factoid, Boulloterion, Seal, Published, Factoidtype, Narrativeunit
 from settings import DISPLAYED_FACTOID_TYPES
-from haystack.query import SearchQuerySet
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -120,10 +120,10 @@ class PersonDetailView(DetailView):
                     total += factoids.count()
             except ObjectDoesNotExist:
                 pass
-        # Set to false because of long load times
-        #if total <= self.loadAllThreshold:
-            # Pre-load all factoids
-            #self.loadAll = True
+                # Set to false because of long load times
+                # if total <= self.loadAllThreshold:
+                # Pre-load all factoids
+                # self.loadAll = True
         return groups
 
     def get_factoid_group(self, person, type):
@@ -211,7 +211,7 @@ class PersonJsonView(PersonDetailView):
 
 class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
-    results_per_page = 1000
+    #results_per_page = 1000
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -225,15 +225,15 @@ class FactoidGroupView(PersonDetailView):
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
         factoids = self.get_factoid_group(person=person, type=self.type)
-        paginator = Paginator(factoids, self.results_per_page)
-        try:
-            page = paginator.page(self.page_number)
-        except PageNotAnInteger:
-            page = paginator.page(1)
-        except EmptyPage:
-            page = paginator.page(paginator.num_pages)
-            context['factoids'] = paginator
-        context['factoids'] = page
+        # paginator = Paginator(factoids, self.results_per_page)
+        # try:
+        #     page = paginator.page(self.page_number)
+        # except PageNotAnInteger:
+        #     page = paginator.page(1)
+        # except EmptyPage:
+        #     page = paginator.page(paginator.num_pages)
+        #     context['factoids'] = paginator
+        context['factoids'] = factoids #page
         return context
 
 
@@ -296,24 +296,44 @@ class BoulloterionDetailView(DetailView):
         context['published'] = published
         return context
 
+
+# This view displays a simplified view of Michael's
+# Narrative units, selected by a chronological slider
 class NarrativeYearListView(ListView):
     model = Narrativeunit
     template_name = "narrative_year.html"
-    paginate_by = 50
+    paginate_by = 10
+    first_year = 0
+    last_year = 0
+
+
+    def __init__(self, **kwargs):
+        super(NarrativeYearListView,self).__init__(**kwargs)
+        units = Narrativeunit.objects.filter(yearorder__gt=0).order_by('yearorder')
+        # Get the earliest and last year currently in the database
+        if units.count() > 0:
+            self.first_year = units.first().yearorder
+            self.last_year = units.last().yearorder
+
+
+    def get_queryset(self):
+        if 'current_year' in self.request.GET:
+            current_year = self.request.GET.get("current_year")
+        else:
+            current_year = self.first_year
+        return Narrativeunit.objects.filter(yearorder=current_year)
+
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(
             NarrativeYearListView,
             self).get_context_data(
             **kwargs)
-        context['first_year'] = Narrativeunit.objects.filter(yearorder__gt=0).aggregate(Min('yearorder'))['yearorder__min']
-        context['last_year'] = Narrativeunit.objects.all().aggregate(Max('yearorder'))['yearorder__max']
-        if self.request.GET.get("current_year"):
-            current_year = int(self.request.GET.get("current_year"))
-            context['current_year'] = current_year
-            context['object_list'] = Narrativeunit.objects.filter(yearorder=current_year)
+        context['first_year'] = self.first_year
+        context['last_year'] = self.last_year
+        if 'current_year' in self.request.GET:
+            context['current_year'] = self.request.GET.get("current_year")
         else:
-            context['current_year'] = context['first_year']
+            context['current_year'] = self.first_year
 
         return context
-

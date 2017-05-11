@@ -1,6 +1,6 @@
 from django import forms
 from haystack.forms import FacetedSearchForm
-from models import Factoid
+from models import Factoid,Narrativeunit
 
 
 class PBWFacetedSearchForm(FacetedSearchForm):
@@ -76,6 +76,10 @@ class PBWFacetedSearchForm(FacetedSearchForm):
             kwargs['data'] = {}
         super(PBWFacetedSearchForm, self).__init__(
             *args, **kwargs)
+
+
+
+
 
 
 class FactoidForm(forms.ModelForm):
