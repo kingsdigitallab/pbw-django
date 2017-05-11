@@ -21,6 +21,17 @@ hooks.register(
     'construct_whitelister_element_rules',
     whitelister_element_rules)
 
+def editor_css():
+    return format_html("""
+                       <link href="{0}{1}" rel="stylesheet"
+                       type="text/x-scss">
+                       """,
+                       settings.STATIC_URL,
+                       'scss/font-awesome.scss')
+
+
+hooks.register('insert_editor_css', editor_css)
+
 
 @hooks.register('insert_editor_js')
 def editor_js():
