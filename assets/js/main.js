@@ -26,13 +26,14 @@ require([
 
     //Used in the Bibliography page when it is passed a source to focus on on load.
     var focusOnSource = function (source) {
+        console.log(source);
         $("a:contains('" + source + "')").focus()
     }
 
     $(document).ready(function () {
         var gets = getQueryVars();
         if (gets["source"]) {
-            focusOnSource(gets["source"]);
+            focusOnSource(decodeURI(gets["source"]).replace("\"",""));
         }
 
         //Accordion Toggles for person detail
