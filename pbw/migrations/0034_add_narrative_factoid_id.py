@@ -12,13 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterUniqueTogether(
+            name='narrativefactoid',
+            unique_together=set([]),
+        ),
         migrations.AddField(
             model_name='narrativefactoid',
             name='id',
             field=models.AutoField(primary_key=True, serialize=False),
         ),
-        migrations.AlterUniqueTogether(
-            name='narrativefactoid',
-            unique_together=set([]),
-        ),
+
     ]

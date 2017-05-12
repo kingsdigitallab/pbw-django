@@ -69,7 +69,7 @@
                 <p class="heading">Seals</p>
                 <ul class="no-bullet">
                     {% for s in seals %}
-                        <li>{{ s.collection }} {{ s.collectionref }}</li>
+                        <li>{{ s.collection }} {{ s.collectionref }} {% if s.url %}<a href="{{ s.url }}">{{ s.link_name }}</a> {% endif %}</li>
                     {% endfor %}
                 </ul>
             </div>

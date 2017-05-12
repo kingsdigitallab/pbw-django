@@ -1178,6 +1178,9 @@ class Seal(models.Model):
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')
     # Field name made lowercase.
     boulloterion = models.ForeignKey('Boulloterion')
+    # External url
+    url = models.CharField(max_length=200,null=True)
+    link_name = models.CharField(max_length=200,null=True)
 
     def __unicode__(self):
         return self.boulloterion.title
