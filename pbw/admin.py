@@ -104,6 +104,7 @@ class SealAdmin(admin.ModelAdmin):
         ('sealkey', 'sealorder'),
         ('boulloterion',),
         ('collection', 'collectionref',),
+        ('url','link_name',),
     )
 
 
