@@ -13,7 +13,9 @@ from haystack.query import SearchQuerySet
 
 from forms import PBWFacetedSearchForm
 from models import (Person, Factoid, Boulloterion, Seal,
-                    Published, Factoidtype, Narrativeunit)
+                    Published, Factoidtype, Narrativeunit,
+                    Collection, Bibliography
+                    )
 from settings import DISPLAYED_FACTOID_TYPES
 
 
@@ -302,7 +304,7 @@ class BoulloterionDetailView(DetailView):
 class NarrativeYearListView(ListView):
     model = Narrativeunit
     template_name = "narrative_year.html"
-    paginate_by = 10
+    paginate_by = 25
     first_year = 0
     last_year = 0
 
@@ -335,3 +337,38 @@ class NarrativeYearListView(ListView):
             context['current_year'] = self.first_year
 
         return context
+
+
+#This view shows seals list by collection and bibliography
+class SealsListView(ListView):
+    model = Seal
+    template_name = "narrative_year.html"
+    paginate_by = 30
+    DEFAULT_LIST = "collection"
+
+    def get_queryset(self):
+        seals = Seal.objects.all()
+        if 'collection_id' in self.request.GET:
+            seals.filter(collection_id=self.request.GET.get("collection_id"))
+        elif 'bibliography_id' in self.request.GET:
+            seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("collection_id"))
+        return seals
+
+    def get_context_data(self, **kwargs):  # noqa
+        context = super(
+            SealsListView,
+            self).get_context_data(
+            **kwargs)
+
+        if 'list' in self.request.GET:
+            if 'collection' in self.request.GET.get("list"):
+                context['collections'] = Collection.objects.all()
+            elif 'bibliography' in self.request.GET.get("list"):
+                context['bibliographies'] = Bibliography.objects.all()
+        else:
+            context['list'] = self.DEFAULT_LIST
+
+        return context
+
+
+

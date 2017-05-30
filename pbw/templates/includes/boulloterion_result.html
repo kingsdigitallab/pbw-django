@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="large-12 columns">
+
+        <h2>{{ boulloterion.title }}</h2>
+
+
+    </div>
+</div>
+{% if user.is_authenticated %}
+    <div class="row">
+        <div class="large-12 columns">
+            <p><a href="{% url 'admin:pbw_boulloterion_change' boulloterion.pk %}">Edit</a></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-12 columns">
+            <p><a href="http://db.pbw.kcl.ac.uk/jsp/boulloterion.jsp?bKey={{ boulloterion.pk }}">In PBW 2011</a>
+            </p>
+        </div>
+    </div>
+{% endif %}
+<div class="row">
+    <div class="large-4 columns">
+        <p>
+            <label for="permalink">Permalink</label><input id="permalink" name="permalink"
+                                                           value="http://pbw2016.kdl.kcl.ac.uk/boulloterion/{{ boulloterion.pk }}/">
+            <button class="clip_btn" data-clipboard-target="#permalink">
+                <img src="{% static 'images/clippy.svg' %}" alt="Copy to clipboard">
+            </button>
+        </p>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="large-4 columns">
+        <p class="heading">Obverse</p>
+
+        <p>{{ boulloterion.obvicon }}</p>
+    </div>
+    <div class="large-4 columns">
+        <p class="heading">Reverse</p>
+
+        <p>{{ boulloterion.revicon }} </p>
+
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <p>{{ boulloterion.origltext }}</p>
+        <p>{{ boulloterion.text }} </p>
+
+        <p><span class="heading">Diameter:</span> {{ boulloterion.diameter }}</p>
+
+        <p><span class="heading">Date:</span> {{ boulloterion.datewords }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <p class="heading">Seals</p>
+        <ul class="no-bullet">
+            {% for s in seals %}
+                <li>{{ s.collection }} {{ s.collectionref }} {% if s.url %}
+                    <a href="{{ s.url }}">{{ s.link_name }}</a> {% endif %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <p class="heading">Published</p>
+        <ul class="no-bullet">
+            {% for p in published %}
+                <li>{{ p.bibliography }} {{ p.publicationref }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

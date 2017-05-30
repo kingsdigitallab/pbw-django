@@ -10,7 +10,8 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
 from pbw.views import FactoidGroupView, NarrativeYearListView
-from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView, PersonPermalinkDetailView, BoulloterionDetailView
+from views import (PBWFacetedSearchView, PersonDetailView, PersonJsonView,
+                   AutoCompleteView, PersonPermalinkDetailView, BoulloterionDetailView, SealsListView)
 from ddhldap.signal_handlers import register_signal_handlers as \
     ddhldap_register_signal_handlers
 
@@ -42,9 +43,14 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^person/json/(?P<pk>\d+)/$',
                    PersonJsonView.as_view(),
                    name='person-json'),
+
                url(r'^boulloterion/(?P<pk>\d+)/$',
                    BoulloterionDetailView.as_view(),
                    name='boulloterion-detail'),
+
+                url(r'^seals/$',
+                    SealsListView.as_view(),
+                   name='seals-list'),
 
                url(r'^narrative/$',
                    NarrativeYearListView.as_view(),
