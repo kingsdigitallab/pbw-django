@@ -4,6 +4,13 @@
 {% block meta_title %}Boulloterion Details{% endblock %}
 
 {% block main %}
+    {% if query %}
+        <div class="row">
+            <div class="large-12 columns">
+                    <p><a href="{% url 'seals-list' %}?{{ query }}">Back to results</a></p>
+            </div>
+        </div>
+                {% endif %}
     <div id="boulloterionContent">
         {% include "includes/boulloterion_result.html" %}
     </div>

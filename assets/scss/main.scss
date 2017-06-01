@@ -203,6 +203,18 @@ dt a{
   font-weight: lighter;
 }
 
+#seal_sidebar_list .fixed-height{
+	height: 100vh;
+}
+
+ul.collection_list li {
+	list-style: none;
+}
+
+ul.seal_list {
+	list-style: none;
+}
+
 /*** Search / Facets / Filters ***/
 
 #search form {

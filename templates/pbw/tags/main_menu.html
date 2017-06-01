@@ -8,6 +8,7 @@
         <a href="{% url 'pbw_browse' %}">PBW 2016</a>
     </li>
     <li><a href="{% url 'narrative-list' %}">Narrative</a></li>
+    <li><a href="{% url 'seals-list' %}">Seals</a></li>
     {% for page in menu_pages %}
         {% if page.get_children %}
             <li class="{% if page.get_children %}has-dropdown {% endif %}{% if page.active %} active {% endif %}">

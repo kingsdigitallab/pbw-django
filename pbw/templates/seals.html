@@ -14,84 +14,99 @@
         <div class="medium-3 columns">
             <div class="row">
                 <div class="medium-6 columns">
-                    <a href="{% url 'seals-list' %}?list=collection">Collections</a>
+                    <a class="button" href="{% url 'seals-list' %}?list=collection">Collections</a>
                 </div>
                 <div class="medium-6 columns">
-                    <a href="">Bibliographies</a>
+                    <a class="button" href="{% url 'seals-list' %}?list=bibliography">Bibliographies</a>
                 </div>
             </div>
+            <div id="seal_sidebar_list" class="row">
+                <div class="medium-12 columns fixed-height">
+                    {% if collections %}
+                        <ul class="collection_list">
+                            {% for collection in collections %}
+                                <li>
+                                    <a href="{% url 'seals-list' %}?list=collection&collection_id={{ collection.id }}">{{ collection.collectionname }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
 
-            {% if collections %}
-                <ul>
-                    {% for collection in collections %}
-                        <li>
-                            <a href="{% url 'seals-list' %}?list=collection&collection_id={{ collection.id }}">{{ collection.collectionname }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                    {% if bibliographies %}
+                        <ul class="collection_list">
+                            {% for bibliography in bibliographies %}
+                                <li>
+                                    <a href="{% url 'seals-list' %}?list=bibliography&bibliography_id={{ bibliography.pk }}">{{ bibliography.shortname }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
 
-        {% if bibliographies %}
-            <ul>
-            {% for bibliography in bibliographies %}
-                <li>
-                <a href="{% url 'seals-list' %}?list=bibliography&bibliography_id={{ bibliography.id }}">{{ bibliography.latinbib }}</a>
-                </li>
-            {% endfor %}
-            </ul>
-
-        {% endif %}
-
-
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
         <div class="medium-9 columns">
-            <ul>
+            <ol start="{{ page_obj.start_index }}" class="search-results seal_list">
+
                 {% for seal in object_list %}
                     <li>
-                        {% include "includes/boulloterion_result.html" with boulloterion = seal.boulloterion %}
+                        {% with boulloterion=seal.boulloterion %}
+                            <h2>
+                                <a href="{% url 'boulloterion-detail' boulloterion.pk %}?list={{ list }}&collection_id={{ collection_id }}&bibliography_id={{ bibliography_id }}">{{ boulloterion.title }}</a>
+                            </h2>
+                            <p>{{ boulloterion.origltext }}</p>
+                            <p>{{ boulloterion.text }} </p>
+                            <p>{{ seal.collection }} {{ seal.collectionref }}</p>
+                        {% endwith %}
                     </li>
                 {% endfor %}
-            </ul>
+                </ul>
 
-            {% if is_paginated %}
-                <ul class="pagination">
-                    {% if page_obj.number > 1 %}
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        {% if page_obj.number > 1 %}
+                            <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
+                                <a href="{% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page=1">&laquo;</a>
+                            </li>
+                        {% endif %}
                         <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
-                            <a href="{% url 'seals-list' %}?list={{list}}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page=1">&laquo;</a>
+                            <a href="
+
+
+
+
+                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id=
+
+
+                                    {{ bibliography_id }}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
                         </li>
-                    {% endif %}
-                    <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
-                        <a href="
-
-
-
-
-                            {% url 'seals-list' %}?list={{list}}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
-                    </li>
-                    <li>
-                        Page {{ page_obj.number }} of {{ paginator.num_pages }}
-                    </li>
-                    <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
-                        <a href="
-
-
-
-
-                            {% url 'seals-list' %}?list={{list}}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
-                    </li>
-                    {% if page_obj.number < paginator.num_pages %}
+                        <li>
+                            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+                        </li>
                         <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
                             <a href="
 
 
 
 
-                                {% url 'seals-list' %}?list={{list}}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page={{ paginator.num_pages }}">&raquo;</a>
+                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id=
+
+
+                                    {{ bibliography_id }}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
                         </li>
-                    {% endif %}
-                </ul>
-            {% endif %}
+                        {% if page_obj.number < paginator.num_pages %}
+                            <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
+                                <a href="
+
+
+
+
+                                {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page={{ paginator.num_pages }}">&raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
 
         </div>
     </div>

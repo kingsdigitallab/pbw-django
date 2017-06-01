@@ -81,7 +81,6 @@ class PBWFacetedSearchView(FacetedSearchView):
 
 
 class FactoidGroup:
-
     def __init__(self, type, factoids):
         self.factoidtype = type
         self.factoids = factoids
@@ -215,6 +214,7 @@ class PersonJsonView(PersonDetailView):
 
 class FactoidGroupView(PersonDetailView):
     template_name = 'ajax/factoid_group.html'
+
     # results_per_page = 1000
 
     def get(self, request, *args, **kwargs):
@@ -296,6 +296,11 @@ class BoulloterionDetailView(DetailView):
         context['person_id'] = person_id
         context['seals'] = seals
         context['published'] = published
+        try:
+            query = self.request.GET.urlencode()
+            context['query'] = query
+        except Exception:
+            context['query'] = None
         return context
 
 
@@ -339,19 +344,19 @@ class NarrativeYearListView(ListView):
         return context
 
 
-#This view shows seals list by collection and bibliography
+# This view shows seals list by collection and bibliography
 class SealsListView(ListView):
     model = Seal
-    template_name = "narrative_year.html"
+    template_name = "seals.html"
     paginate_by = 30
     DEFAULT_LIST = "collection"
 
     def get_queryset(self):
         seals = Seal.objects.all()
         if 'collection_id' in self.request.GET:
-            seals.filter(collection_id=self.request.GET.get("collection_id"))
+            seals = seals.filter(collection_id=self.request.GET.get("collection_id"))
         elif 'bibliography_id' in self.request.GET:
-            seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("collection_id"))
+            seals = seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("collection_id"))
         return seals
 
     def get_context_data(self, **kwargs):  # noqa
@@ -360,15 +365,19 @@ class SealsListView(ListView):
             self).get_context_data(
             **kwargs)
 
+        list = self.DEFAULT_LIST
         if 'list' in self.request.GET:
-            if 'collection' in self.request.GET.get("list"):
-                context['collections'] = Collection.objects.all()
-            elif 'bibliography' in self.request.GET.get("list"):
-                context['bibliographies'] = Bibliography.objects.all()
-        else:
-            context['list'] = self.DEFAULT_LIST
+            list = self.request.GET.get("list")
+        if 'collection' in list:
+            context['collections'] = Collection.objects.all()
+            context['list'] = 'collection'
+        elif 'bibliography' in list:
+            context['bibliographies'] = Bibliography.objects.all()
+            context['bibliographies'] = 'bibliographies'
+
+        if 'collection_id' in self.request.GET:
+            context['collection_id'] = self.request.GET.get("collection_id")
+        elif 'bibliography_id' in self.request.GET:
+            context['bibliography_id'] = self.request.GET.get('bibliography_id')
 
         return context
-
-
-
