@@ -372,8 +372,8 @@ class SealsListView(ListView):
             context['collections'] = Collection.objects.all()
             context['list'] = 'collection'
         elif 'bibliography' in list:
-            context['bibliographies'] = Bibliography.objects.all()
-            context['bibliographies'] = 'bibliographies'
+            context['bibliographies'] = Bibliography.objects.all().order_by('shortname')
+            context['list'] = 'bibliographies'
 
         if 'collection_id' in self.request.GET:
             context['collection_id'] = self.request.GET.get("collection_id")

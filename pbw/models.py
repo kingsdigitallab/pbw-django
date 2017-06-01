@@ -251,6 +251,7 @@ class Collection(models.Model):
         return self.shortname
 
     class Meta:
+        ordering = ['collectionname']
         db_table = 'Collection'
 
 
