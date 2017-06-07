@@ -122,6 +122,7 @@ class Boulloterion(models.Model):
 
     class Meta:
         db_table = 'Boulloterion'
+        ordering = ['title']
 
 
 class Boulloterionfigure(models.Model):

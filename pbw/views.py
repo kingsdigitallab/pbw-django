@@ -356,8 +356,8 @@ class SealsListView(ListView):
         if 'collection_id' in self.request.GET:
             seals = seals.filter(collection_id=self.request.GET.get("collection_id"))
         elif 'bibliography_id' in self.request.GET:
-            seals = seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("collection_id"))
-        return seals
+            seals = seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("bibliography_id"))
+        return seals.order_by('boulloterion__title')
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(
@@ -377,7 +377,9 @@ class SealsListView(ListView):
 
         if 'collection_id' in self.request.GET:
             context['collection_id'] = self.request.GET.get("collection_id")
+            context['collection'] = Collection.objects.get(id=self.request.GET.get("collection_id"))
         elif 'bibliography_id' in self.request.GET:
             context['bibliography_id'] = self.request.GET.get('bibliography_id')
+            context['bibliography'] = Bibliography.objects.get(bibkey=self.request.GET.get('bibliography_id'))
 
         return context
