@@ -103,9 +103,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated.
         Filter factoids by type for only those used in browser"""
+        # __iregex=r'^.{7,}$'
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
         return self.get_model().objects.filter(
-            name__len__gt=1,
             mdbcode__gt=0,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()  # The base class for the the various
         # factoid types
