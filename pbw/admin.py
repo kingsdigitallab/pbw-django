@@ -58,7 +58,7 @@ class LocationAdin(admin.ModelAdmin):
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'mdbcode', 'descname')
+    list_display = ('id','name', 'mdbcode', 'descname')
     search_fields = ['name', 'mdbcode']
 
     inlines = [
@@ -68,7 +68,7 @@ class PersonAdmin(admin.ModelAdmin):
 
 @admin.register(Factoid)
 class FactoidAdmin(admin.ModelAdmin):
-    list_display = ('person', 'factoidtype', 'engdesc')
+    list_display = ('id', 'person', 'factoidtype', 'engdesc')
     search_fields = ['engdesc']
 
     inlines = [

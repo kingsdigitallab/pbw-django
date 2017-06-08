@@ -105,6 +105,8 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         Filter factoids by type for only those used in browser"""
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
         return self.get_model().objects.filter(
+            name_len__gt=1,
+            mdbcode__gt=0,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()  # The base class for the the various
         # factoid types
 

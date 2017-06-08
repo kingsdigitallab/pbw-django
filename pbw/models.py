@@ -758,6 +758,7 @@ class Location(models.Model):
 
     class Meta:
         db_table = 'Location'
+        ordering = ['locname']
 
     def __unicode__(self):
         return self.locname
