@@ -89,7 +89,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
 
                                 {{ form.name }}
                                 {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
-                                <div class="panel radius fixed-height">
+                                <div class="panel radius fixed-height three-col">
                                     <ul class="no-bullet">
                                         {% for term in facets.fields|get_item:"name" %}
                                         {% with value=term.0 count=term.1 %}
@@ -165,40 +165,37 @@ Search Results{% if query %} for {{ query }}{% endif %}
                             </div>
                         </div>
 
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
-                                <div class="panel callout">
-                                    <h2 class="panel-heading">Sources</h2>
-                                    {{ form.source }}
-                                    <div class="panel radius fixed-height">
-                                        <ul class="no-bullet">
-                                            {% for term in facets.fields|get_item:"source" %}
-                                            {% with value=term.0 count=term.1 %}
-                                            {% if count > 0 %}
-                                            <li>
-                                                <a href="
-                                                    {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">
-                                                    {{ value }}
-                                                </a>
-                                                <span class="label radius">{{ count }}</span>
-                                                <a href="{% slugurl 'sources' %}?source={{ value }}"
-                                                    title="Sources">
-                                                    <span class="info">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            {% endif %}
-                                            {% endwith %}
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
+                        <div class="large-12 columns do-not-print">
+                            <div class="panel callout">
+                                <h2 class="panel-heading">Sources</h2>
+                                {{ form.source }}
+                                <div class="panel radius fixed-height three-col">
+                                    <ul class="no-bullet">
+                                        {% for term in facets.fields|get_item:"source" %}
+                                        {% with value=term.0 count=term.1 %}
+                                        {% if count > 0 %}
+                                        <li>
+                                            <a href="
+                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">
+                                                {{ value }}
+                                            </a>
+                                            <span class="label radius">{{ count }}</span>
+                                            <a href="{% slugurl 'sources' %}?source={{ value }}"
+                                                title="Sources">
+                                                <span class="info">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% endwith %}
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row do-not-print">
-                            <div class="large-12 columns">
+                            <div class="large-12 columns do-not-print">
                                 <div class="panel callout">
                                     <h2 class="panel-heading">Other categories</h2>
 
@@ -206,7 +203,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Occupation</h4>
                                             {{ form.occupation }}
-                                            <div class="panel radius fixed-height">
+                                            <div class="panel radius fixed-height two-col">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"occupation" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -228,7 +225,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Dignity / Office</h4>
                                             {{ form.dignityoffice }}
-                                            <div class="panel radius fixed-height">
+                                            <div class="panel radius fixed-height two-col">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"dignityoffice" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -252,7 +249,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Ethnicity</h4>
                                             {{ form.ethnicity }}
-                                            <div class="panel radius fixed-height">
+                                            <div class="panel radius fixed-height two-col">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"ethnicity" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -274,7 +271,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Location</h4>
                                             {{ form.location }}
-                                            <div class="panel radius fixed-height">
+                                            <div class="panel radius fixed-height two-col">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"location" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -298,7 +295,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Language</h4>
                                             {{ form.language }}
-                                            <div class="panel radius fixed-height">
+                                            <div class="panel radius fixed-height two-col">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"language" %}
                                                     {% with value=term.0 count=term.1 %}

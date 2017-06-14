@@ -391,10 +391,20 @@ footer.main-footer {
     }
 
     .fixed-height {
-        ul {
-            -webkit-column-count: 3; /* Chrome, Safari, Opera */
-            -moz-column-count: 3; /* Firefox */
-            column-count: 3;
+        &.three-col {
+            ul {
+                -webkit-column-count: 3; /* Chrome, Safari, Opera */
+                -moz-column-count: 3; /* Firefox */
+                column-count: 3;
+            }
+        }
+
+        &.two-col {
+            ul {
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+                column-count: 2;
+            }
         }
     }
 }
@@ -406,10 +416,20 @@ footer.main-footer {
     }
 
     .fixed-height {
-        ul {
-            -webkit-column-count: 2; /* Chrome, Safari, Opera */
-            -moz-column-count: 2; /* Firefox */
-            column-count: 2;
+        &.three-col {
+            ul {
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+                column-count: 2;
+            }
+        }
+
+        &.two-col {
+            ul {
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+                column-count: 2;
+            }
         }
     }
 }
