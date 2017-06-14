@@ -373,7 +373,7 @@
                     <li>
                         {% with person=result.object %}
                             <h3>
-                                <a href="{% url 'person-detail' person.id %}">{{ person }}</a>
+                                <a href="/person/{{person.id}}/">{{ person }}</a>
                             </h3>
                             <h5>{{ person.nameol }}</h5>
                                 <p>
