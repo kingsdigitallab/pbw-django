@@ -4,68 +4,68 @@
 {% block meta_title %}Person Details{% endblock %}
 
 {% block main %}
-    <div id="personContent">
-        <div class="row">
-            <div class="large-12 columns">
-                {% if query %}
-                    <p><a href="{% url 'pbw_browse' %}?{{ query }}">Back to results</a></p>
-                {% endif %}
-                <h2>{{ person.descname }}</h2>
-                <h3>{{ person.floruit }}</h3>
-                <h4>{{ person.nameol }}</h4>
-                <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="large-4 columns">
-                <p>
-
-
-                    <label for="permalink">Permalink</label><input id="permalink" name="permalink"
-                                                                   value="http://pbw2016.kdl.kcl.ac.uk/person/{{ person.name }}/{{ person.mdbcode }}/">
-                    <button class="clip_btn" data-clipboard-target="#permalink">
-                        <img src="/static/images/clippy.svg" alt="Copy to clipboard">
-                    </button>
-
-                </p>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                {% if user.is_authenticated %}
-                    <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
-                    <p><a href="http://db.pbw.kcl.ac.uk/jsp/person.jsp?personKey={{ person.id }}">Person in 2011</a></p>
-                {% endif %}
-                <a id="openAll" href="#">Open all</a> <a id="closeAll" href="#">Close all</a>
-                <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
-                    {% for group in factoidGroups %}
-                        <li class="accordion-item" data-accordion-item>
-                            <a href="#" class="accordion-title{% if not loadAll %} async{% endif %}"
-                               {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}"
-                               data-personid="{{ person.id }}"{% endif %}>
-                                <h3>{{ group.factoidtype.typename }}
-                                    ({{ group.factoids.count }})</h3></a>
-
-                            <div class="accordion-content" data-tab-content>
-                                <ul>
-                                    {% if loadAll %}
-                                        {% with group.factoids as factoids %}
-                                            {% include 'ajax/factoid_group.html' %}
-                                        {% endwith %}
-                                    {% else %}
-                                        <li class="placeholder"><img src="{% static "images/loading.svg" %}"/> </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+<div id="personContent">
+    <div class="row">
+        <div class="large-12 columns">
+            {% if query %}
+            <p><a href="{% url 'pbw_browse' %}?{{ query }}">Back to results</a></p>
+            {% endif %}
+            <h2>{{ person.descname }}</h2>
+            <h3>{{ person.floruit }}</h3>
+            <h4>{{ person.nameol }}</h4>
+            <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
         </div>
     </div>
 
+    <div class="row">
+        <div class="large-4 columns">
+            <p>
+                <label for="permalink">Permalink</label>
+                <input id="permalink" name="permalink" 
+                    value="http://pbw2016.kdl.kcl.ac.uk/person/{{ person.name }}/{{ person.mdbcode }}/">
+                <button class="clip_btn" data-clipboard-target="#permalink">
+                    <img src="/static/images/clippy.svg" alt="Copy to clipboard">
+                </button>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns">
+            {% if user.is_authenticated %}
+            <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
+            <p><a href="http://db.pbw.kcl.ac.uk/jsp/person.jsp?personKey={{ person.id }}">Person in 2011</a></p>
+            {% endif %}
+            <div class="small button-group">
+                <a class="button secondary" id="openAll" href="#">Expand all</a>
+                <a class="button secondary" id="closeAll" href="#">Collapse all</a>
+            </div>
+            <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+                {% for group in factoidGroups %}
+                <li class="accordion-item" data-accordion-item>
+                    <a href="#" class="accordion-title{% if not loadAll %} async{% endif %}"
+                       {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}"
+                       data-personid="{{ person.id }}"{% endif %}>
+                        <h3>{{ group.factoidtype.typename }}
+                            ({{ group.factoids.count }})</h3>
+                    </a>
 
-
+                    <div class="accordion-content" data-tab-content>
+                        <ul>
+                            {% if loadAll %}
+                            {% with group.factoids as factoids %}
+                            {% include 'ajax/factoid_group.html' %}
+                            {% endwith %}
+                            {% else %}
+                            <li class="placeholder">
+                                <img src="{% static 'images/loading.svg' %}">
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

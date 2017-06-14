@@ -27,6 +27,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
+  config.vm.provider "virtualbox" do |provider|
+    provider.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
   config.vm.provider "vmware" do |provider|
     provider.customize ["modifyvm", :id, "--memory", "1024"]
   end
