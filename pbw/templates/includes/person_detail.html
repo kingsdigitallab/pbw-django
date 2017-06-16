@@ -46,7 +46,7 @@
                        {% if not loadAll %}data-load="1" data-factoidtype="{{ group.factoidtype.id }}"
                        data-personid="{{ person.id }}"{% endif %}>
                         <h3>{{ group.factoidtype.typename }}
-                            ({{ group.factoids.count }})</h3>
+                            <span class="secondary label">{{ group.factoids.count }}</span></h3>
                     </a>
 
                     <div class="accordion-content" data-tab-content>
