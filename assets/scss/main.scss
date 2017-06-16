@@ -362,11 +362,26 @@ footer.main-footer {
     p {
         font-size: .75rem;      
     }
+
+    .footer {
+        position: relative;
+        .bottom {
+            bottom: rem-calc(16);
+            position: absolute;
+            right: rem-calc(16);
+        }
+    }
     
     .logo {
-        max-width: 100px;
         float: left;
         margin-right: 3%;
+        max-width: rem-calc(120);
+
+        img {
+            display: block;
+            width: rem-calc(120);
+        }
+
         a {
             border: none !important;
         }
