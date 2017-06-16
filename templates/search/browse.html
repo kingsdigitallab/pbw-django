@@ -97,8 +97,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <li>
                                             <a href="
                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"name" }}name=%22{{ value }}%22">{{ value }}
+                                                <span class="label radius">{{ count }}</span>
                                             </a>
-                                            <span class="label radius">{{ count }}</span>
                                         </li>
                                         {% endif %}
                                         {% endwith %}
@@ -123,8 +123,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                     <li>
                                         <a href="
                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}
+                                            <span class="label radius">{{ count }}</span>
                                         </a>
-                                        <span class="label radius">{{ count }}</span>
                                     </li>
                                     {% endif %}
                                     {% endwith %}
@@ -151,8 +151,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                     <li>
                                         <a href="
                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{ floruit }}
+                                            <span class="label radius">{{ count }}</span>
                                         </a>
-                                        <span class="label radius">{{ count }}</span>
                                     </li>
                                     {% endif %}
                                     {% endwith %}
@@ -178,8 +178,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                             <a href="
                                                 {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">
                                                 {{ value }}
+                                                <span class="label radius">{{ count }}</span>
                                             </a>
-                                            <span class="label radius">{{ count }}</span>
                                             <a href="{% slugurl 'sources' %}?source={{ value }}"
                                                 title="Sources">
                                                 <span class="info">
@@ -212,8 +212,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                         <a href="
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22">
                                                             {{ value }}
+                                                            <span class="label radius">{{ count }}</span>
                                                         </a>
-                                                        <span class="label radius">{{ count }}</span>
                                                     </li>
                                                     {% endif %}
                                                     {% endwith %}
@@ -234,8 +234,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                         <a href="
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}dignityoffice=%22{{ value }}%22">
                                                             {{ value }}
+                                                            <span class="label radius">{{ count }}</span>
                                                         </a>
-                                                        <span class="label radius">{{ count }}</span>
                                                     </li>
                                                     {% endif %}
                                                     {% endwith %}
@@ -258,8 +258,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                         <a href="
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22">
                                                             {{ value }}
+                                                            <span class="label radius">{{ count }}</span>
                                                         </a>
-                                                        <span class="label radius">{{ count }}</span>
                                                     </li>
                                                     {% endif %}
                                                     {% endwith %}
@@ -280,8 +280,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                         <a href="
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}location=%22{{ value }}%22">
                                                             {{ value }}
+                                                            <span class="label radius">{{ count }}</span>
                                                         </a>
-                                                        <span class="label radius">{{ count }}</span>
                                                     </li>
                                                     {% endif %}
                                                     {% endwith %}
@@ -304,8 +304,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                         <a href="
                                                             {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}language=%22{{ value }}%22">
                                                             {{ value }}
+                                                            <span class="label radius">{{ count }}</span>
                                                         </a>
-                                                        <span class="label radius">{{ count }}</span>
                                                     </li>
                                                     {% endif %}
                                                     {% endwith %}
