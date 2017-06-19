@@ -219,8 +219,20 @@ ul.seal_list {
     }
 }
 
+.facet {
+    .label {
+        background: $sand;
+        border: 1px solid scale-color($sand, $lightness: -10%);
+        color: $primary-color;
+        cursor: pointer;
+        font-weight: 700;
+    }
+}
+
 .filters-applied {
-    background: $sand;
+    background: scale-color($secondary-color, $lightness: 90%);
+    border: 1px solid scale-color($secondary-color, $lightness: 70%);
+    border-bottom: 0;
     padding: .5rem 1rem .75rem;
     margin: 1rem 0 0;
     overflow: hidden;
@@ -247,10 +259,6 @@ ul.seal_list {
     overflow: auto;
     padding: rem-calc(16);
     word-wrap: break-word;
-}
-
-.floruit li {
-    display: inline;
 }
 
 .free-filters li {
@@ -280,7 +288,7 @@ ul.seal_list {
         padding: rem-calc(2 2 2 8);
 
         .label {
-            background: scale-color($tertiary-color, $lightness: 50%);
+            background: $sand;
             color: $primary-color;
             font-size: rem-calc(12);
             font-weight: 400;
@@ -297,6 +305,14 @@ ul.seal_list {
     }
 }
 
+.panel {
+    .menu {
+        li > a {
+            padding: rem-calc(2 6 2 0);
+        }
+    }
+}
+
 #search form {
     display: block;
     height: 100%;
@@ -308,11 +324,16 @@ ul.seal_list {
     padding: 1rem;
     background: scale-color($secondary-color, $lightness: 90%);
     border: 1px solid scale-color($secondary-color, $lightness: 70%);
+    border-top: 0;
 
     .label.secondary,
     button.secondary,
     .button.secondary {
         background: scale-color($secondary-color, $lightness: -10%);
+    }
+
+    .label {
+        padding: rem-calc(2 4);
     }
 }
 
@@ -399,7 +420,7 @@ footer.main-footer {
 
 /*** Custom media queries ***/
 
-@media #{$large-up} {
+@include breakpoint(large up) {
     h1.site-title,
     h2.site-title {
         font-size: 2.5rem !important;
@@ -423,9 +444,26 @@ footer.main-footer {
             }
         }
     }
+
+    .panel {
+        .menu {
+            overflow: auto;
+        }
+    }
 }
 
-@media #{$medium-only} {
+@include breakpoint(medium down) {
+    .panel {
+        .menu {
+            li {
+                display: block;
+                float: none;
+            }
+        }
+    }
+}
+
+@include breakpoint(medium only) {
     h1.site-title,
     h2.site-title {
         font-size: 2rem;
@@ -450,7 +488,7 @@ footer.main-footer {
     }
 }
 
-@media #{$small-only} {
+@include breakpoint(small only) {
     h1.site-title,
     h2.site-title {
         font-size: 1.75rem;
