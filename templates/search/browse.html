@@ -78,8 +78,9 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                     {% with value=term.0 count=term.1 %}
                                     {% if count > 0 %}
                                     <a class="button" href="
-                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:'letter' }}letter={{ value }}">{{ value }}
-                                        <span class="secondary label">{{ count }}</span>
+                                        {% url 'pbw_browse' %}{{ form | filter_selected_facets:'letter' }}letter={{ value }}">
+                                        {{ value }}
+                                        <span class="label radius">{{ count }}</span>
                                     </a>
                                     {% endif %}
                                     {% endwith %}
@@ -96,7 +97,9 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         {% if count > 0 %}
                                         <li>
                                             <a href="
-                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"name" }}name=%22{{ value }}%22">{{ value }}
+                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"name" }}name=%22{{ value }}%22"
+                                                 class="facet">
+                                                {{ value }}
                                                 <span class="label radius">{{ count }}</span>
                                             </a>
                                         </li>
@@ -109,12 +112,12 @@ Search Results{% if query %} for {{ query }}{% endif %}
                         </div>
                     </div>
 
-                    <div class="row do-not-print">
+                    <div class="row do-not-print" data-equalizer>
                         <div class="large-4 columns">
-                            <div class="panel callout">
+                            <div class="panel callout" data-equalizer-watch>
                                 <h2 class="panel-heading">Sex</h2>
                                 <p class="info"><i class="fa fa-info-circle"></i> Includes Eunuchs</p>
-                                <ul class="no-bullet floruit">
+                                <ul class="menu">
                                     {% with sexes=facets.fields|get_item:"sex" %}
                                     {% if sexes %}
                                     {% for g in genders %}
@@ -122,7 +125,9 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                     {% if count > 0 %}
                                     <li>
                                         <a href="
-                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22">{{ g }}
+                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"sex" }}sex=%22{{ g }}%22"
+                                             class="facet">
+                                            {{ g }}
                                             <span class="label radius">{{ count }}</span>
                                         </a>
                                     </li>
@@ -136,11 +141,11 @@ Search Results{% if query %} for {{ query }}{% endif %}
                         </div>
 
                         <div class="large-8 columns">
-                            <div class="panel callout">
+                            <div class="panel callout" data-equalizer-watch>
                                 <h2 class="panel-heading">Floruit</h2>
                                 <p class="info"><i class="fa fa-info-circle"></i> E= Early, M= Middle, L= Late</p>
 
-                                <ul class="floruit">
+                                <ul class="menu">
                                     {% with  floruits=facets.fields|get_item:"floruit" %}
                                     {% if floruits %}
                                     {% for c in centuries %}
@@ -150,7 +155,9 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                     {% if count > 0 %}
                                     <li>
                                         <a href="
-                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22">{{ floruit }}
+                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"floruit" }}floruit=%22{{ floruit }}%22"
+                                             class="facet">
+                                            {{ floruit }}
                                             <span class="label radius">{{ count }}</span>
                                         </a>
                                     </li>
@@ -176,7 +183,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         {% if count > 0 %}
                                         <li>
                                             <a href="
-                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22">
+                                                {% url 'pbw_browse' %}{{ form | filter_selected_facets:"source" }}source=%22{{ value }}%22"
+                                                class="facet">
                                                 {{ value }}
                                                 <span class="label radius">{{ count }}</span>
                                             </a>
@@ -210,7 +218,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                     {% if count > 0 %}
                                                     <li>
                                                         <a href="
-                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22">
+                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}occupation=%22{{ value }}%22"
+                                                            class="facet">
                                                             {{ value }}
                                                             <span class="label radius">{{ count }}</span>
                                                         </a>
@@ -232,7 +241,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                     {% if count > 0 %}
                                                     <li>
                                                         <a href="
-                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}dignityoffice=%22{{ value }}%22">
+                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}dignityoffice=%22{{ value }}%22"
+                                                            class="facet">
                                                             {{ value }}
                                                             <span class="label radius">{{ count }}</span>
                                                         </a>
@@ -256,7 +266,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                     {% if count > 0 %}
                                                     <li>
                                                         <a href="
-                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22">
+                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}ethnicity=%22{{ value }}%22"
+                                                            class="facet">
                                                             {{ value }}
                                                             <span class="label radius">{{ count }}</span>
                                                         </a>
@@ -278,7 +289,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                     {% if count > 0 %}
                                                     <li>
                                                         <a href="
-                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}location=%22{{ value }}%22">
+                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}location=%22{{ value }}%22"
+                                                            class="facet">
                                                             {{ value }}
                                                             <span class="label radius">{{ count }}</span>
                                                         </a>
@@ -302,7 +314,8 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                                     {% if count > 0 %}
                                                     <li>
                                                         <a href="
-                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}language=%22{{ value }}%22">
+                                                            {% url 'pbw_browse' %}{{ form | filter_selected_facets:"page" }}language=%22{{ value }}%22"
+                                                            class="facet">
                                                             {{ value }}
                                                             <span class="label radius">{{ count }}</span>
                                                         </a>
