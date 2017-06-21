@@ -117,6 +117,17 @@ class Boulloterion(models.Model):
     # Field name made lowercase.
     hasimage = models.IntegerField(db_column='hasImage', blank=True, null=True)
 
+    @cached_property
+    def get_person(self):
+        persons = Person.objects.filter(
+            factoidperson__factoidpersontype__fptypename="Primary",
+            factoidperson__factoid__boulloterionkey=self.boulloterionkey).distinct()
+        if persons.count() > 0:
+            return persons[0]
+        else:
+            return None
+
+
     def __unicode__(self):
         return self.title
 

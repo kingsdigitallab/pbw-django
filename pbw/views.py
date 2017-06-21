@@ -296,6 +296,7 @@ class BoulloterionDetailView(DetailView):
         context['person_id'] = person_id
         context['seals'] = seals
         context['published'] = published
+
         try:
             query = self.request.GET.urlencode()
             context['query'] = query

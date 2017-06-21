@@ -7,6 +7,15 @@
 
     </div>
 </div>
+<div class="row">
+    <div class="large-12 columns">
+        {%  if boulloterion.get_person %}
+        <h3><a href="{% url 'person-detail' boulloterion.get_person.id %}">{{ boulloterion.get_person.name }} {{ boulloterion.get_person.mdbcode }}</a></h3>
+        {% endif %}
+    </div>
+</div>
+
+
 {% if user.is_authenticated %}
     <div class="row">
         <div class="large-12 columns">
