@@ -51,7 +51,7 @@
         <h1>Seals in {% if collection %}{{ collection }}{% endif %}{% if bibliography %}{{ bibliography }}{% endif %}</h1>
             <br/>
         {% endif %}
-            <ol start="{{ page_obj.start_index }}" class="search-results seal_list">
+            <ul class="search-results seal_list">
 
                 {% for seal in object_list %}
                     <li>

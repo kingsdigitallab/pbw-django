@@ -342,7 +342,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
         <hr>
         <h2>Results <span class="label radius">{{ paginator.count }}</span></h2>
         <hr>
-        <ol start="{{ page_obj.start_index }}" class="search-results">
+        <ul class="search-results">
             {% for result in object_list %}
             <li>
                 {% with person=result.object %}
@@ -358,7 +358,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
             {% empty %}
             <li>No results found!</li>
             {% endfor %}
-        </ol>
+        </ul>
         <ul class="pagination">
             {% if page_obj.number > 1 %}
             <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
