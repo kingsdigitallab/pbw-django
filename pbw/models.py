@@ -121,7 +121,7 @@ class Boulloterion(models.Model):
     def get_person(self):
         persons = Person.objects.filter(
             factoidperson__factoidpersontype__fptypename="Primary",
-            factoidperson__factoid__boulloterionkey=self.boulloterionkey).distinct()
+            factoidperson__factoid__boulloterion__pk=self.pk).distinct()
         if persons.count() > 0:
             return persons[0]
         else:
