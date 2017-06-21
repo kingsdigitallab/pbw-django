@@ -5,6 +5,7 @@ from haystack import indexes
 from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Languageskill, Occupation, Source
 from pbw.models import Sexauth
 from settings import DISPLAYED_FACTOID_TYPES
+from django.db.models.functions import Length
 
 
 # Break down floruits into separate facets
@@ -105,8 +106,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         Filter factoids by type for only those used in browser"""
         # __iregex=r'^.{7,}$'
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.filter(
+        return self.get_model().objects.annotate(name_length=Length('name')).filter(
             mdbcode__gt=0,
+            name_length__gt=0,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()  # The base class for the the various
         # factoid types
 

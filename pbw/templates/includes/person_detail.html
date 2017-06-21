@@ -13,7 +13,7 @@
             <h2>{{ person.descname }}</h2>
             <h3>{{ person.floruit }}</h3>
             <h4>{{ person.nameol }}</h4>
-            <p>ID: {{ person.name }} {{ person.mdbcode }} </p>
+            <p>ID: {{ person.name }} {% if person.mdbcode > 0 %} {{ person.mdbcode }} {% endif %}</p>
         </div>
     </div>
 

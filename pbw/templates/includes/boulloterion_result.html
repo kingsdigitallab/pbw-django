@@ -10,7 +10,7 @@
 <div class="row">
     <div class="large-12 columns">
         {%  if boulloterion.get_person %}
-        <h3><a href="{% url 'person-detail' boulloterion.get_person.id %}">{{ boulloterion.get_person.name }} {{ boulloterion.get_person.mdbcode }}</a></h3>
+        <h3><a href="{% url 'person-detail' boulloterion.get_person.id %}">{{ boulloterion.get_person.name }} {% if boulloterion.get_person.mdbcode > 0 %} {{ boulloterion.get_person.mdbcode }}{% endif %}</a></h3>
         {% endif %}
     </div>
 </div>
