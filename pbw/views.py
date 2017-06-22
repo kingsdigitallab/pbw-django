@@ -353,12 +353,18 @@ class SealsListView(ListView):
     DEFAULT_LIST = "collection"
 
     def get_queryset(self):
-        seals = Seal.objects.all()
+        seals = Seal.objects.all().order_by('boulloterion__title')
         if 'collection_id' in self.request.GET:
-            seals = seals.filter(collection_id=self.request.GET.get("collection_id"))
+            seals = seals.filter(
+                collection_id=self.request.GET.get("collection_id")
+            ).order_by(
+               'collectionref'
+            )
         elif 'bibliography_id' in self.request.GET:
-            seals = seals.filter(boulloterion__published__bibliography_id=self.request.GET.get("bibliography_id"))
-        return seals.order_by('boulloterion__title')
+            seals = seals.filter(
+                boulloterion__published__bibliography_id=self.request.GET.get("bibliography_id")
+            ).order_by('boulloterion__title')
+        return seals
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(

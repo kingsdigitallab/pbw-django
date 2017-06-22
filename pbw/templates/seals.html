@@ -61,7 +61,7 @@
                             </h2>
                             <p>{{ boulloterion.origltext }}</p>
                             <p>{{ boulloterion.text }} </p>
-                            <p>{{ seal.collection }} {{ seal.collectionref }}</p>
+                            <p>{{ seal.collection }} {% if seal.collectionref > 0 %} {{ seal.collectionref }} {% endif %}</p>
                         {% endwith %}
                     </li>
                 {% endfor %}
