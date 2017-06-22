@@ -12,5 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(["update Factoid set boulloterion_id=boulloterionKey where boulloterionKey > 0"])
+        migrations.RunSQL(["alter table Bibliography modify column latinBib longtext CHARACTER SET utf8;"]),
+        migrations.RunSQL(["alter table Bibliography modify column shortName text CHARACTER SET utf8;"]),
+        migrations.RunSQL(["alter table Collection modify column collectionName text CHARACTER SET utf8;"]),
+        migrations.RunSQL(["alter table Collection modify column shortName text CHARACTER SET utf8;"])
     ]
