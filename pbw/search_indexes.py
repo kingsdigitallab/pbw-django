@@ -27,7 +27,7 @@ def get_floruits(obj):
 def get_sex(obj):
     sex = obj.sex
     if sex.sexvalue == "Eunuch (Probable)":
-        return Sexauth.objects.get(sexvalue="Eunach")
+        return Sexauth.objects.get(sexvalue="Eunuch")
     else:
         return sex
 
