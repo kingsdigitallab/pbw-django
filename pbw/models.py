@@ -497,7 +497,7 @@ class Factoid(models.Model):
     # Field name made lowercase.
     boulloterionkey = models.IntegerField(db_column='boulloterionKey')
     boulloterion = models.ForeignKey(
-        'Boulloterion',null=True,related_name='factoids')
+        'Boulloterion',blank=True, null=True,related_name='factoids')
     tstamp = models.DateTimeField()
 
     @cached_property

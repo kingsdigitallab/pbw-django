@@ -71,7 +71,7 @@
                     <ul class="pagination">
                         {% if page_obj.number > 1 %}
                             <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
-                                <a href="{% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page=1">&laquo;</a>
+                                <a href="{% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}&page=1">&laquo;</a>
                             </li>
                         {% endif %}
                         <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
@@ -80,10 +80,7 @@
 
 
 
-                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id=
-
-
-                                    {{ bibliography_id }}{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
+                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}{% if page_obj.has_previous %}&page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
                         </li>
                         <li>
                             Page {{ page_obj.number }} of {{ paginator.num_pages }}
@@ -94,10 +91,7 @@
 
 
 
-                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id=
-
-
-                                    {{ bibliography_id }}{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
+                            {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}{% if page_obj.has_next %}&page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
                         </li>
                         {% if page_obj.number < paginator.num_pages %}
                             <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
@@ -106,7 +100,7 @@
 
 
 
-                                {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}page={{ paginator.num_pages }}">&raquo;</a>
+                                {% url 'seals-list' %}?list={{ list }}&collection_id={{ collection.id }}&bibliography_id={{ bibliography_id }}&page={{ paginator.num_pages }}">&raquo;</a>
                             </li>
                         {% endif %}
                     </ul>
