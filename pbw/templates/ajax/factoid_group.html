@@ -41,7 +41,7 @@
         {{ f.origldesc }}
 
         {% if f.boulloterion %}
-            <a href="{% url 'boulloterion-detail' f.boulloterion.pk %}">{{ f.source.sourceid }} {{ f.pk }}</a>
+            <a href="{% url 'boulloterion-detail' f.boulloterion.pk %}">{{ f.source.sourceid }} {{ f.boulloterion.pk }}</a>
         {% elif f.source %}
             <a href="{% slugurl 'sources' %}?source={{ f.source.sourceid }}">{{ f.source.sourceid }} {{ f.sourceref }}</a>
         {% endif %}
