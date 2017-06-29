@@ -33,8 +33,8 @@
         <div class="large-12 columns">
             {% if user.is_authenticated %}
             <p><a href="{% url 'admin:pbw_person_change' person.id %}">Edit Person</a></p>
-            <p><a href="http://db.pbw.kcl.ac.uk/jsp/person.jsp?personKey={{ person.id }}">Person in 2011</a></p>
             {% endif %}
+            <p><a href="http://db.pbw.kcl.ac.uk/jsp/person.jsp?personKey={{ person.id }}">View this person in PBW 2011</a></p>
             <div class="small button-group">
                 <a class="button secondary" id="openAll" href="#">Expand all</a>
                 <a class="button secondary" id="closeAll" href="#">Collapse all</a>

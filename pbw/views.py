@@ -328,7 +328,11 @@ class NarrativeYearListView(ListView):
             current_year = self.request.GET.get("current_year")
         else:
             current_year = self.first_year
-        return Narrativeunit.objects.filter(yearorder=current_year)
+        return Narrativeunit.objects.filter(
+            yearorder=current_year
+        ).order_by(
+            '-datetypekey'
+        )
 
     def get_context_data(self, **kwargs):  # noqa
         context = super(
