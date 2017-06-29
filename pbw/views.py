@@ -354,15 +354,27 @@ class SealsListView(ListView):
 
     def get_queryset(self):
         seals = Seal.objects.all().order_by('boulloterion__title')
+        collection_id = None
+        bibiliography_id = None
         if 'collection_id' in self.request.GET:
+            try:
+                collection_id = int(self.request.GET.get("collection_id"))
+            except ValueError:
+                pass
+        elif collection_id is None and 'bibliography_id' in self.request.GET:
+            try:
+                bibiliography_id = int(self.request.GET.get("bibliography_id"))
+            except ValueError:
+                pass
+        if collection_id:
             seals = seals.filter(
-                collection_id=self.request.GET.get("collection_id")
+                collection_id=collection_id
             ).order_by(
-               'collectionref'
+                'collectionref'
             )
-        elif 'bibliography_id' in self.request.GET:
+        elif bibiliography_id:
             seals = seals.filter(
-                boulloterion__published__bibliography_id=self.request.GET.get("bibliography_id")
+                boulloterion__published__bibliography_id=bibiliography_id
             ).order_by('boulloterion__title')
         return seals
 
@@ -380,7 +392,7 @@ class SealsListView(ListView):
             context['list'] = 'collection'
         elif 'bibliography' in list:
             context['bibliographies'] = Bibliography.objects.all().order_by('shortname')
-            context['list'] = 'bibliographies'
+            context['list'] = 'bibliography'
 
         if 'collection_id' in self.request.GET:
             context['collection_id'] = self.request.GET.get("collection_id")
