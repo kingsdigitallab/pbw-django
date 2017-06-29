@@ -198,7 +198,7 @@ def update_index():
 
     with cd(env.path), prefix(env.within_virtualenv):
         run('./manage.py build_solr_schema > schema.xml')
-        run('mv schema.xml {}collection1/conf/'.format(env.solr))
+        run('mv schema.xml {}/collection1/conf/'.format(env.solr))
         sudo('service tomcat7-{} restart'.format(env.srvr))
         run('./manage.py update_index')
 
