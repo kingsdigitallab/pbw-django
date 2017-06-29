@@ -110,7 +110,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         return self.get_model().objects.annotate(name_length=Length('name')).filter(
             mdbcode__gt=0,
             name_length__gt=0,
-            factoidperson__factoid__factoidtype__in=factoidtypekeys).distinct()  # The base class for the the various
+            factoidperson__factoid__factoidtype__in=factoidtypekeys).order_by(
+            'name', 'mdbcode'
+        ).distinct()  # The base class for the the various
         # factoid types
 
     def get_model(self):
