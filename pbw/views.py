@@ -64,7 +64,7 @@ class PBWFacetedSearchView(FacetedSearchView):
             'query_string'] = self.request.META['QUERY_STRING']
         context['centuries'] = ['IX', 'XI', 'XII', 'XIII']
         context['periods'] = ['E', 'M', 'L']
-        context['genders'] = ['Male', 'Female', 'Eunach']
+        context['genders'] = ['Male', 'Female', 'Eunuch']
 
         return context
 
