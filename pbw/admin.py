@@ -11,7 +11,7 @@ __author__ = 'elliotthall'
 
 
 admin.site.register(Source)
-admin.site.register(Boulloterion)
+
 admin.site.register(Bibliography)
 admin.site.register(Ethnicity)
 admin.site.register(Dignityoffice)
@@ -64,6 +64,11 @@ class PersonAdmin(admin.ModelAdmin):
     inlines = [
         FactoidPersonInline,
     ]
+
+@admin.register(Boulloterion)
+class BoulloterionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'text', 'origltext')
+    search_fields = ['title', 'text', 'origltext']
 
 
 @admin.register(Factoid)

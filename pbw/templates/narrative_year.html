@@ -46,7 +46,7 @@
 
     <div class="row">
         <div class="small-12 columns">
-            <ol start="{{ page_obj.start_index }}">
+            <ul>
                 {% for narrativeunit in object_list %}
                 <li>
                     <h3>{{ narrativeunit.dates }}: {{ narrativeunit.description }}</h3>
@@ -67,7 +67,7 @@
                 {% empty %}
                 <li>No results found!</li>
                 {% endfor %}
-            </ol>
+            </ul>
         </div>
     </div>
 
