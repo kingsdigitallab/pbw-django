@@ -215,7 +215,7 @@ WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
 AUTH_LDAP_ALWAYS_UPDATE_USER = False
 AUTH_LDAP_USER_FLAGS_BY_GROUP['is_staff'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
-AUTH_LDAP_USER_FLAGS_BY_GROUP['is_superuser'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
+AUTH_LDAP_USER_FLAGS_BY_GROUP['is_superuser'] = 'cn=kdl-staff,' + LDAP_BASE_OU  # noqa
 
 LOGIN_URL = 'django.contrib.auth.views.login'
 # LOGIN_URL = '/wagtail/login/'
