@@ -54,7 +54,7 @@ DISPLAYED_FACTOID_TYPES = [9, 8, 6, 13, 10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
 FIXTURE_PERSON_IDS = [107447]
 
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
