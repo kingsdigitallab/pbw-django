@@ -22,6 +22,7 @@ admin.autodiscover()
 
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^admin/', include(admin.site.urls)),
+                url(r'^admin/digger/', include('activecollab_digger.urls')),
                #url(r'^admin/', include(wagtailadmin_urls)),
                url(r'^wagtail/', include(wagtailadmin_urls)),
                url(r'^search/', include(wagtailsearch_frontend_urls)),

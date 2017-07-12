@@ -7,12 +7,12 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 For production settings see
 https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 """
+import os
+
 from ddhldap.settings import *
 
-import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-
 
 PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
@@ -44,15 +44,14 @@ CACHES = {
     }
 }
 
-#Not all factoids from the previous phase are currently being displayed
-#This is an array of factoidtypekeys to control which types
+# Not all factoids from the previous phase are currently being displayed
+# This is an array of factoidtypekeys to control which types
 # are displayed and indexed
-DISPLAYED_FACTOID_TYPES = [9,8,6,13,10,12,11,7,2,15,14,3,4,17,18]
+DISPLAYED_FACTOID_TYPES = [9, 8, 6, 13, 10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
 
-#Fixture options
-#Determines the person records used to make fixtures for unit testing
-FIXTURE_PERSON_IDS=[107447]
-
+# Fixture options
+# Determines the person records used to make fixtures for unit testing
+FIXTURE_PERSON_IDS = [107447]
 
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
@@ -79,24 +78,25 @@ INSTALLED_APPS = (
     'taggit',
     'modelcluster',
     'wagtail.wagtailcore',
-  'wagtail.wagtailadmin',
-  'wagtail.wagtaildocs',
-  'wagtail.wagtailsnippets',
-  'wagtail.wagtailusers',
-  'wagtail.wagtailimages',
-  'wagtail.wagtailembeds',
-  'wagtail.wagtailsearch',
-  'wagtail.wagtailredirects',
-  'wagtail.wagtailforms',
-  'wagtail.wagtailsites',
-    'pbw'
+    'wagtail.wagtailadmin',
+    'wagtail.wagtaildocs',
+    'wagtail.wagtailsnippets',
+    'wagtail.wagtailusers',
+    'wagtail.wagtailimages',
+    'wagtail.wagtailembeds',
+    'wagtail.wagtailsearch',
+    'wagtail.wagtailredirects',
+    'wagtail.wagtailforms',
+    'wagtail.wagtailsites',
+    'pbw',
+    'activecollab_digger'
 )
 
 INSTALLED_APPS += (
     # your project apps here
 )
 
-INTERNAL_IPS = ('127.0.0.1', )
+INTERNAL_IPS = ('127.0.0.1',)
 
 # https://docs.djangoproject.com/en/dev/topics/logging/
 import logging
@@ -157,7 +157,6 @@ LOGGING = {
     }
 }
 
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -189,6 +188,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
+                'activecollab_digger.context_processors.activecollab_digger'
             ],
             'debug': False,
         },
@@ -204,14 +204,13 @@ USE_TZ = True
 
 WSGI_APPLICATION = PROJECT_NAME + '.wsgi.application'
 
-
 # -----------------------------------------------------------------------------
 # Authentication
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth
 # https://scm.cch.kcl.ac.uk/hg/ddhldap-django
 # -----------------------------------------------------------------------------
 
-#DDH LDAP
+# DDH LDAP
 AUTH_LDAP_REQUIRE_GROUP = 'cn=pbw,' + LDAP_BASE_OU
 AUTH_LDAP_ALWAYS_UPDATE_USER = False
 AUTH_LDAP_USER_FLAGS_BY_GROUP['is_staff'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
@@ -219,8 +218,6 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP['is_superuser'] = 'cn=pbw,' + LDAP_BASE_OU  # noqa
 
 LOGIN_URL = 'django.contrib.auth.views.login'
 LOGIN_REDIRECT_URL = 'wagtailadmin_home'
-
-
 
 # -----------------------------------------------------------------------------
 # Static files (CSS, JavaScript, Images)
@@ -319,7 +316,7 @@ REQUIRE_STANDALONE_MODULES = {
 REQUIRE_DEBUG = DEBUG
 
 # A tuple of files to exclude from the compilation result of r.js.
-REQUIRE_EXCLUDE = ('build.txt', )
+REQUIRE_EXCLUDE = ('build.txt',)
 
 # The execution environment in which to run r.js: auto, node or rhino.
 # auto will autodetect the environment and make use of node if available and
@@ -331,6 +328,7 @@ REQUIRE_ENVIRONMENT = 'node'
 # -----------------------------------------------------------------------------
 
 import getpass
+
 FABRIC_USER = getpass.getuser()
 
 # -----------------------------------------------------------------------------
@@ -341,16 +339,26 @@ FABRIC_USER = getpass.getuser()
 GA_ID = ''
 
 HAYSTACK_CONNECTIONS = {
-     'default': {
+    'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
         'URL': 'http://127.0.0.1:8080/solr'
     },
 }
-
-
 
 # WAGTAIL SETTINGS
 
 # This is the human-readable name of your Wagtail install
 # which welcomes users upon login to the Wagtail admin.
 WAGTAIL_SITE_NAME = 'Prosopography of the Byzantine World'
+
+# Activecollab digger settings
+
+# ActiveCollab API URL
+AC_BASE_URL = 'https://app.activecollab.com/COMPANY_ID'
+AC_API_URL = AC_BASE_URL + '/api/v1/'
+# ActiveCollab API token
+AC_TOKEN = ''
+# ActiveCollab project ID
+AC_PROJECT_ID = 1
+# ActiveCollab user ID to create the issues
+AC_USER = 1
