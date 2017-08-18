@@ -932,6 +932,7 @@ class Person(models.Model):
     nameol = models.CharField(db_column='nameOL', max_length=100, blank=True)
     # Field name made lowercase.
     olangkey = models.IntegerField(db_column='oLangKey')
+    in_2011 = models.BooleanField(default=False)
     bibliography = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     # Field name made lowercase.
