@@ -53,7 +53,7 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                     SealsListView.as_view(),
                    name='seals-list'),
 
-               url(r'^narrative/$',
+               url(r'^chronology/$',
                    NarrativeYearListView.as_view(),
                    name='narrative-list'),
 

@@ -11,7 +11,7 @@
         <li>
         <h4>
             {% if f.factoidtype.typename == "Narrative" %}
-                {% for scdate in f.getScDates %} {{ scdate.year }}{% endfor %}:
+                {% if f.getScDates %}{% for scdate in f.getScDates %} {{ scdate.year }}{% endfor %}{% else %}(?){% endif %}:
             {% endif %}
             {{ authority | add_persref_links |safe }}
 

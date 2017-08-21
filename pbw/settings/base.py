@@ -47,7 +47,7 @@ CACHES = {
 # Not all factoids from the previous phase are currently being displayed
 # This is an array of factoidtypekeys to control which types
 # are displayed and indexed
-DISPLAYED_FACTOID_TYPES = [9, 8, 6, 13, 10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
+DISPLAYED_FACTOID_TYPES = [9, 8, 6, 5, 13, 10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
 
 # Fixture options
 # Determines the person records used to make fixtures for unit testing
