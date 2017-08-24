@@ -331,6 +331,7 @@ class NarrativeYearListView(ListView):
         return Narrativeunit.objects.filter(
             yearorder=current_year
         ).order_by(
+            'hierarchyunit__lft',
             '-datetypekey'
         )
 

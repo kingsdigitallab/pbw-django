@@ -676,6 +676,7 @@ class Hierarchyunit(models.Model):
         db_column='hierarchyUnitID', primary_key=True)
     # Field name made lowercase.
     narrativeunitid = models.IntegerField(db_column='narrativeUnitID')
+    narrativeunit = models.ForeignKey('Narrativeunit',null=True)
     lft = models.IntegerField()
     rgt = models.IntegerField()
     # Field name made lowercase.
