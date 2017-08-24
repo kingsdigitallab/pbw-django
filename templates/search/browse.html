@@ -90,7 +90,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
 
                                 {{ form.name }}
                                 {# <p class="info"><i class="fa fa-info-circle"></i> Some info on this filter.</p> #}
-                                <div class="panel radius fixed-height three-col">
+                                <div class="panel radius fixed-height">
                                     <ul class="no-bullet">
                                         {% for term in facets.fields|get_item:"name" %}
                                         {% with value=term.0 count=term.1 %}
@@ -176,7 +176,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                             <div class="panel callout">
                                 <h2 class="panel-heading">Sources</h2>
                                 {{ form.source }}
-                                <div class="panel radius fixed-height three-col">
+                                <div class="panel radius fixed-height">
                                     <ul class="no-bullet">
                                         {% for term in facets.fields|get_item:"source" %}
                                         {% with value=term.0 count=term.1 %}
