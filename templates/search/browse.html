@@ -211,7 +211,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Occupation</h4>
                                             {{ form.occupation }}
-                                            <div class="panel radius fixed-height two-col">
+                                            <div class="panel radius fixed-height">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"occupation" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -234,7 +234,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Dignity / Office</h4>
                                             {{ form.dignityoffice }}
-                                            <div class="panel radius fixed-height two-col">
+                                            <div class="panel radius fixed-height">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"dignityoffice" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -259,7 +259,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Ethnicity</h4>
                                             {{ form.ethnicity }}
-                                            <div class="panel radius fixed-height two-col">
+                                            <div class="panel radius fixed-height">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"ethnicity" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -282,7 +282,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Location</h4>
                                             {{ form.location }}
-                                            <div class="panel radius fixed-height two-col">
+                                            <div class="panel radius fixed-height">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"location" %}
                                                     {% with value=term.0 count=term.1 %}
@@ -307,7 +307,7 @@ Search Results{% if query %} for {{ query }}{% endif %}
                                         <div class="large-6 columns">
                                             <h4>Language</h4>
                                             {{ form.language }}
-                                            <div class="panel radius fixed-height two-col">
+                                            <div class="panel radius fixed-height">
                                                 <ul class="no-bullet">
                                                     {% for term in facets.fields|get_item:"language" %}
                                                     {% with value=term.0 count=term.1 %}

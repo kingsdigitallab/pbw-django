@@ -503,6 +503,10 @@ footer.main-footer {
       }
     }
   }
+
+  .panel.radius ul > li {
+    width: 50%;
+  }
 }
 
 @include breakpoint(small only) {
@@ -510,6 +514,10 @@ footer.main-footer {
   h2.site-title {
     font-size: 1.75rem;
     padding-top: 1em;
+  }
+
+  .panel.radius ul > li {
+    width: 100%;
   }
 }
 
