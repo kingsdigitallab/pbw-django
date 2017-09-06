@@ -4,6 +4,7 @@ require([
     'jquery',
     'fn',
     'ga',
+    'cookie',
     'easyautocomplete',
     'browse'
 ], function (r, $) {

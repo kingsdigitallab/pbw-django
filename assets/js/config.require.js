@@ -10,8 +10,7 @@ requirejs.config({
         'jquery': '../vendor/jquery/dist/jquery.min',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         'es6': '../vendor/requirejs-babel/es6',
-        'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
-        
+        'babel': '../vendor/requirejs-babel/babel-5.8.34.min',    
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
@@ -33,7 +32,11 @@ requirejs.config({
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
         'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
+
+        'jscookie': '../vendor/js-cookie/src/js.cookie',
+
         'requirejs': '../vendor/requirejs/require',
+
         'main': 'main'
     },
     shim: {
@@ -156,6 +159,9 @@ requirejs.config({
         },
         'ga': {
             exports: '__ga__'
+        },
+        'jscookie': {
+            exports: 'JScookie'
         },
     }
 });
