@@ -1,17 +1,28 @@
 {% load staticfiles %}
 
-<div class="row white">
+<div class="row white footer">
 	<div class="large-8 medium-12 small-12 columns">
 		<ul class="no-bullet">
-			<li class="logo"><a href="http://www.kcl.ac.uk/artshums/" target="_blank" title="Link to King's DDH - Open new window"><img src="/static/images/KCL-KDL-logo-BW.svg" alt="King's College London"></a></li>
-            <li class="logo"><a href="https://www.leverhulme.ac.uk/" target="_blank" title=""><img src="/static/images/Leverhulme.jpeg" alt="Leverhulme Trust"></a> </li>
-            <li class="logo"><a href="https://www.ahrc.ac.uk/" target="_blank" title=""><img src="/static/images/AHRClogo.jpeg" alt="AHRC"></a>  </li>
-            <li class="logo"><a href="//www.agleventisfoundation.org/en/" target="_blank" title=""><img src="/static/images/AGLF_LOGO_CMYK_ENG.jpg" alt="A.G. Leventis Foundation"></a> </li>
-            <li class="logo"><a href="//www.britac.ac.uk/" target="_blank" title="Link to BA - Open new window"><img src="/static/images/BA-logo-strap-black-white.png" alt="British Academy"></a></li>
+			<li class="logo"><a href="//www.kcl.ac.uk/artshums/" target="_blank" title="Link to King's DDH - Open new window"><img src="{% static 'images/KCL_box_red.svg' %}" alt="King's College London"></a></li>
+            <li class="logo"><a href="//www.leverhulme.ac.uk/" target="_blank" title=""><img src="{% static 'images/Leverhulme.jpeg' %}" alt="Leverhulme Trust"></a> </li>
+            <li class="logo"><a href="//www.ahrc.ac.uk/" target="_blank" title=""><img src="{% static 'images/AHRClogo.jpeg' %}" alt="AHRC"></a>  </li>
+            <li class="logo"><a href="//www.agleventisfoundation.org/en/" target="_blank" title=""><img src="{% static 'images/AGLF_LOGO_CMYK_ENG.jpg' %}" alt="A.G. Leventis Foundation"></a> </li>
+            <li class="logo"><a href="//www.britac.ac.uk/" target="_blank" title="Link to BA - Open new window"><img src="{% static 'images/BA-logo-strap-black-white.png' %}" alt="British Academy"></a></li>
 		</ul>
 	</div>
 	<div class="large-4 medium-12 small-12 columns right">
 		<p><a href="/project/">About the project</a> | <a href="/contact/">Contact</a></p>
-		<p>&copy; {% now 'Y' %} King's College London. All rights reserved.</p>
+        <p>
+            <a rel="license" href="//creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Creative Commons License - Open in new window"><img alt="Creative Commons Licence" style="border-width:0" src="//i.creativecommons.org/l/by-nc/4.0/88x31.png"></a>
+            <br>The content and dataset are released under <a href="//creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Creative Commons License - Open in new window">CC Attribution-NonCommercial 4.0 International License</a></p>
+		<p>&copy; {% now 'Y' %} Designed and developed by <a href="//www.kdl.kcl.ac.uk" target="_blank">King's Digital Lab</a><br>Code and assets available at <a href="//github.com/kingsdigitallab/pbw-django" target="_blank" title="Github project page - Open in a new window">github.com/kingsdigitallab/pbw-django</a> under GPL - 2.0 License.</p>
 	</div>
+</div>
+
+<div class="callout cookies-box hide" id="cookie-disclaimer" data-closable>
+    <p>We use cookies to track usage and preferences.</p>
+    <p><a href="/privacy-cookie-policy/" class="button secondary">Privacy &amp; Cookie Policy</a> <button class="button success closeme" aria-label="Dismiss alert" type="button" data-close>Accept</button></p>
+    <button class="close-button closeme set-cookie" aria-label="Dismiss alert" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>

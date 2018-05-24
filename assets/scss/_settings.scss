@@ -45,7 +45,7 @@
 // 1. Global
 // ---------
 
-$global-font-size: 125%;
+$global-font-size: 100%;
 // $global-font-size: 156.25%; /** Going from base 16px to base 25px **/
 // $global-width: rem-calc(1280);
 $global-width: rem-calc(1440);
@@ -86,7 +86,7 @@ $global-margin: 1rem;
 $global-padding: 1rem;
 $global-weight-normal: normal;
 $global-weight-bold: bold;
-$global-radius: 0;
+$global-radius: 2px;
 $global-text-direction: ltr;
 $global-flexbox: false;
 $print-transparent-backgrounds: true;
@@ -126,15 +126,15 @@ $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-sizes: (
   small: (
     'h1': 48,
-    'h2': 38,
+    'h2': 24,
     // 'h3': 19,
     // 'h4': 18,
     // 'h5': 17,
     // 'h6': 16,
   ),
   medium: (
-    'h1': 60,
-    'h2': 48,
+    'h1': 30,
+    'h2': 24,
     // 'h3': 31,
     // 'h4': 25,
     // 'h5': 20,
@@ -379,11 +379,11 @@ $input-radius: $global-radius;
 // 20. Label
 // ---------
 
-$label-background: $primary-color;
-$label-color: foreground($label-background);
-$label-font-size: 0.8rem;
-$label-padding: 0.33333rem 0.5rem;
-$label-radius: $global-radius;
+// $label-background: $primary-color;
+// $label-color: foreground($label-background);
+// $label-font-size: 0.8rem;
+// $label-padding: 0.33333rem 0.5rem;
+// $label-radius: $global-radius;
 
 // 21. Media Object
 // ----------------

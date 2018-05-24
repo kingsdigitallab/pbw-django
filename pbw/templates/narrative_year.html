@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load highlight pbw_tags staticfiles wagtailcore_tags %}
+
+{% block meta_title %}
+    Narrative {% if year %} for {{ current_year }}{% endif %}
+{% endblock %}
+
+{% block headercss %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Chronology for <strong>{{ current_year }}</strong>
+
+            </h1>
+            <p class="info do-not-print">
+                <i class="fa fa-info-circle"></i>
+                Drag the slider or input an number within the range from {{ first_year }} A.D to {{ last_year }} A.D and click <strong>Apply year</strong>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
+            <form method="get" action=".">
+                <div class="row do-not-print">
+                    <div class="small-8 medium-7 large-9 columns">
+                        <div class="data-slider slider" data-slider data-start="{{ first_year }}"
+                             data-initial-start="{{ current_year }}" data-end="{{ last_year }}">
+                            <span class="slider-handle" data-slider-handle role="slider" tabindex="1"
+                                  aria-controls="id_current_year"></span>
+                            <span class="range-slider-active-segment"></span>
+                        </div>
+                    </div>
+                    <div class="small-4 medium-2 large-1 columns">
+                        <input id="id_current_year" name="current_year" type="number" value="{{ current_year }}">
+                    </div>
+                    <div class="small-12 medium-3 large-2 columns end">
+                        <button type="submit" class="button secondary expanded">Apply year</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-12 columns">
+            <ul>
+                {% for narrativeunit in object_list %}
+                <li>
+                    <h3>{{ narrativeunit.dates }}: {{ narrativeunit.description }}</h3>
+                    <p>{{ narrativeunit.summary }}</p>
+                    <p>
+                        <h4>People involved</h4>
+                        <ul>
+                            {% for person in narrativeunit.getprimarypeople %}
+                                <li>
+                                    <a href="{% url 'person-detail' person.id %}">{{ person }}</a> {{ person.nameol }} {{ person.descname }}
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </p>
+                </li>
+
+                {% empty %}
+                <li>No results found!</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+    <div class="small-12 columns">
+        <ul class="pagination">
+            {% if page_obj.number > 1 %}
+            <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
+                <a href="{% url 'narrative-list' %}?current_year={{ current_year }}&page=1">&laquo;</a>
+            </li>
+            {% endif %}
+            <li class="arrow {% if not page_obj.has_previous %}unavailable{% endif %}">
+                <a href="{% url 'narrative-list' %}?current_year={{ current_year }}&{% if page_obj.has_previous %}page={{ page_obj.previous_page_number }}{% endif %}">&laquo;</a>
+            </li>
+            <li>
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}
+            </li>
+            <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
+                <a href="{% url 'narrative-list' %}?current_year={{ current_year }}&{% if page_obj.has_next %}page={{ page_obj.next_page_number }}{% endif %}">&raquo;</a>
+            </li>
+            {% if page_obj.number < paginator.num_pages %}
+            <li class="arrow {% if not page_obj.has_next %}unavailable{% endif %}">
+                <a href="{% url 'narrative-list' %}?current_year={{ current_year }}&page={{ paginator.num_pages }}">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+{% endblock main %}
+
+{% block footer_scripts %}
+{% endblock %}

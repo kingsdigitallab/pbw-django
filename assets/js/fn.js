@@ -7,6 +7,7 @@ define([
     'es6!foundation.dropdown',
     'es6!foundation.dropdownMenu',
     'es6!foundation.equalizer',
+    'es6!foundation.slider',
     'es6!foundation.responsiveMenu',
     'es6!foundation.responsiveToggle',
     'es6!foundation.sticky',
@@ -47,15 +48,13 @@ define([
             $('#search-results-box').toggleClass("extra-margin");
             return false;
         });
-
-        // Printing search results
-        $('#printme').bind("click", function() {
-            // TODO: remove pagination and show full list of results
-            window.print();
-        });
         
         // loads foundation
         $(document).foundation();
+
+
+
+       
     });
 
     return module;

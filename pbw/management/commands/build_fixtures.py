@@ -1,4 +1,3 @@
-
 from django.core.management.base import BaseCommand, CommandError
 from pbw.settings import FIXTURE_PERSON_IDS,BASE_DIR
 from pbw.models import Person,Origlangauth,Factoidtype,Factoidpersontype,Sexauth

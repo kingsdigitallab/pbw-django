@@ -12,3 +12,4 @@ git+git://github.com/kingsdigitallab/django-haystack.git
 pysolr==3.6.0
 wagtail
 flake8
+django-activecollab-digger

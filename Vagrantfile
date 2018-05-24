@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.ssh.insert_key = false
 
   config.vm.box = "debian/contrib-jessie64"
+  config.vm.boot_timeout = 600
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = ".vagrant_provisioning/playbook.yml"
@@ -21,6 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3306, host: 51524
 
   config.vm.network "private_network", ip: "192.168.33.99"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
 
   config.vm.provider "virtualbox" do |provider|
     provider.customize ["modifyvm", :id, "--memory", "1024"]

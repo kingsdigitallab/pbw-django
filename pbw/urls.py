@@ -9,18 +9,20 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailsearch.urls import frontend as wagtailsearch_frontend_urls
 
-from views import PBWFacetedSearchView, PersonDetailView, PersonJsonView, AutoCompleteView,PersonPermalinkDetailView,BoulloterionDetailView
+from pbw.views import FactoidGroupView, NarrativeYearListView
+from views import (PBWFacetedSearchView, PersonDetailView, PersonJsonView,
+                   AutoCompleteView, PersonPermalinkDetailView, BoulloterionDetailView, SealsListView)
 from ddhldap.signal_handlers import register_signal_handlers as \
-            ddhldap_register_signal_handlers
+    ddhldap_register_signal_handlers
 
 ddhldap_register_signal_handlers()
 
 admin.autodiscover()
 
 
-
 urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^admin/', include(admin.site.urls)),
+                url(r'^digger/', include('activecollab_digger.urls')),
                #url(r'^admin/', include(wagtailadmin_urls)),
                url(r'^wagtail/', include(wagtailadmin_urls)),
                url(r'^search/', include(wagtailsearch_frontend_urls)),
@@ -32,6 +34,9 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^person/(?P<pk>\d+)/$',
                    PersonDetailView.as_view(),
                    name='person-detail'),
+               url(r'^factoidgroup/(?P<pk>\d+)/(?P<type_id>\d+)/$',
+                   FactoidGroupView.as_view(),
+                   name='factoid-group'),
                url(r'^person/(?P<name>\w+)/(?P<code>\d+)/$',
                    PersonPermalinkDetailView.as_view(),
                    name='person-permalink-detail'),
@@ -39,17 +44,24 @@ urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
                url(r'^person/json/(?P<pk>\d+)/$',
                    PersonJsonView.as_view(),
                    name='person-json'),
+
                url(r'^boulloterion/(?P<pk>\d+)/$',
                    BoulloterionDetailView.as_view(),
                    name='boulloterion-detail'),
 
+                url(r'^seals/$',
+                    SealsListView.as_view(),
+                   name='seals-list'),
+
+               url(r'^chronology/$',
+                   NarrativeYearListView.as_view(),
+                   name='narrative-list'),
+
                url(r'^autocomplete/',
                    AutoCompleteView.as_view(),
                    name='pbw_autocomplete'),
-               # For anything not caught by a more specific rule above, hand over to
-               # Wagtail's serving mechanism
-               url(r'^', include(wagtail_urls)),
-]
+
+               ]
 
 # -----------------------------------------------------------------------------
 # Django Debug Toolbar URLS
@@ -75,3 +87,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL + 'images/',
                           document_root=os.path.join(settings.MEDIA_ROOT,
                                                      'images'))
+# For anything not caught by a more specific rule above, hand over to
+    # Wagtail's serving mechanism
+urlpatterns.append(url(r'^', include(wagtail_urls)))

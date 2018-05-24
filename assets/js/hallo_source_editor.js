@@ -15,7 +15,7 @@
                     uuid: this.options.uuid,
                     editable: this.options.editable,
                     label: 'Blockquote',
-                    icon: 'fa fa-quote-left',
+                    icon: 'icon-openquote',
                     command: null
                 });
 
@@ -59,7 +59,7 @@
                     uuid: this.options.uuid,
                     editable: this.options.editable,
                     label: 'Edit HTML',
-                    icon: 'fa fa-file-code-o',
+                    icon: 'icon-code',
                     command: null
                 });
 
@@ -68,8 +68,8 @@
                 button.on('click', function(event) {
                     $('body > .modal').remove();
                     var container = $('<div class="modal fade editor" tabindex="-1" role="dialog" aria-hidden="true">\n    <div class="modal-dialog">\n        <div class="modal-content"\
->\n            <button type="button" class="close text-replace" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times fa-lg"></i></button>\n            <div class="modal-body"><hea\
-der class="nice-padding hasform"><div class="row"><div class="left"><div class="col"><h1><i class="fa fa-file-code-o"></i>&nbsp;Edit HTML Code</h1></div></header><div class="modal-bo\
+>\n            <button type="button" class="close text-replace" data-dismiss="modal" aria-hidden="true"><i class="icon-cross"></i></button>\n            <div class="modal-body"><hea\
+der class="nice-padding hasform"><div class="row"><div class="left"><div class="col"><h1><i class="icon-code"></i>&nbsp;Edit HTML Code</h1></div></header><div class="modal-bo\
 dy-body"></div></div>\n        </div><!-- /.modal-content -->\n    </div><!-- /.modal-dialog -->\n</div>');
 
                     // add container to body and hide it, so content can be added to it before display

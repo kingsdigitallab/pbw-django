@@ -10,12 +10,11 @@ requirejs.config({
         'jquery': '../vendor/jquery/dist/jquery.min',
         'easyautocomplete': '../vendor/EasyAutocomplete/dist/jquery.easy-autocomplete',
         'es6': '../vendor/requirejs-babel/es6',
-        'babel': '../vendor/requirejs-babel/babel-5.8.34.min',
-        'clipboard': '../vendor/clipboard/dist/clipboard.min',
+        'babel': '../vendor/requirejs-babel/babel-5.8.34.min',    
 
         // Foundation
         'foundation': '../vendor/foundation-sites/js/foundation.core',
-
+        'foundation.slider': '../vendor/foundation-sites/js/foundation.slider',
         'foundation.accordionMenu': '../vendor/foundation-sites/js/foundation.accordionMenu',
         'foundation.drilldown': '../vendor/foundation-sites/js/foundation.drilldown',
         'foundation.dropdown': '../vendor/foundation-sites/js/foundation.dropdown',
@@ -33,15 +32,17 @@ requirejs.config({
         'foundation.util.touch': '../vendor/foundation-sites/js/foundation.util.touch',
         'foundation.util.triggers': '../vendor/foundation-sites/js/foundation.util.triggers',
         'foundation.accordion': '../vendor/foundation-sites/js/foundation.accordion',
-        'requirejs': '../vendor/requirejs/require'
+
+        'jscookie': '../vendor/js-cookie/src/js.cookie',
+
+        'requirejs': '../vendor/requirejs/require',
+
+        'main': 'main'
     },
     shim: {
-        "easyautocomplete": ["jquery"],
-        "clipboard": {
-
-            deps: ["jquery"],
-            exports: 'Clipboard'
-        },
+        "easyautocomplete":["jquery"]
+        ,
+       
         'foundation': {
             deps: [
                 'jquery'
@@ -158,6 +159,9 @@ requirejs.config({
         },
         'ga': {
             exports: '__ga__'
+        },
+        'jscookie': {
+            exports: 'JScookie'
         },
     }
 });
