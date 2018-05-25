@@ -12,6 +12,7 @@ define([
         // Set cookie
         $('#cookie-disclaimer .closeme').on("click", function() {
             cookie.set('pbw-cookie', 'pbw-cookie-set', { expires: 30 });
+            $("#cookie-disclaimer").addClass('hide');
         });
     });
 
