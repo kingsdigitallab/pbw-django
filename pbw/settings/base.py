@@ -1,3 +1,9 @@
+import getpass
+import logging
+import os
+
+from ddhldap.settings import *  # noqa
+
 """
 Django settings for pbw-django project.
 
@@ -7,9 +13,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 For production settings see
 https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 """
-import os
 
-from ddhldap.settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -47,7 +51,8 @@ CACHES = {
 # Not all factoids from the previous phase are currently being displayed
 # This is an array of factoidtypekeys to control which types
 # are displayed and indexed
-DISPLAYED_FACTOID_TYPES = [9, 8, 6, 5, 13, 10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
+DISPLAYED_FACTOID_TYPES = [9, 8, 6, 5, 13,
+                           10, 12, 11, 7, 2, 15, 14, 3, 4, 17, 18]
 
 # Fixture options
 # Determines the person records used to make fixtures for unit testing
@@ -62,7 +67,6 @@ DATABASES = {
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-TEMPLATE_DEBUG = False
 
 INSTALLED_APPS = (
     'grappelli',
@@ -100,7 +104,6 @@ INSTALLED_APPS += (
 INTERNAL_IPS = ('127.0.0.1',)
 
 # https://docs.djangoproject.com/en/dev/topics/logging/
-import logging
 
 LOGGING_ROOT = os.path.join(BASE_DIR, 'logs')
 LOGGING_LEVEL = logging.WARN
@@ -329,7 +332,6 @@ REQUIRE_ENVIRONMENT = 'node'
 # FABRIC
 # -----------------------------------------------------------------------------
 
-import getpass
 
 FABRIC_USER = getpass.getuser()
 
@@ -355,4 +357,5 @@ WAGTAIL_SITE_NAME = 'Prosopography of the Byzantine World'
 
 # Activecollab digger settings
 
-
+AC_BASE_URL = ''
+AC_TOKEN = ''

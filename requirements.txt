@@ -10,6 +10,6 @@ MySQL-python
 redis
 git+git://github.com/kingsdigitallab/django-haystack.git
 pysolr==3.6.0
-wagtail
+wagtail<2
 flake8
 django-activecollab-digger

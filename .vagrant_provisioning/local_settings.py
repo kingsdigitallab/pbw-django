@@ -12,7 +12,7 @@ DATABASES = {
         'NAME': 'pbw',
         'USER': 'app_pbw',
         'PASSWORD': 'pbw',
-       # 'HOST': 'my-stg-1.cch.kcl.ac.uk',
+        # 'HOST': 'my-stg-1.cch.kcl.ac.uk',
         'PORT': '3306',
         'HOST': 'localhost',
 
@@ -20,13 +20,11 @@ DATABASES = {
     }
 }
 
+
 def show_toolbar(request):
-    return True
+    return False
+
 
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'pbw.settings.local.show_toolbar',
 }
-
-# https://github.com/sehmaschine/django-grappelli/issues/456
-# Any value other than "" in the setting value will break the inline templates
-TEMPLATE_STRING_IF_INVALID = 'INVALID %s'
