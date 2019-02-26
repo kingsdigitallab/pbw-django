@@ -85,11 +85,6 @@
       tags:
         - python
 
-    - name: pip | init virtualenv
-      command: virtualenv {{ python.virtualenv_location }}
-      tags:
-        - python
-
     - name: pip | update setuptools
       pip:
         name: setuptools
