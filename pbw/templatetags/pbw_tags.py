@@ -1,10 +1,10 @@
-import HTMLParser
+import html.parser
 import re
 from django import template
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 from haystack.utils import Highlighter
-from wagtail.wagtailcore.models import Page
+from wagtail.core.models import Page
 
 from pbw.models import Dignityfactoid, Occupationfactoid, Langfactoid, \
     Vnamefactoid, Religionfactoid, Possessionfactoid, Famnamefactoid, \
@@ -33,7 +33,7 @@ def get_item_count(floruits, floruit):
 # Replaces the custom tags denoting a link to a person with a proper link.
 @register.filter
 def add_persref_links(desc):
-    h = HTMLParser.HTMLParser()
+    h = html.parser.HTMLParser()
     desc = h.unescape(desc)
     parsedDesc = desc
     m = re.findall("\<PERSREF ID=\"(\d+)\"\/\>", desc)
@@ -44,11 +44,11 @@ def add_persref_links(desc):
             if fps.count() > 0:
                 fp = fps[0]
                 person = fp.person
-                personTag = u"<a href=\"" + \
+                personTag = "<a href=\"" + \
                             reverse(
                                 'person-detail', args=[person.id]) +\
                     "\">" + person.name + " " + \
-                    unicode(person.mdbcode) + "</a>"
+                    str(person.mdbcode) + "</a>"
                 parsedDesc = parsedDesc.replace(tag.group(0), personTag)
     return parsedDesc
 
@@ -169,11 +169,11 @@ def sameAsLast(context, authority):
 def filter_selected_facets(form, filter):
     selected_facets = "?"
     if form.is_valid():
-        for key, value in form.cleaned_data.iteritems():
+        for key, value in form.cleaned_data.items():
             if key != filter and len(value) > 0:
                 if len(selected_facets) > 1:
                     selected_facets += "&"
-                selected_facets += str(key) + "=" + unicode(value)
+                selected_facets += str(key) + "=" + str(value)
         if len(selected_facets) > 1:
             selected_facets += "&"
     return selected_facets
@@ -183,7 +183,7 @@ def filter_selected_facets(form, filter):
 def get_site_root(context):
     """Returns the site root Page, not the implementation-specific model used.
 
-    :rtype: `wagtail.wagtailcore.models.Page`
+    :rtype: `wagtail.core.models.Page`
     """
     if 'BASE_URL' in context:
         return Page.objects.filter(slug=context['BASE_URL']).first()

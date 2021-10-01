@@ -17,7 +17,7 @@ class Command(BaseCommand):
         with open(auth_fixture, "w") as out:
             auths=list(Origlangauth.objects.all())+list(Factoidtype.objects.all())+list(Factoidpersontype.objects.all())+list(Sexauth.objects.all())
             serializer.serialize(auths,indent=2, stream=out)
-            print "Serializing Miscellaneus authority lists"
+            print("Serializing Miscellaneus authority lists")
         persons=Person.objects.filter(id__in=FIXTURE_PERSON_IDS)
         for person in persons:
             person.serialize_to_fixture()

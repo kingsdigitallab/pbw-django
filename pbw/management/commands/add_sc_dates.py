@@ -35,13 +35,13 @@ class Command(BaseCommand):
                                           acckey=1,
                                           datetype=date_type)
                         new_date.save()
-                        print("New date for P{}".format(nf.factoid.pk))
+                        print(("New date for P{}".format(nf.factoid.pk)))
                     counter += 1
                 except IntegrityError as IE:
                     pdb.set_trace()
-                    print ("Integrity Error factoid: {}".format(nf.factoid.pk))
+                    print(("Integrity Error factoid: {}".format(nf.factoid.pk)))
 
             offset = limit
             limit += paginate
 
-            print ("Processed {}\n".format(counter))
+            print(("Processed {}\n".format(counter)))

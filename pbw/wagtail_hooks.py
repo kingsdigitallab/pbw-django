@@ -1,6 +1,6 @@
 # from https://gist.github.com/ejucovy/5c5370dc73b80b8896c8
-from wagtail.wagtailcore.whitelist import attribute_rule, check_url, allow_without_attributes
-from wagtail.wagtailcore import hooks
+from wagtail.core.whitelist import attribute_rule, check_url, allow_without_attributes
+from wagtail.core import hooks
 from django.utils.html import format_html, format_html_join
 from django.conf import settings
 

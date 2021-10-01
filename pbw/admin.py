@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from models import Ethnicity, Dignityoffice, Kinshiptype, Languageskill, Occupation
-from models import Factoidperson, Boulloterion, Bibliography, Factoidtype
-from models import Person, Factoid, Source, Location, Seal, Collection, Scdate, Narrativefactoid, Narrativeunit
+from .models import Ethnicity, Dignityoffice, Kinshiptype, Languageskill, Occupation
+from .models import Factoidperson, Boulloterion, Bibliography, Factoidtype
+from .models import Person, Factoid, Source, Location, Seal, Collection, Scdate, Narrativefactoid, Narrativeunit
 from django.forms import inlineformset_factory
 
 __author__ = 'elliotthall'
@@ -31,8 +31,8 @@ class FactoidInline(admin.StackedInline):
 
 
 class FactoidPersonInline(admin.StackedInline):
-    verbose_name = u'Factoid-Person'
-    verbose_name_plural = u'Factoid-Person links'
+    verbose_name = 'Factoid-Person'
+    verbose_name_plural = 'Factoid-Person links'
     model = Person.factoids.through
     raw_id_fields = ('person', 'factoid')
 
@@ -45,8 +45,8 @@ class ScdateInline(admin.StackedInline):
 
 class NarrativeFactoidInline(admin.StackedInline):
     model = Narrativeunit.factoids.through
-    verbose_name = u'Narrative Factoid'
-    verbose_name_plural = u'Narrative Factoids'
+    verbose_name = 'Narrative Factoid'
+    verbose_name_plural = 'Narrative Factoids'
     raw_id_fields = ("factoid", "narrativeunit")
 
 

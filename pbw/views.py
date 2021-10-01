@@ -11,12 +11,12 @@ from django.views.generic.list import ListView
 from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
-from forms import PBWFacetedSearchForm
-from models import (Person, Factoid, Boulloterion, Seal,
+from .forms import PBWFacetedSearchForm
+from .models import (Person, Factoid, Boulloterion, Seal,
                     Published, Factoidtype, Narrativeunit,
                     Collection, Bibliography
                     )
-from settings import DISPLAYED_FACTOID_TYPES
+from .settings import DISPLAYED_FACTOID_TYPES
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -265,7 +265,7 @@ class AutoCompleteView(PBWFacetedSearchView):
             query_string = self.request.session['query_string']
             for q in query_string.split('&'):
                 hash = q.split('=')
-                n = unicode(hash[1])
+                n = str(hash[1])
                 queryset = queryset.narrow('source', n)
 
         except Exception:

@@ -2,9 +2,9 @@ import re
 from django.db.models import Q
 from haystack import indexes
 
-from models import Person, Factoid, Location, Ethnicity, Dignityoffice, Languageskill, Occupation, Source
+from .models import Person, Factoid, Location, Ethnicity, Dignityoffice, Languageskill, Occupation, Source
 from pbw.models import Sexauth
-from settings import DISPLAYED_FACTOID_TYPES
+from .settings import DISPLAYED_FACTOID_TYPES
 from django.db.models.functions import Length
 
 

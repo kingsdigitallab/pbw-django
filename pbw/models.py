@@ -1,14 +1,14 @@
-from __future__ import unicode_literals
+
 
 import os
 from django.core import serializers
 from django.db import models
 from django.utils.functional import cached_property
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
-from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailcore.models import Page
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Page
 
-from settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
+from .settings import DISPLAYED_FACTOID_TYPES, BASE_DIR
 
 
 class Accuracy(models.Model):
@@ -569,7 +569,7 @@ class Factoidperson(models.Model):
                                db_column='personKey')
 
     def __unicode__(self):
-        return u'{} ({}): {}'.format(
+        return '{} ({}): {}'.format(
             self.person, self.factoidpersontype, self.factoid)
 
     class Meta:
@@ -816,7 +816,7 @@ class Narrativefactoid(models.Model):
     )  #
 
     def __unicode__(self):
-        return u'{}: {}'.format(self.narrativeunit.description, self.factoid)
+        return '{}: {}'.format(self.narrativeunit.description, self.factoid)
 
     class Meta:
         db_table = 'NarrativeFactoid'
@@ -861,7 +861,7 @@ class Narrativeunit(models.Model):
     heading = models.IntegerField()
 
     def __unicode__(self):
-        return u'{}: {}'.format(self.yearorder, self.description)
+        return '{}: {}'.format(self.yearorder, self.description)
 
     # Get all people who are primary owners of the attached factoids
     def getprimarypeople(self):
@@ -988,13 +988,13 @@ class Person(models.Model):
                     id=person.id),
                 indent=2,
                 stream=out)
-            print "Serializing " + "person_" + str(person.id) + "." + format
+            print("Serializing " + "person_" + str(person.id) + "." + format)
         factoid_person_fixture = os.path.join(
             fixture_path, "factoids_person_" + str(person.id) + "." + format)
         with open(factoid_person_fixture, "w") as out:
             factoids_complete = self.collect_factoids()
             serializer.serialize(factoids_complete, indent=2, stream=out)
-            print "Serializing " + "factoid_" + str(person.id) + "." + format
+            print("Serializing " + "factoid_" + str(person.id) + "." + format)
 
     # [8, 9, 10, 12, 13, 11, 15]
     def collect_factoids(self):
@@ -1158,7 +1158,7 @@ class Scdate(models.Model):
     datetype = models.ForeignKey('Datetypes', default=7)
 
     def __unicode__(self):
-        return unicode(self.year)
+        return str(self.year)
 
     class Meta:
         db_table = 'ScDate'

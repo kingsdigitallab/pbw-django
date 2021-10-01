@@ -1,6 +1,6 @@
 from django import forms
 from haystack.forms import FacetedSearchForm
-from models import Factoid, Narrativeunit
+from .models import Factoid, Narrativeunit
 
 
 class PBWFacetedSearchForm(FacetedSearchForm):
@@ -49,7 +49,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
         data = self.cleaned_data
         if "selected_facets" in data:
             if data.get("selected_facets"):
-                print (data.get("selected_facets"))
+                print((data.get("selected_facets")))
 
         for field in (
             'dignityoffice',

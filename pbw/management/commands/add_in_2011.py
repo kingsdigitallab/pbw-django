@@ -24,7 +24,7 @@ class Command(BaseCommand):
                     x += 1
                     person.save()
                 except ValueError:
-                    print ("bad key line {}".format(key_line))
+                    print(("bad key line {}".format(key_line)))
                 except ObjectDoesNotExist:
-                    print ("Person {} not found".format(key_line))
-        print ("{} persons found".format(x))
+                    print(("Person {} not found".format(key_line)))
+        print(("{} persons found".format(x)))
