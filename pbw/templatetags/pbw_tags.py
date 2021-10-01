@@ -1,7 +1,7 @@
 import html.parser
 import re
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html
 from haystack.utils import Highlighter
 from wagtail.core.models import Page
@@ -179,7 +179,7 @@ def filter_selected_facets(form, filter):
     return selected_facets
 
 
-@register.assignment_tag(takes_context=True)
+@register.simple_tag(takes_context=True)
 def get_site_root(context):
     """Returns the site root Page, not the implementation-specific model used.
 

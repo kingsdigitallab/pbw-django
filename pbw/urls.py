@@ -3,6 +3,7 @@
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.urls import path
 from django.contrib import admin
 from wagtail.core import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
@@ -19,14 +20,13 @@ ddhldap_register_signal_handlers()
 
 admin.autodiscover()
 
-urlpatterns = [url(r'^grappelli/', include('grappelli.urls')),
-               url(r'^admin/', include(admin.site.urls)),
-               url(r'^digger/', include('activecollab_digger.urls')),
+urlpatterns = [url(r'^grappelli/', include("grappelli.urls")),
+               url(r'^admin/', admin.site.urls),
+               url(r'^digger/', include("activecollab_digger.urls")),
                # url(r'^admin/', include(wagtailadmin_urls)),
-               url(r'^wagtail/', include(wagtailadmin_urls)),
-               url(r'^search/', include(wagtailsearch_frontend_urls)),
-               url(r'^documents/', include(wagtaildocs_urls)),
-
+               path('wagtail/', include(wagtailadmin_urls)),
+               # url(r'^search/', include("wagtail.search.urls")),
+               path('documents/', include(wagtaildocs_urls)),
                url(r'^browse/',
                    PBWFacetedSearchView.as_view(),
                    name='pbw_browse'),

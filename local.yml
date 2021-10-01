@@ -12,7 +12,7 @@ services:
       - local_mysql_data:/var/lib/mysql
     restart: always
     env_file:
-      - ./.envs/.local/.postgres
+      - ./.envs/.local/.mysql
 
 
   # Core config at /opt/solr/server/solr/mycores/dprr/conf
