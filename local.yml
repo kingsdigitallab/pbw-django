@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  local_mysql_data: {}
+  local_solr_data: {}
+
+services:
+  db:
+    image: library/mysql:5.7.35
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - local_mysql_data:/var/lib/mysql
+    restart: always
+    env_file:
+      - ./.envs/.local/.postgres
+
+
+  # Core config at /opt/solr/server/solr/mycores/dprr/conf
+  solr:
+    image: library/solr:8.0
+    ports:
+      - "8983:8983"
+    volumes:
+      - local_solr_data:/var/solr
+    command:
+      - solr-precreate
+      - pbw
+
+  # Remember to copy the schema! (Not automatic at present)
+  # To build:
+  # docker-compose -f local.yml run --rm web python manage.py build_solr_schema --configure-directory=/app/solr_config/config
+  # then docker cp results to solr folder above
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - solr
