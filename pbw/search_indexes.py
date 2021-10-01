@@ -1,7 +1,7 @@
 import re
 from django.db.models import Q
 from haystack import indexes
-
+from haystack.fields import FacetMultiValueField
 from .models import Person, Factoid, Location, Ethnicity, Dignityoffice, Languageskill, Occupation, Source
 from pbw.models import Sexauth
 from .settings import DISPLAYED_FACTOID_TYPES
@@ -58,26 +58,26 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname', default='')
     # indexes.CharField(model_attr='name', faceted=True)
-    name = indexes.FacetMultiValueField()
+    name = FacetMultiValueField()
     nameol = indexes.CharField(model_attr='nameol')
-    letter = indexes.FacetMultiValueField()
-    source = indexes.FacetMultiValueField()
+    letter = FacetMultiValueField()
+    source = FacetMultiValueField()
     factoid_engdescs = indexes.MultiValueField()
     factoid_oldescs = indexes.MultiValueField()
     person = indexes.CharField()
     sex = indexes.FacetCharField()
     person_id = indexes.IntegerField(model_attr='id')
-    floruit = indexes.FacetMultiValueField()
+    floruit = FacetMultiValueField()
     mdbcode = indexes.IntegerField(model_attr='mdbcode')
     oLangKey = indexes.IntegerField(model_attr='olangkey')
     tstamp = indexes.DateTimeField(model_attr='tstamp')
 
     # Factoid Types
-    location = indexes.FacetMultiValueField()
-    ethnicity = indexes.FacetMultiValueField()
-    dignityoffice = indexes.FacetMultiValueField()
-    language = indexes.FacetMultiValueField()
-    occupation = indexes.FacetMultiValueField()
+    location = FacetMultiValueField()
+    ethnicity = FacetMultiValueField()
+    dignityoffice = FacetMultiValueField()
+    language = FacetMultiValueField()
+    occupation = FacetMultiValueField()
 
     def prepare(self, obj):
         self.prepared_data = super(PersonIndex, self).prepare(obj)
