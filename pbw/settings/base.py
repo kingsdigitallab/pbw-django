@@ -165,16 +165,18 @@ LOGGING = {
     }
 }
 
+# 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+#     'wagtail.core.middleware.SiteMiddleware',
 MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
+
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 )
 
@@ -250,8 +252,8 @@ STATICFILES_FINDERS = (
 
 STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
 
-MEDIA_URL = STATIC_URL + 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL.strip('/'))
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL.strip("/"))
 
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)
