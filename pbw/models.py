@@ -79,6 +79,9 @@ class Bibliography(models.Model):
     # Field name made lowercase.
     shortname = models.TextField(db_column="shortName", blank=True, null=True)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.shortname
 
@@ -122,6 +125,9 @@ class Boulloterion(models.Model):
             return persons[0]
         else:
             return None
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.title
@@ -246,6 +252,9 @@ class Collection(models.Model):
     shortname = models.TextField(db_column="shortName")
     suppress = models.IntegerField()
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.shortname
 
@@ -353,6 +362,9 @@ class Dignityoffice(models.Model):
         db_table = "DignityOffice"
         ordering = ["stdname"]
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.stdname
 
@@ -427,6 +439,9 @@ class Ethnicity(models.Model):
     class Meta:
         db_table = "Ethnicity"
         ordering = ["ethname"]
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.ethname
@@ -505,6 +520,9 @@ class Factoid(models.Model):
     def getScDates(self):
         return Scdate.objects.filter(factoid=self)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.engdesc
 
@@ -574,6 +592,9 @@ class Factoidperson(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return "{} ({}): {}".format(self.person, self.factoidpersontype, self.factoid)
 
@@ -586,6 +607,9 @@ class Factoidpersontype(models.Model):
     fptypekey = models.AutoField(db_column="fpTypeKey", primary_key=True)
     # Field name made lowercase.
     fptypename = models.CharField(db_column="fpTypeName", max_length=15)
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.fptypename
@@ -600,6 +624,9 @@ class Factoidtype(models.Model):
     # Field name made lowercase.
     typename = models.CharField(db_column="typeName", max_length=20)
     orderno = models.IntegerField(null=False, default=99)
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.typename
@@ -724,6 +751,9 @@ class Kinshiptype(models.Model):
         db_table = "KinshipType"
         ordering = ["kinorder", "gspecrelat"]
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.gspecrelat
 
@@ -754,6 +784,9 @@ class Languageskill(models.Model):
     class Meta:
         db_table = "LanguageSkill"
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.languagename
 
@@ -781,6 +814,9 @@ class Location(models.Model):
     class Meta:
         db_table = "Location"
         ordering = ["locname"]
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.locname
@@ -815,6 +851,9 @@ class Narrativefactoid(models.Model):
     narrativeunit = models.ForeignKey(
         "Narrativeunit", blank=True, null=True, on_delete=models.CASCADE
     )  #
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return "{}: {}".format(self.narrativeunit.description, self.factoid)
@@ -854,6 +893,9 @@ class Narrativeunit(models.Model):
     problem = models.IntegerField()
     heading = models.IntegerField()
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return "{}: {}".format(self.yearorder, self.description)
 
@@ -880,6 +922,9 @@ class Occupation(models.Model):
     class Meta:
         db_table = "Occupation"
         ordering = ["occupationname"]
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.occupationname
@@ -949,11 +994,11 @@ class Person(models.Model):
         db_table = "Person"
         ordering = ["name", "mdbcode"]
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return "{} {}".format(self.name, self.mdbcode)
-
-    def __str__(self):
-        return "%s %s" % (self.name, self.mdbcode)
 
     # These are factoids with a PRIMARY fp type, which the person "owns"
     def getPrimaryFactoids(self):
@@ -1098,7 +1143,12 @@ class Published(models.Model):
     # Field name made lowercase.
     boulloterionKey = models.IntegerField(db_column="boulloterionKey")
     # Field name made lowercase.
-    boulloterion = models.ForeignKey("Boulloterion", default=1, on_delete=models.CASCADE )
+    boulloterion = models.ForeignKey(
+        "Boulloterion", default=1, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.bibliography.shortname + " " + self.publicationref
@@ -1155,6 +1205,9 @@ class Scdate(models.Model):
     factoid = models.ForeignKey("Factoid", default=1, on_delete=models.CASCADE)
     datetype = models.ForeignKey("Datetypes", default=7, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return str(self.year)
 
@@ -1199,6 +1252,9 @@ class Seal(models.Model):
     url = models.CharField(max_length=200, null=True)
     link_name = models.CharField(max_length=200, null=True)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def __unicode__(self):
         return self.boulloterion.title
 
@@ -1211,6 +1267,9 @@ class Sexauth(models.Model):
     id = models.AutoField(db_column="sexKey", primary_key=True)
     # Field name made lowercase.
     sexvalue = models.CharField(db_column="sexValue", max_length=25)
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.sexvalue
@@ -1226,6 +1285,9 @@ class Source(models.Model):
     sourceid = models.CharField(db_column="sourceID", max_length=50)
     # Field name made lowercase.
     sourcebib = models.TextField(db_column="sourceBib")
+
+    def __str__(self):
+        return self.__unicode__()
 
     def __unicode__(self):
         return self.sourceid

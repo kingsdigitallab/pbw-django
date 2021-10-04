@@ -524,8 +524,8 @@ class SolrSearchBackend(BaseSearchBackend):
             # Edited by EH to solve solr 8 issue
             # https://github.com/django-haystack/django-haystack/issues/1200
 
-            # app_label, model_name = raw_result[DJANGO_CT].split(".")
-            app_label, model_name = raw_result[DJANGO_CT][0].split(".")
+            app_label, model_name = raw_result[DJANGO_CT].split(".")
+            #app_label, model_name = raw_result[DJANGO_CT][0].split(".")
             additional_fields = {}
             model = haystack_get_model(app_label, model_name)
 
@@ -571,7 +571,7 @@ class SolrSearchBackend(BaseSearchBackend):
                 result = result_class(
                     app_label,
                     model_name,
-                    raw_result[DJANGO_ID],
+                    raw_result[DJANGO_ID][0],
                     raw_result["score"],
                     **additional_fields
                 )

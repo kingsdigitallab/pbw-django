@@ -25,3 +25,7 @@ COPY ddhldap/requirements.txt /app/ddhldap/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY . /app/
+# fix solr 8 issue
+# docker cp ./solr/conf e7ee989cee93:/var/solr/data/pbw
+# docker cp ./solr/solr_backend.py f57deb978d4b:/usr/local/lib/python3.6/site-packages/haystack/backends/
+COPY ./solr/solr_backend.py /usr/local/lib/python3.6/site-packages/haystack/backends/

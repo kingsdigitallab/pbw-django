@@ -250,7 +250,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
+# STATICFILES_STORAGE = 'require.storage.OptimizedStaticFilesStorage'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL.strip("/"))
@@ -274,16 +274,14 @@ SESSION_COOKIE_SECURE = True
 # http://django-compressor.readthedocs.org/en/latest/
 # -----------------------------------------------------------------------------
 
+
+COMPRESS_CSS_FILTERS = ["compressor.filters.cssmin.CSSMinFilter"]
+
+COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)
+
 COMPRESS_ENABLED = True
 
-COMPRESS_CSS_FILTERS = [
-    # CSS minimizer
-    'compressor.filters.cssmin.CSSMinFilter'
-]
 
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 # -----------------------------------------------------------------------------
 # Django Grappelli

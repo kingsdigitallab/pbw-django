@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load highlight pbw_tags staticfiles wagtailcore_tags %}
+{% load highlight pbw_tags static wagtailcore_tags %}
 
 {% block meta_title %}
 Search Results{% if query %} for {{ query }}{% endif %}
@@ -345,9 +345,10 @@ Search Results{% if query %} for {{ query }}{% endif %}
         <ul class="search-results">
             {% for result in object_list %}
             <li>
+
                 {% with person=result.object %}
                 <h3>
-                    <a href="/person/{{person.id}}/">{{ person }}</a>
+                    <a href="/person/{{result.person_id}}/">{{ result.person }}</a>
                 </h3>
                 <h5>{{ person.nameol }}</h5>
                 <p>

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from haystack.utils import Highlighter
 from wagtail.core.models import Page
-
+from wagtail.core.models import Site
 from pbw.models import Dignityfactoid, Occupationfactoid, Langfactoid, \
     Vnamefactoid, Religionfactoid, Possessionfactoid, Famnamefactoid, \
     Kinfactoid, Familyname
@@ -188,7 +188,7 @@ def get_site_root(context):
     if 'BASE_URL' in context:
         return Page.objects.filter(slug=context['BASE_URL']).first()
     else:
-        return context['request'].site.root_page
+        return Site.find_for_request(context["request"]).root_page
 
 
 @register.inclusion_tag('pbw/tags/main_menu.html', takes_context=True)
