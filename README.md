@@ -2,7 +2,7 @@
 
 The new Django application for the Prosopography of the Byzantine World (PBW).
 
-#Technology
+## Technology
 1. Django 3.2.5
 2. JQuery
 3. MySQL 5.7
