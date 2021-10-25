@@ -1,5 +1,5 @@
 -r ddhldap/requirements.txt
-django==3.2
+django>=3.2.5
 django-compressor==2.4
 django-grappelli
 django-libsass
