@@ -1,0 +1,83 @@
+
+
+volumes:
+  local_mysql_data: { }
+  local_solr_data: { }
+
+services:
+
+  # Required - Nginx Ingress
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+
+  db:
+    image: library/mysql:5.7.35
+    container_name: pbw_db
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - local_mysql_data:/var/lib/mysql
+    restart: always
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: mysql --user=root --password=$$MYSQL_ROOT_PASSWORD -e 'SHOW DATABASES;'
+      timeout: 10s
+      retries: 10
+    env_file:
+      - .env
+
+
+  # Core config at /opt/solr/server/solr/mycores/dprr/conf
+  solr:
+    image: library/solr:8.0
+    container_name: pbw_solr
+    ports:
+      - "8983:8983"
+    volumes:
+      - local_solr_data:/var/solr
+    command:
+      - solr-precreate
+      - pbw
+
+  # Remember to copy the schema! (Not automatic at present)
+  # To build:
+  # docker-compose -f local.yml run --rm web python manage.py build_solr_schema --configure-directory=/app/solr_config/config
+  # then docker cp results to solr folder above
+  pbw:
+    container_name: pbw_liv
+    build:
+      context: ../
+      dockerfile: ./compose/local/django/Dockerfile
+    command: /start
+    #restart: unless-stopped
+#    volumes:
+#      - .:/app:z
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      VIRTUAL_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+      LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+      VIRTUAL_PROTO: http
+      VIRTUAL_PORT: 8000
+
+
+
+
+
+# Required - Openstack networking - note the indentation level
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1442
