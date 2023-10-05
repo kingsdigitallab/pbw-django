@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 
+./compose/.env
+
 # C extensions
 *.so
 

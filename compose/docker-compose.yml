@@ -17,7 +17,7 @@ services:
 
 
   db:
-    image: library/mysql:5.7.35
+    image: mysql:5
     container_name: pbw_db
     command: --default-authentication-plugin=mysql_native_password
     volumes:
@@ -37,7 +37,7 @@ services:
 
   # Core config at /opt/solr/server/solr/mycores/dprr/conf
   solr:
-    image: library/solr:8.0
+    image: solr:8.0
     container_name: pbw_solr
     ports:
       - "8983:8983"
@@ -70,8 +70,6 @@ services:
       LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
-
-
 
 
 
