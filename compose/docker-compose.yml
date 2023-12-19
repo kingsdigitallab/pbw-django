@@ -19,10 +19,10 @@ services:
   db:
     image: mysql:5
     container_name: pbw_db
-    command: --default-authentication-plugin=mysql_native_password
+
     volumes:
       - local_mysql_data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     expose:
       - "3306"
     environment:
@@ -30,12 +30,13 @@ services:
     healthcheck:
       test: mysql --user=root --password=$$MYSQL_ROOT_PASSWORD -e 'SHOW DATABASES;'
       timeout: 10s
+      interval: 5s
       retries: 10
     env_file:
       - .env
 
 
-  # Core config at /opt/solr/server/solr/mycores/dprr/conf
+  # Core config at /opt/solr/server/solr/mycores/pbw/conf
   solr:
     image: solr:8.0
     container_name: pbw_solr
