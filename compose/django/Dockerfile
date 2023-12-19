@@ -25,10 +25,11 @@ COPY ddhldap/requirements.txt /app/ddhldap/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY --chown=django:django ./compose/local/django/start /start
+COPY --chown=django:django ./compose/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 COPY --chown=django:django . /app
+
 
 #RUN python manage.py migrate
 #RUN python manage.py collectstatic --noinput

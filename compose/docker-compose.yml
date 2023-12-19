@@ -1,8 +1,5 @@
 
 
-volumes:
-  local_mysql_data: { }
-  local_solr_data: { }
 
 services:
 
@@ -19,9 +16,8 @@ services:
   db:
     image: mysql:5
     container_name: pbw_db
-
     volumes:
-      - local_mysql_data:/var/lib/mysql
+      - ../volumes/local_mysql_data:/var/lib/mysql
     restart: unless-stopped
     expose:
       - "3306"
@@ -43,7 +39,7 @@ services:
     ports:
       - "8983:8983"
     volumes:
-      - local_solr_data:/var/solr
+      - ../volumes/local_solr_data:/var/solr
     command:
       - solr-precreate
       - pbw
@@ -52,26 +48,62 @@ services:
   # To build:
   # docker-compose -f local.yml run --rm web python manage.py build_solr_schema --configure-directory=/app/solr_config/config
   # then docker cp results to solr folder above
-  pbw:
-    container_name: pbw_liv
+#  pbw:
+#    container_name: pbw_liv
+#    build:
+#      context: ../
+#      dockerfile: ./compose/local/django/Dockerfile
+#    command: /start
+#    #restart: unless-stopped
+##    volumes:
+##      - .:/app:z
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    environment:
+#      VIRTUAL_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+#      LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+#      VIRTUAL_PROTO: http
+#      VIRTUAL_PORT: 8000
+
+  django:
     build:
       context: ../
-      dockerfile: ./compose/local/django/Dockerfile
+      dockerfile: ./compose/django/Dockerfile
     command: /start
-    #restart: unless-stopped
-#    volumes:
-#      - .:/app:z
-    ports:
-      - "8000:8000"
+    container_name: openstack_pbw_django
+    volumes:
+      - ../volumes/django/static:/app/static
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+      - solr
+    env_file:
+      - .env
+    restart: unless-stopped
+    expose:
+      - 8000
     environment:
-      VIRTUAL_HOST: "pbw.kdl.kcl.ac.uk,localhost"
-      LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+      VIRTUAL_HOST: "field.kdl.kcl.ac.uk,field.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_PATH: "/"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
 
+  nginx:
+    build:
+      context: ..
+      dockerfile: ./compose/nginx/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8001"
+    volumes:
+      - ../volumes/django/static:/usr/share/nginx/static:ro
+    environment:
+      VIRTUAL_HOST: "poms.kdl.kcl.ac.uk,poms.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_PATH: "~^/(static/|redist/|robots.txt)"
+      VIRTUAL_PROTO: http
+      VIRTUAL_PORT: 8001
 
 
 # Required - Openstack networking - note the indentation level
