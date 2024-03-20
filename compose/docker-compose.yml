@@ -1,4 +1,4 @@
-
+name: 'pbw_openstack'
 
 
 services:
@@ -6,7 +6,7 @@ services:
   # Required - Nginx Ingress
   nginx-proxy:
     image: nginxproxy/nginx-proxy
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
@@ -36,8 +36,9 @@ services:
   solr:
     image: solr:8.0
     container_name: pbw_solr
-    ports:
-      - "8983:8983"
+    restart: unless-stopped
+    expose:
+      - "8983"
     volumes:
       - ../volumes/local_solr_data:/var/solr
     command:
@@ -85,7 +86,7 @@ services:
     expose:
       - 8000
     environment:
-      VIRTUAL_HOST: "field.kdl.kcl.ac.uk,field.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_HOST: "pbw-os.kdl.kcl.ac.uk,pbw.app.cch.kcl.ac.uk,localhost,127.0.0.1"
       VIRTUAL_PATH: "/"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
@@ -100,15 +101,8 @@ services:
     volumes:
       - ../volumes/django/static:/usr/share/nginx/static:ro
     environment:
-      VIRTUAL_HOST: "poms.kdl.kcl.ac.uk,poms.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_HOST: "pbw-os.kdl.kcl.ac.uk,pbw.app.cch.kcl.ac.uk,localhost,127.0.0.1"
       VIRTUAL_PATH: "~^/(static/|redist/|robots.txt)"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8001
 
-
-# Required - Openstack networking - note the indentation level
-networks:
-  default:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1442

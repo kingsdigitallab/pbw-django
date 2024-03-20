@@ -1,5 +1,6 @@
 import getpass
 import logging
+import environ
 import os
 
 from ddhldap.settings import *  # noqa
@@ -20,6 +21,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 PROJECT_NAME = 'pbw'
 PROJECT_TITLE = 'Change the title in the settings'
+
+COMPOSE_DIR = os.path.join(BASE_DIR, "compose")
+
+env = environ.Env()
+
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
+if READ_DOT_ENV_FILE:
+    # OS environment variables take precedence over variables from .env
+    #env.read_env(str(COMPOSE_DIR.path(".env")))
+    environ.Env.read_env(os.path.join(COMPOSE_DIR, '.env'))
 
 # -----------------------------------------------------------------------------
 # Core Settings
@@ -366,3 +377,4 @@ AC_TOKEN = ''
 
 # Fixing auto field upgrade warning to 3.2
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+db_engine = 'django.contrib.gis.db.backends.mysql'
