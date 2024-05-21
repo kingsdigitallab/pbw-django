@@ -1,2 +1,4 @@
-../.*
-../volumes
+.*
+volumes/*
+.idea/*
+.vagrant/*

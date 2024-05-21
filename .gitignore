@@ -72,3 +72,4 @@ volumes/*
 playbook.retry
 stg_factoid_2.sql
 compose/.env
+compose/.env64
