@@ -366,13 +366,14 @@ GA_ID = ''
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE':
-            'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
+            'haystack.backends.elasticsearch7_backend.Elasticsearch7SearchEngine',
+        'URL': 'http://elasticsearch:9200/',
         'INDEX_NAME': 'pbw_haystack',
     },
 }
 # Index only the first 500 objects of each type (for vagrant and debug)
 PARTIAL_INDEX = False
+PARTIAL_INDEX_MAX_ID = 500
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 50
 
 # WAGTAIL SETTINGS

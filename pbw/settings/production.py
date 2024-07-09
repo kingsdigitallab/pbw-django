@@ -14,14 +14,6 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=['pbw-os.kdl.kcl.ac.uk'
 
 INTERNAL_IPS = ['0.0.0.0', '127.0.0.1', '::1', '10.0.2.2']
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://solr:8983/solr/pbw',
-        'ADMIN_URL': 'http://solr:8983/solr/admin/cores'
-    },
-}
-
 DATABASES = {
     'default': {
         'ENGINE': db_engine,

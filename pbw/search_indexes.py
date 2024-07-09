@@ -1,4 +1,5 @@
 import re
+from django.conf import settings as settings
 from django.db.models import Q
 from haystack import indexes
 from haystack.fields import FacetMultiValueField
@@ -28,9 +29,9 @@ def get_sex(obj):
     sex = obj.sex
     if sex.sexvalue == "Eunuch (Probable)":
         eunuch, created = Sexauth.objects.get_or_create(sexvalue="Eunuch")
-        return eunuch
+        return eunuch.sexvalue
     else:
-        return sex
+        return sex.sexvalue
 
 
 def get_names(person):
@@ -57,7 +58,8 @@ def get_letters(names):
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     description = indexes.CharField(model_attr='descname', default='')
-    # indexes.CharField(model_attr='name', faceted=True)
+    # primary name for sorting
+    name_sort = indexes.CharField(model_attr='name', faceted=True)
     name = FacetMultiValueField()
     nameol = indexes.CharField(model_attr='nameol')
     letter = FacetMultiValueField()
@@ -107,14 +109,20 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         Filter factoids by type for only those used in browser"""
         # __iregex=r'^.{7,}$'
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
-        return self.get_model().objects.annotate(name_length=Length('name')).filter(
+
+        index_q = self.get_model().objects.annotate(name_length=Length('name')).filter(
             mdbcode__gt=0,
             name_length__gt=0,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).order_by(
             'name', 'mdbcode'
         ).distinct()  # The base class for the the various
         # factoid types
+        if settings.PARTIAL_INDEX:
+            index_q = index_q.filter(
+                id__lt=settings.PARTIAL_INDEX_MAX_ID
+            ).order_by('pk')
 
+        return index_q
     def get_model(self):
         return Person
 
@@ -134,10 +142,15 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         return get_letters(get_names(obj))
 
     def prepare_source(self, obj):
+        sourcelist = list()
         sources = Source.objects.filter(
             factoid__factoidperson__person=obj,
             factoid__factoidtype__in=DISPLAYED_FACTOID_TYPES).distinct()
-        return list(set(sources))
+        if sources.count() > 0:
+            for source in sources:
+                if source.sourceid and len(source.sourceid) > 0:
+                    sourcelist.append(source.sourceid)
+        return list(set(sourcelist))
 
     def prepare_location(self, obj):
         # Location

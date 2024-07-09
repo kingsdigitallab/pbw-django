@@ -67,7 +67,7 @@ class PBWFacetedSearchForm(FacetedSearchForm):
                     sqs = sqs.narrow('{}:{}'.format(
                         field, data.get(field)))
         # default order by name
-        sqs = sqs.order_by('person')
+        
         return sqs
 
     def __init__(self, *args, **kwargs):

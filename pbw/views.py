@@ -74,9 +74,8 @@ class PBWFacetedSearchView(FacetedSearchView):
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(
-                facet, mincount=1, sort='index', limit=-1)
-
+            queryset = queryset.facet(facet)
+        queryset.order_by('name_sort', 'mdbcode')
         return queryset
 
 

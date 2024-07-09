@@ -9,7 +9,7 @@ django-require
 mysqlclient
 django-mysql
 redis
-django-haystack==3.1.1
+django-haystack==3.2.1
 elasticsearch==7.10.1
 django-elasticsearch-dsl
 #pysolr==3.9.0
