@@ -6,6 +6,6 @@ set -o nounset
 
 python /app/manage.py migrate
 python /app/manage.py collectstatic --noinput
-python /app/manage.py update_index
+#python /app/manage.py update_index
 
 python manage.py runserver 0.0.0.0:8000

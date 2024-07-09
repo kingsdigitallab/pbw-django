@@ -12,11 +12,14 @@ RUN apt-get update \
   && apt-get install -y default-libmysqlclient-dev \
   #&& apt-get install -y python-mysqldb python-dev
   # ldap depedndencies
-  && apt-get install -y libldap2-dev libsasl2-dev ldap-utils
+  && apt-get install -y libldap2-dev libsasl2-dev ldap-utils \
   #&& apt-get install -y libxml2-dev libxslt-dev python-dev \
   #&& apt-get install -y python3-lxml \
   #gdal libraries
-  #&& apt-get install -y binutils libproj-dev gdal-bin
+  && apt-get install -y binutils libproj-dev gdal-bin \
+    # cleaning up unused files
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY requirements.txt /app
