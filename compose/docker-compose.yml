@@ -1,8 +1,5 @@
 name: 'pbw_openstack'
 
-volumes:
-  local_solr_data: {}
-
 services:
 
   # Required - Nginx Ingress
@@ -13,6 +10,21 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: ./compose/nginx/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8001"
+    volumes:
+      - ../volumes/django/static:/usr/share/nginx/static:ro
+    environment:
+      VIRTUAL_HOST: "pbw-os.kdl.kcl.ac.uk,pbw.app.cch.kcl.ac.uk,localhost,127.0.0.1"
+      VIRTUAL_PATH: "~^/(static/|redist/|robots.txt)"
+      VIRTUAL_PROTO: http
+      VIRTUAL_PORT: 8001
 
 
   db:
@@ -33,18 +45,19 @@ services:
     env_file:
       - .env
 
+
   # Core config at /opt/solr/server/solr/mycores/pbw/conf
-  solr:
-    image: solr:8.0
-    container_name: pbw_solr
-    restart: unless-stopped
-    expose:
-      - "8983"
-    volumes:
-      - local_solr_data:/var/solr
-    command:
-      - solr-precreate
-      - pbw
+#  solr:
+#    image: solr:8.0
+#    container_name: pbw_solr
+#    restart: unless-stopped
+#    expose:
+#      - "8983"
+##    volumes:
+##      - local_solr_data:/var/solr
+#    command:
+#      - solr-precreate
+#      - pbw
 
   # Remember to copy the schema! (Not automatic at present)
   # To build:
@@ -84,26 +97,13 @@ services:
     env_file:
       - .env
     restart: unless-stopped
-    expose:
-      - 8000
+    ports:
+      - "8000:8000"
     environment:
       VIRTUAL_HOST: "pbw-os.kdl.kcl.ac.uk,pbw.app.cch.kcl.ac.uk,localhost,127.0.0.1"
       VIRTUAL_PATH: "/"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8000
 
-  nginx:
-    build:
-      context: ..
-      dockerfile: ./compose/nginx/Dockerfile
-    restart: unless-stopped
-    expose:
-      - "8001"
-    volumes:
-      - ../volumes/django/static:/usr/share/nginx/static:ro
-    environment:
-      VIRTUAL_HOST: "pbw-os.kdl.kcl.ac.uk,pbw.app.cch.kcl.ac.uk,localhost,127.0.0.1"
-      VIRTUAL_PATH: "~^/(static/|redist/|robots.txt)"
-      VIRTUAL_PROTO: http
-      VIRTUAL_PORT: 8001
+
 
