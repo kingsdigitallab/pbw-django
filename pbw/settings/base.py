@@ -357,12 +357,23 @@ FABRIC_USER = getpass.getuser()
 # Google Analytics ID
 GA_ID = ''
 
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+#         'URL': 'http://127.0.0.1:8080/solr'
+#     },
+# }
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8080/solr'
+        'ENGINE':
+            'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'pbw_haystack',
     },
 }
+# Index only the first 500 objects of each type (for vagrant and debug)
+PARTIAL_INDEX = False
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 50
 
 # WAGTAIL SETTINGS
 

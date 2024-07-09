@@ -45,43 +45,55 @@ services:
     env_file:
       - .env
 
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    #    volumes:
+    #      - ../volumes/elastic_data:/usr/share/elasticsearch/data
+    env_file:
+      - .env
+    expose:
+      - "9200"
+      - "9300"
+    #    ports:
+    #      - "9200:9200"
+    restart: unless-stopped
 
   # Core config at /opt/solr/server/solr/mycores/pbw/conf
-#  solr:
-#    image: solr:8.0
-#    container_name: pbw_solr
-#    restart: unless-stopped
-#    expose:
-#      - "8983"
-##    volumes:
-##      - local_solr_data:/var/solr
-#    command:
-#      - solr-precreate
-#      - pbw
+  #  solr:
+  #    image: solr:8.0
+  #    container_name: pbw_solr
+  #    restart: unless-stopped
+  #    expose:
+  #      - "8983"
+  ##    volumes:
+  ##      - local_solr_data:/var/solr
+  #    command:
+  #      - solr-precreate
+  #      - pbw
 
   # Remember to copy the schema! (Not automatic at present)
   # To build:
   # docker-compose -f local.yml run --rm web python manage.py build_solr_schema --configure-directory=/app/solr_config/config
   # then docker cp results to solr folder above
-#  pbw:
-#    container_name: pbw_liv
-#    build:
-#      context: ../
-#      dockerfile: ./compose/local/django/Dockerfile
-#    command: /start
-#    #restart: unless-stopped
-##    volumes:
-##      - .:/app:z
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    environment:
-#      VIRTUAL_HOST: "pbw.kdl.kcl.ac.uk,localhost"
-#      LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
-#      VIRTUAL_PROTO: http
-#      VIRTUAL_PORT: 8000
+  #  pbw:
+  #    container_name: pbw_liv
+  #    build:
+  #      context: ../
+  #      dockerfile: ./compose/local/django/Dockerfile
+  #    command: /start
+  #    #restart: unless-stopped
+  ##    volumes:
+  ##      - .:/app:z
+  #    ports:
+  #      - "8000:8000"
+  #    depends_on:
+  #      db:
+  #        condition: service_healthy
+  #    environment:
+  #      VIRTUAL_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+  #      LETSENCRYPT_HOST: "pbw.kdl.kcl.ac.uk,localhost"
+  #      VIRTUAL_PROTO: http
+  #      VIRTUAL_PORT: 8000
 
   django:
     build:
@@ -93,7 +105,7 @@ services:
       - ../volumes/django/static:/app/static
     depends_on:
       - db
-      - solr
+      - elasticsearch
     env_file:
       - .env
     restart: unless-stopped
