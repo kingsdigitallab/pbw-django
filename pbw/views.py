@@ -71,10 +71,11 @@ class PBWFacetedSearchView(FacetedSearchView):
     def get_queryset(self):
         queryset = super(PBWFacetedSearchView, self).get_queryset()
         all_facets = self.autocomplete_facets + self.facet_fields
-        #
+        # Massive number for ALL but can be reduced if performance hit
+        options = {"size": 10000}
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet)
+            queryset = queryset.facet(facet, options)
         queryset.order_by('name_sort', 'mdbcode')
         return queryset
 
