@@ -8,7 +8,7 @@ from wagtail.core.models import Page
 from wagtail.core.models import Site
 from pbw.models import Dignityfactoid, Occupationfactoid, Langfactoid, \
     Vnamefactoid, Religionfactoid, Possessionfactoid, Famnamefactoid, \
-    Kinfactoid, Familyname
+    Kinfactoid, Familyname, Scdate
 from pbw.models import Factoidperson, Ethnicityfactoid, Factoidlocation, Location
 
 register = template.Library()
@@ -134,6 +134,12 @@ def get_authority_list(factoid):
                 sl = sls[0]
                 fm = Familyname.objects.get(id=sl.famnamekey)
                 authority = fm.famname
+        elif "Narrative" in factoid.factoidtype.typename:
+            scdates = Scdate.objects.filter(factoid=factoid).order_by("year")
+            if scdates.count() > 0:
+                scdate = scdates[0]
+                authority = str(scdate.year)
+
         elif "Kinship" in factoid.factoidtype.typename:
             kfs = Kinfactoid.objects.filter(factoid=factoid)
             if kfs.count() > 0:

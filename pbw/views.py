@@ -12,11 +12,12 @@ from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
 
 from .forms import PBWFacetedSearchForm
-from .models import (Person, Factoid, Boulloterion, Seal,
-                    Published, Factoidtype, Narrativeunit,
-                    Collection, Bibliography
-                    )
+from .models import (Person, Factoid, Factoidperson, Boulloterion, Seal,
+                     Published, Factoidtype, Narrativeunit,
+                     Collection, Bibliography
+                     )
 from .settings import DISPLAYED_FACTOID_TYPES
+from .utils import get_auth_field
 
 
 class PBWFacetedSearchView(FacetedSearchView):
@@ -69,7 +70,7 @@ class PBWFacetedSearchView(FacetedSearchView):
         return context
 
     def get_queryset(self):
-        queryset = super(PBWFacetedSearchView, self).get_queryset()
+        queryset = super(PBWFacetedSearchView, self).get_queryset().filter(record_type='person')
         all_facets = self.autocomplete_facets + self.facet_fields
         # Massive number for ALL but can be reduced if performance hit
         options = {"size": 10000}
@@ -123,46 +124,24 @@ class PersonDetailView(DetailView):
                     total += factoids.count()
             except ObjectDoesNotExist:
                 pass
-                # Set to false because of long load times
-                # if total <= self.loadAllThreshold:
-                # Pre-load all factoids
-                # self.loadAll = True
+
         return groups
 
-    def get_factoid_group(self, person, type):
-        authOrder = 'engdesc'
-        if type.typename == "Ethnic label":
-            authOrder = 'factoidlocation__location'
-        elif type.typename == "Location":
-            authOrder = 'factoidlocation__location'
-        elif type.typename == "Dignity/Office":
-            authOrder = 'dignityfactoid__dignityoffice'
-        elif type.typename == "Occupation/Vocation":
-            authOrder = 'occupationfactoid__occupation'
-        elif type.typename == "Language Skill":
-            authOrder = 'langfactoid__languageskill'
-        elif type.typename == "Alternative Name":
-            authOrder = 'vnamefactoid__variantname'
-        elif type.typename == "Religion":
-            authOrder = 'religionfactoid__religion'
-        elif type.typename == "Possession":
-            authOrder = 'possessionfactoid'
-        elif type.typename == "Second Name":
-            authOrder = 'famnamefactoid__familyname'
-        elif type.typename == "Kinship":
-            authOrder = 'kinfactoid__kinship'
-        elif type.typename == "Narrative":
-            authOrder = 'scdate'
-        else:
-            # todo may be scdate
-            authOrder = "engdesc"
-            # kinship,education,authorship,death,narrative
-        factoids = Factoid.objects.filter(
-            factoidperson__person=person,
-            factoidperson__factoidpersontype__fptypename="Primary").filter(
-            factoidtype=type).order_by(
-            authOrder).distinct()
 
+
+    def get_factoid_group(self, person, type):
+        # moved to search index
+        # authOrder = get_auth_field(type.typename)
+        #     # kinship,education,authorship,death,narrative
+        # factoids = Factoid.objects.filter(
+        #     factoidperson__person=person).filter(
+        #     factoidperson__factoidpersontype__fptypename="Primary")
+        # factoids = factoids.filter(factoidtype=type).order_by(
+        #     authOrder).distinct()
+
+        factoids = SearchQuerySet().filter(record_type="factoid")
+        factoids = factoids.filter(person_id=person.id).filter(
+            factoidtype_id=type.id)
         return factoids
 
 
@@ -228,15 +207,11 @@ class FactoidGroupView(PersonDetailView):
         context = super(
             PersonDetailView, self).get_context_data(**kwargs)
         person = self.get_object()
-        factoids = self.get_factoid_group(person=person, type=self.type)
-        # paginator = Paginator(factoids, self.results_per_page)
-        # try:
-        #     page = paginator.page(self.page_number)
-        # except PageNotAnInteger:
-        #     page = paginator.page(1)
-        # except EmptyPage:
-        #     page = paginator.page(paginator.num_pages)
-        #     context['factoids'] = paginator
+
+        # factoids = SearchQuerySet().filter(record_type='factoid').filter(
+        #     person_id=person.id)
+        factoids = SearchQuerySet().filter(
+            record_type='factoid').filter(person_id=person.id).filter(factoidtype_id=self.type.id).order_by('factoidtype_id','order_field_exact')
         context['factoids'] = factoids  # page
         return context
 
@@ -255,6 +230,7 @@ class AutoCompleteView(PBWFacetedSearchView):
 
     def get_queryset(self):
         queryset = super(PBWFacetedSearchView, self).get_queryset()
+        queryset.filter(record_type='person')
         all_facets = self.autocomplete_facets + self.facet_fields
         #
         for facet in all_facets:
@@ -396,14 +372,18 @@ class SealsListView(ListView):
             context['collections'] = Collection.objects.all()
             context['list'] = 'collection'
         elif 'bibliography' in list:
-            context['bibliographies'] = Bibliography.objects.all().order_by('shortname')
+            context['bibliographies'] = Bibliography.objects.all().order_by(
+                'shortname')
             context['list'] = 'bibliography'
 
         if 'collection_id' in self.request.GET:
             context['collection_id'] = self.request.GET.get("collection_id")
-            context['collection'] = Collection.objects.get(id=self.request.GET.get("collection_id"))
+            context['collection'] = Collection.objects.get(
+                id=self.request.GET.get("collection_id"))
         elif 'bibliography_id' in self.request.GET:
-            context['bibliography_id'] = self.request.GET.get('bibliography_id')
-            context['bibliography'] = Bibliography.objects.get(bibkey=self.request.GET.get('bibliography_id'))
+            context['bibliography_id'] = self.request.GET.get(
+                'bibliography_id')
+            context['bibliography'] = Bibliography.objects.get(
+                bibkey=self.request.GET.get('bibliography_id'))
 
         return context

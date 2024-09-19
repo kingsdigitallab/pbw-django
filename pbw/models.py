@@ -476,9 +476,9 @@ class Factoid(models.Model):
     sourceref = models.CharField(db_column="sourceRef", max_length=250)
     factoidtype = models.ForeignKey(
         "Factoidtype",
-        blank=False,
-        null=False,
-        default=1,
+        blank=True,
+        null=True,
+        #default=1,
         db_column="factoidTypeKey",
         on_delete=models.CASCADE,
     )  # Field name made lowercase.

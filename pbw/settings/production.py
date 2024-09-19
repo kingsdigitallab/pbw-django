@@ -3,7 +3,7 @@ from .base import *  # noqa
 #CACHE_REDIS_DATABASE = '2'
 #CACHES['default']['LOCATION'] = '127.0.0.1:6379:' + CACHE_REDIS_DATABASE
 
-DEBUG = False
+DEBUG = True
 
 
 # GENERAL

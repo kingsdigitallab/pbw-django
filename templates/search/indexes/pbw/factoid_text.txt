@@ -1,8 +1,2 @@
-{{ location }}
-{{ ethnicity}}
-{{ dignityoffice }}
-{{ language }}
-{{ occupation}}
 {{ object.engdesc }}
 {{object.origldesc}}
-{{ nameol }}
