@@ -73,44 +73,51 @@ def get_order_field(factoid, typename):
         eths = pbw_models.Ethnicityfactoid.objects.filter(factoid=factoid)
         if eths.count() > 0:
             eth = eths[0]
-            auth_order = eth.ethnicity.ethname
+            if eth.ethnicity:
+                auth_order = eth.ethnicity.ethname
         # auth_order = 'factoidlocation__location'
     elif typename == "Location":
         # auth_order = 'factoidlocation__location'
         subs = pbw_models.Factoidlocation.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.location.locname
+            if sub.location:
+                auth_order = sub.location.locname
     elif typename == "Dignity/Office":
         # auth_order = 'dignityfactoid__dignityoffice'
         subs = pbw_models.Dignityfactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.dignityoffice.stdname
+            if sub.dignityoffice:
+                auth_order = sub.dignityoffice.stdname
     elif typename == "Occupation/Vocation":
         # auth_order = 'occupationfactoid__occupation'
         subs = pbw_models.Occupationfactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.occupation.occupationname
+            if sub.occupation:
+                auth_order = sub.occupation.occupationname
     elif typename == "Language Skill":
         # auth_order = 'langfactoid__languageskill'
         subs = pbw_models.Langfactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.languageskill.languageskillname
+            if sub.languageskill:
+                auth_order = sub.languageskill.languagename
     elif typename == "Alternative Name":
         # auth_order = 'vnamefactoid__variantname'
         subs = pbw_models.Vnamefactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.variantname.name
+            if sub.variantname:
+                auth_order = sub.variantname.name
     elif typename == "Religion":
         # auth_order = 'religionfactoid__religion'
         subs = pbw_models.Religionfactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.religion.religionname
+            if sub.religion:
+                auth_order = sub.religion.religionname
     elif typename == "Possession":
         # auth_order = 'possessionfactoid'
         subs = pbw_models.Possessionfactoid.objects.filter(factoid=factoid)
@@ -122,13 +129,15 @@ def get_order_field(factoid, typename):
         subs = pbw_models.Famnamefactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.familyname.famname
+            if sub.familyname:
+                auth_order = sub.familyname.famname
     elif typename == "Kinship":
         # auth_order = 'kinfactoid__kinship'
         subs = pbw_models.Kinfactoid.objects.filter(factoid=factoid)
         if subs.count() > 0:
             sub = subs[0]
-            auth_order = sub.kinship.gspecrelat
+            if sub.kinship:
+                auth_order = sub.kinship.gspecrelat
     elif typename == "Narrative":
         auth_order = "9999"
         dates = pbw_models.Scdate.objects.filter(factoid=factoid).order_by(
@@ -172,7 +181,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         #     factoidperson__person__id=106749).filter(
         #     factoidperson__factoidpersontype__fptypename="Primary",
         # ).distinct()
-        queryset = self.get_model().objects.all()
+        queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
         return queryset
 
     def get_model(self):
@@ -180,8 +189,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare(self, obj):
         self.prepared_data = super(FactoidIndex, self).prepare(obj)
-        #
-        print(obj.id)
+        #print(obj.id)
         if obj.source:
             self.prepared_data['sourceid'] = obj.source.sourceid
         if obj.boulloterion:
@@ -194,12 +202,10 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         if obj.person:
             self.prepared_data['person_id'] = obj.person.id
         else:
-            pdb.set_trace()
+            print("No person for factoid {}".format(obj.id))
         self.prepared_data['typename'] = ""
         if obj.factoidtype:
             self.prepared_data['typename'] = obj.factoidtype.typename
-            if obj.factoidtype.id == 3:
-                pdb.set_trace()
             self.prepared_data['factoidtype_id'] = obj.factoidtype.id
             self.prepared_data['order_field'] = get_order_field(
                 obj, obj.factoidtype.typename)

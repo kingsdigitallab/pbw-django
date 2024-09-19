@@ -642,9 +642,10 @@ class Famnamefactoid(models.Model):
     # Field name made lowercase.
     factoidkey = models.IntegerField(db_column="factoidKey", primary_key=True)
     factoid = models.ForeignKey("Factoid", null=True, on_delete=models.CASCADE)
-    familyname = models.ForeignKey(
-        "Factoid", related_name="familyname", null=True, on_delete=models.CASCADE
-    )
+    # familyname = models.ForeignKey(
+    #     "Factoid", related_name="familyname", null=True, on_delete=models.CASCADE
+    # )
+    familyname = models.ForeignKey("Familyname", null=True, on_delete=models.CASCADE)
     # Field name made lowercase.
     famnamekey = models.SmallIntegerField(db_column="famNameKey")
     tstamp = models.DateTimeField()
