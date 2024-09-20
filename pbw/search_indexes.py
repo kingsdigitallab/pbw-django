@@ -1,5 +1,6 @@
 import re
 from django.conf import settings as settings
+from django.core import exceptions
 from django.db.models import Q
 from haystack import indexes
 from haystack.fields import FacetMultiValueField
@@ -69,85 +70,88 @@ def filter_queryset_by_factoidtype(queryset, typename):
 
 def get_order_field(factoid, typename):
     auth_order = ""
-    if typename == "Ethnic label":
-        eths = pbw_models.Ethnicityfactoid.objects.filter(factoid=factoid)
-        if eths.count() > 0:
-            eth = eths[0]
-            if eth.ethnicity:
-                auth_order = eth.ethnicity.ethname
-        # auth_order = 'factoidlocation__location'
-    elif typename == "Location":
-        # auth_order = 'factoidlocation__location'
-        subs = pbw_models.Factoidlocation.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.location:
-                auth_order = sub.location.locname
-    elif typename == "Dignity/Office":
-        # auth_order = 'dignityfactoid__dignityoffice'
-        subs = pbw_models.Dignityfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.dignityoffice:
-                auth_order = sub.dignityoffice.stdname
-    elif typename == "Occupation/Vocation":
-        # auth_order = 'occupationfactoid__occupation'
-        subs = pbw_models.Occupationfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.occupation:
-                auth_order = sub.occupation.occupationname
-    elif typename == "Language Skill":
-        # auth_order = 'langfactoid__languageskill'
-        subs = pbw_models.Langfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.languageskill:
-                auth_order = sub.languageskill.languagename
-    elif typename == "Alternative Name":
-        # auth_order = 'vnamefactoid__variantname'
-        subs = pbw_models.Vnamefactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.variantname:
-                auth_order = sub.variantname.name
-    elif typename == "Religion":
-        # auth_order = 'religionfactoid__religion'
-        subs = pbw_models.Religionfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.religion:
-                auth_order = sub.religion.religionname
-    elif typename == "Possession":
-        # auth_order = 'possessionfactoid'
-        subs = pbw_models.Possessionfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            auth_order = sub.possessionname
-    elif typename == "Second Name":
-        # auth_order = 'famnamefactoid__familyname'
-        subs = pbw_models.Famnamefactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.familyname:
-                auth_order = sub.familyname.famname
-    elif typename == "Kinship":
-        # auth_order = 'kinfactoid__kinship'
-        subs = pbw_models.Kinfactoid.objects.filter(factoid=factoid)
-        if subs.count() > 0:
-            sub = subs[0]
-            if sub.kinship:
-                auth_order = sub.kinship.gspecrelat
-    elif typename == "Narrative":
-        auth_order = "9999"
-        dates = pbw_models.Scdate.objects.filter(factoid=factoid).order_by(
-            'year')
-        if dates.count() > 0:
-            date = dates[0]
-            auth_order = date.year
-    else:
-        # todo may be scdate
-        auth_order = factoid.engdesc
+    try:
+        if typename == "Ethnic label":
+            eths = pbw_models.Ethnicityfactoid.objects.filter(factoid=factoid)
+            if eths.count() > 0:
+                eth = eths[0]
+                if eth.ethnicity:
+                    auth_order = eth.ethnicity.ethname
+            # auth_order = 'factoidlocation__location'
+        elif typename == "Location":
+            # auth_order = 'factoidlocation__location'
+            subs = pbw_models.Factoidlocation.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.location:
+                    auth_order = sub.location.locname
+        elif typename == "Dignity/Office":
+            # auth_order = 'dignityfactoid__dignityoffice'
+            subs = pbw_models.Dignityfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.dignityoffice:
+                    auth_order = sub.dignityoffice.stdname
+        elif typename == "Occupation/Vocation":
+            # auth_order = 'occupationfactoid__occupation'
+            subs = pbw_models.Occupationfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.occupation:
+                    auth_order = sub.occupation.occupationname
+        elif typename == "Language Skill":
+            # auth_order = 'langfactoid__languageskill'
+            subs = pbw_models.Langfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.languageskill:
+                    auth_order = sub.languageskill.languagename
+        elif typename == "Alternative Name":
+            # auth_order = 'vnamefactoid__variantname'
+            subs = pbw_models.Vnamefactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.variantname:
+                    auth_order = sub.variantname.name
+        elif typename == "Religion":
+            # auth_order = 'religionfactoid__religion'
+            subs = pbw_models.Religionfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.religion:
+                    auth_order = sub.religion.religionname
+        elif typename == "Possession":
+            # auth_order = 'possessionfactoid'
+            subs = pbw_models.Possessionfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                auth_order = sub.possessionname
+        elif typename == "Second Name":
+            # auth_order = 'famnamefactoid__familyname'
+            subs = pbw_models.Famnamefactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.familyname:
+                    auth_order = sub.familyname.famname
+        elif typename == "Kinship":
+            # auth_order = 'kinfactoid__kinship'
+            subs = pbw_models.Kinfactoid.objects.filter(factoid=factoid)
+            if subs.count() > 0:
+                sub = subs[0]
+                if sub.kinship:
+                    auth_order = sub.kinship.gspecrelat
+        elif typename == "Narrative":
+            auth_order = "9999"
+            dates = pbw_models.Scdate.objects.filter(factoid=factoid).order_by(
+                'year')
+            if dates.count() > 0:
+                date = dates[0]
+                auth_order = date.year
+        else:
+            # todo may be scdate
+            auth_order = factoid.engdesc
+    except exceptions.ObjectDoesNotExist:
+        print("Object does not exist for {}:{}".format(typename,factoid))
     return auth_order
 
 
