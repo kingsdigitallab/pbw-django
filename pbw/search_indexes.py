@@ -183,11 +183,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         # kept here for testing large records Basilkeos 2
-        queryset = self.get_model().objects.filter(
-            factoidperson__person__id=106749).filter(
-            factoidperson__factoidpersontype__fptypename="Primary",
-        ).distinct()
-        #queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
+        # queryset = self.get_model().objects.filter(
+        #     factoidperson__person__id=106749).filter(
+        #     factoidperson__factoidpersontype__fptypename="Primary",
+        # ).distinct()
+        queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
         return queryset
 
     def get_model(self):
@@ -320,11 +320,11 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         # __iregex=r'^.{7,}$'
         factoidtypekeys = DISPLAYED_FACTOID_TYPES
         # for testing large records: id=106749,
+        # factoidperson__person_id=106749,
         index_q = self.get_model().objects.annotate(
             name_length=Length('name')).filter(
             mdbcode__gt=0,
             name_length__gt=0,
-            factoidperson__person_id=106749,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).order_by(
             'name', 'mdbcode'
         ).distinct()
