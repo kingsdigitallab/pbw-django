@@ -162,6 +162,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     factoid_id = indexes.IntegerField(model_attr='id')
     # this is relative to factoid type
     order_field = indexes.CharField(faceted=True)
+    # mostly 0, except for narrative which needs a number
+    order_number = indexes.IntegerField()
     boulloterion_id = indexes.IntegerField()
     sourceid = indexes.CharField()
     sourceref = indexes.CharField(model_attr='sourceref')
@@ -181,11 +183,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         # kept here for testing large records Basilkeos 2
-        # queryset = self.get_model().objects.filter(
-        #     factoidperson__person__id=106749).filter(
-        #     factoidperson__factoidpersontype__fptypename="Primary",
-        # ).distinct()
-        queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
+        queryset = self.get_model().objects.filter(
+            factoidperson__person__id=106749).filter(
+            factoidperson__factoidpersontype__fptypename="Primary",
+        ).distinct()
+        #queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
         return queryset
 
     def get_model(self):
@@ -194,25 +196,46 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare(self, obj):
         self.prepared_data = super(FactoidIndex, self).prepare(obj)
         #print(obj.id)
-        if obj.source:
-            self.prepared_data['sourceid'] = obj.source.sourceid
-        if obj.boulloterion:
-            self.prepared_data['boulloterion_id'] = obj.boulloterion.boulloterionkey
+        self.prepared_data['order_number'] = 0
+        try:
+            if obj.source:
+                self.prepared_data['sourceid'] = obj.source.sourceid
+        except exceptions.ObjectDoesNotExist:
+            print("Source does not exist for factoid {}".format(obj.id))
+        try:
+            if obj.boulloterion:
+                self.prepared_data['boulloterion_id'] = obj.boulloterion.boulloterionkey
+        except exceptions.ObjectDoesNotExist:
+            print("Boulloterion does not exist for factoid {}".format(obj.id))
         self.prepared_data['sc_dates'] = self.prepare_scdates(obj)
         self.prepared_data['authority'] = pbw_tags.get_authority_list(obj)
         #self.prepared_data['authority_persreflinks'] = pbw_tags.add_persref_links(pbw_tags.get_authority_list(obj))
         self.prepared_data['person_id'] = 0
         self.prepared_data['record_type'] = "factoid"
-        if obj.person:
-            self.prepared_data['person_id'] = obj.person.id
-        else:
-            print("No person for factoid {}".format(obj.id))
+        try:
+            if obj.person:
+                self.prepared_data['person_id'] = obj.person.id
+            else:
+                print("No person for factoid {}".format(obj.id))
+        except exceptions.ObjectDoesNotExist:
+                print("Person does not exist for factoid {}".format(
+                    obj.id))
         self.prepared_data['typename'] = ""
-        if obj.factoidtype:
-            self.prepared_data['typename'] = obj.factoidtype.typename
-            self.prepared_data['factoidtype_id'] = obj.factoidtype.id
-            self.prepared_data['order_field'] = get_order_field(
-                obj, obj.factoidtype.typename)
+        try:
+            if obj.factoidtype:
+                self.prepared_data['typename'] = obj.factoidtype.typename
+                self.prepared_data['factoidtype_id'] = obj.factoidtype.id
+                self.prepared_data['order_field'] = get_order_field(
+                    obj, obj.factoidtype.typename)
+                if obj.factoidtype.typename == "Narrative":
+                    dates = pbw_models.Scdate.objects.filter(
+                        factoid=obj).order_by('year')
+                    if dates.count() > 0:
+                        date = dates[0]
+                        self.prepared_data['order_number'] = date.year
+        except exceptions.ObjectDoesNotExist:
+                print("Factoid type does not exist for factoid {}".format(
+                    obj.id))
         linkdict = pbw_tags.get_linked_location_uris(obj)
         self.prepared_data['pleiades'] = ""
         self.prepared_data['geonames'] = ""
@@ -301,6 +324,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
             name_length=Length('name')).filter(
             mdbcode__gt=0,
             name_length__gt=0,
+            factoidperson__person_id=106749,
             factoidperson__factoid__factoidtype__in=factoidtypekeys).order_by(
             'name', 'mdbcode'
         ).distinct()

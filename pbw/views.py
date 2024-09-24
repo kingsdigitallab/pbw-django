@@ -211,7 +211,7 @@ class FactoidGroupView(PersonDetailView):
         # factoids = SearchQuerySet().filter(record_type='factoid').filter(
         #     person_id=person.id)
         factoids = SearchQuerySet().filter(
-            record_type='factoid').filter(person_id=person.id).filter(factoidtype_id=self.type.id).order_by('factoidtype_id','order_field_exact')
+            record_type='factoid').filter(person_id=person.id).filter(factoidtype_id=self.type.id).order_by('factoidtype_id', 'order_number','order_field_exact')
         context['factoids'] = factoids  # page
         return context
 
@@ -235,7 +235,7 @@ class AutoCompleteView(PBWFacetedSearchView):
         #
         for facet in all_facets:
             # only return results with a mincount of 1
-            queryset = queryset.facet(facet, mincount=1, sort='index')
+            queryset = queryset.facet(facet, min_doc_count=1, sort='index')
         # Apply any other facet selections to get properly filtered list
         try:
             query_string = self.request.session['query_string']
