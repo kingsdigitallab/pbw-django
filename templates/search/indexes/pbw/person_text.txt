@@ -5,3 +5,9 @@
 {{object.bibliography}}
 {{ factoid_engdescs }}
 {{ factoid_oldescs }}
+
+{{ location }}
+    {{ ethnicity }}
+    {{ dignityoffice }}
+    {{ language }}
+    {{ occupation }}

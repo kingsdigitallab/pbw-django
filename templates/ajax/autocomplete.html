@@ -1,8 +1,11 @@
 {% load pbw_tags %}
 
+{% for result in page.object_list %}
+WTF
+{% endfor %}
 
 { "Results": [
-{% for term in facets.fields|get_item:ajax_facet %}
+{% for term in results %}
     {% with value=term.0 count=term.1 %}
         {"name": "{{ value.strip }}", "count": "{{ count }}"}
         {% if not forloop.last %}, {% endif %} {% endwith %}

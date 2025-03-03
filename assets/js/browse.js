@@ -22,7 +22,7 @@ define(['module',
                 //data: autocompleteDict[$input.attr("name")],
                 url: function (search) {
 
-                        return "/autocomplete/" + (qs && qs.length > 0 ? "?" + qs + "&" : "?") + "facet=" + $input.attr('name') + "&"+$input.attr('name')+"=" + search + "*";
+                        return "/autocomplete/" + (qs && qs.length > 0 ? "?" + qs + "&" : "?") + "facet=" + $input.attr('name') + "&"+$input.attr('name')+"=" + search; //+ "*";
 
                 },
                 requestDelay: 200,

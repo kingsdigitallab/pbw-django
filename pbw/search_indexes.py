@@ -151,10 +151,11 @@ def get_order_field(factoid, typename):
             # todo may be scdate
             auth_order = factoid.engdesc
     except exceptions.ObjectDoesNotExist:
-        print("Object does not exist for {}:{}".format(typename,factoid))
+        print("Object does not exist for {}:{}".format(typename, factoid))
     return auth_order
 
 
+#
 class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     record_type = indexes.FacetCharField()
@@ -180,6 +181,11 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
     sc_dates = indexes.MultiValueField()
     pleiades = indexes.CharField()
     geonames = indexes.CharField()
+    # {{location}}
+    # {{ethnicity}}
+    # {{dignityoffice}}
+    # {{language}}
+    # {{occupation}}
 
     def index_queryset(self, using=None):
         # kept here for testing large records Basilkeos 2
@@ -187,7 +193,13 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         #     factoidperson__person__id=106749).filter(
         #     factoidperson__factoidpersontype__fptypename="Primary",
         # ).distinct()
-        queryset = self.get_model().objects.filter(factoidperson__person__id__gt=0)
+        # pq = Person.objects.filter(id__gt=162040)
+        if settings.PARTIAL_INDEX:
+            queryset = self.get_model().objects.filter(
+                factoidperson__person__id__gt=settings.PARTIAL_INDEX_ID)
+        else:
+            queryset = self.get_model().objects.filter(
+                factoidperson__person__id__gt=0)
         return queryset
 
     def get_model(self):
@@ -195,7 +207,7 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare(self, obj):
         self.prepared_data = super(FactoidIndex, self).prepare(obj)
-        #print(obj.id)
+        # print(obj.id)
         self.prepared_data['order_number'] = 0
         try:
             if obj.source:
@@ -204,12 +216,14 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             print("Source does not exist for factoid {}".format(obj.id))
         try:
             if obj.boulloterion:
-                self.prepared_data['boulloterion_id'] = obj.boulloterion.boulloterionkey
+                self.prepared_data[
+                    'boulloterion_id'] = obj.boulloterion.boulloterionkey
         except exceptions.ObjectDoesNotExist:
             print("Boulloterion does not exist for factoid {}".format(obj.id))
         self.prepared_data['sc_dates'] = self.prepare_scdates(obj)
         self.prepared_data['authority'] = pbw_tags.get_authority_list(obj)
-        #self.prepared_data['authority_persreflinks'] = pbw_tags.add_persref_links(pbw_tags.get_authority_list(obj))
+        # self.prepared_data['authority_persreflinks'] =
+        # pbw_tags.add_persref_links(pbw_tags.get_authority_list(obj))
         self.prepared_data['person_id'] = 0
         self.prepared_data['record_type'] = "factoid"
         try:
@@ -218,8 +232,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
             else:
                 print("No person for factoid {}".format(obj.id))
         except exceptions.ObjectDoesNotExist:
-                print("Person does not exist for factoid {}".format(
-                    obj.id))
+            print("Person does not exist for factoid {}".format(
+                obj.id))
         self.prepared_data['typename'] = ""
         try:
             if obj.factoidtype:
@@ -234,8 +248,8 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
                         date = dates[0]
                         self.prepared_data['order_number'] = date.year
         except exceptions.ObjectDoesNotExist:
-                print("Factoid type does not exist for factoid {}".format(
-                    obj.id))
+            print("Factoid type does not exist for factoid {}".format(
+                obj.id))
         linkdict = pbw_tags.get_linked_location_uris(obj)
         self.prepared_data['pleiades'] = ""
         self.prepared_data['geonames'] = ""
@@ -260,7 +274,6 @@ class FactoidIndex(indexes.SearchIndex, indexes.Indexable):
         for date in pbw_models.Scdate.objects.filter(factoid=obj):
             dates.append(date.year)
         return dates
-
 
 
 # , indexes.Indexable
@@ -331,7 +344,7 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         # factoid types
         if settings.PARTIAL_INDEX:
             index_q = index_q.filter(
-                id__lt=settings.PARTIAL_INDEX_MAX_ID
+                id__gt=settings.PARTIAL_INDEX_ID
             ).order_by('pk')
 
         return index_q

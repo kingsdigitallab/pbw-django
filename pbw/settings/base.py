@@ -372,8 +372,8 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 # Index only the first 500 objects of each type (for vagrant and debug)
-PARTIAL_INDEX = False
-PARTIAL_INDEX_MAX_ID = 500
+PARTIAL_INDEX = env.bool("DJANGO_PARTIAL_INDEX",False)
+PARTIAL_INDEX_ID = 162006
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 50
 
 # WAGTAIL SETTINGS

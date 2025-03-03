@@ -1,7 +1,8 @@
 # New faceted search for main PBW browse
 # Elliott Hall 16/8/2016
 # facet('name').facet('letter').
-
+import django.views.generic
+import haystack.generic_views
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -10,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
+from haystack.views import SearchView
 
 from .forms import PBWFacetedSearchForm
 from .models import (Person, Factoid, Factoidperson, Boulloterion, Seal,
@@ -216,36 +218,55 @@ class FactoidGroupView(PersonDetailView):
         return context
 
 
-class AutoCompleteView(PBWFacetedSearchView):
+class AutoCompleteView(django.views.generic.ListView):
     template_name = "ajax/autocomplete.html"
 
     def get_context_data(self, **kwargs):  # noqa
-        context = super(
-            PBWFacetedSearchView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.GET.get("facet"):
             facet = self.request.GET.get("facet")
             context["ajax_facet"] = facet
-            context['query'] = self.get_queryset()
+            queryset =  self.get_queryset()
+            context['queryset'] = queryset
+            query = self.request.GET.get(facet)
+            facet_counts = queryset.facet_counts()
+            if query and facet in facet_counts['fields']:
+                results = facet_counts['fields'][facet]
+                filteredResults = []
+                for result in results:
+                    if result[0].startswith(query.replace('*','').capitalize()):
+                        filteredResults.append(result)
+                context['results'] = filteredResults
         return context
 
-    def get_queryset(self):
-        queryset = super(PBWFacetedSearchView, self).get_queryset()
-        queryset.filter(record_type='person')
-        all_facets = self.autocomplete_facets + self.facet_fields
-        #
-        for facet in all_facets:
-            # only return results with a mincount of 1
-            queryset = queryset.facet(facet, min_doc_count=1, sort='index')
-        # Apply any other facet selections to get properly filtered list
-        try:
-            query_string = self.request.session['query_string']
-            for q in query_string.split('&'):
-                hash = q.split('=')
-                n = str(hash[1])
-                queryset = queryset.narrow('source', n)
+    @staticmethod
+    def __facet_by_group(queryset, group):
+        """Apply a list of fields as facets to queryset"""
+        # , sort='index', limit=-1, mincount=1
+        options = {"size": 10000}
+        for field_name in group:
+            queryset = queryset.facet(
+                field_name, **options
+            )
+        return queryset
 
-        except Exception:
-            pass
+    def get_queryset(self):
+        queryset = SearchQuerySet()
+        #queryset = super().get_queryset()
+        queryset = queryset.filter(record_type='person')
+        if self.request.GET.get("facet"):
+            facet = self.request.GET.get("facet")
+            query = self.request.GET.get(facet)
+            options = {"size": 10000}
+            queryset = queryset.facet(
+                facet, **options
+            )
+
+            querykwargs = {
+                facet+'__startswith':query.replace('*','').capitalize()
+            }
+            testkwargs={ 'location__startswith':'H'}
+            queryset = queryset.filter(**querykwargs)
 
         return queryset
 
