@@ -20,9 +20,10 @@ services:
       - "8001"
     volumes:
       - ../volumes/django/static:/usr/share/nginx/static:ro
+      - ../volumes/pbw2011:/usr/share/nginx/pbw2011:ro
     environment:
       VIRTUAL_HOST: ${DJANGO_ALLOWED_HOSTS}
-      VIRTUAL_PATH: "~^/(static/|redist/|robots.txt)"
+      VIRTUAL_PATH: "~^/(pbw2011/|static/|redist/|robots.txt)"
       VIRTUAL_PROTO: http
       VIRTUAL_PORT: 8001
 
