@@ -12,7 +12,7 @@ from wagtail.search import urls as wagtailsearch_frontend_urls
 from pbw.views import FactoidGroupView, NarrativeYearListView
 from .views import (PBWFacetedSearchView, PersonDetailView, PersonJsonView,
                     AutoCompleteView, PersonPermalinkDetailView,
-                    BoulloterionDetailView, SealsListView)
+                    BoulloterionDetailView, SealsListView,pbw2011_static_proxy)
 from ddhldap.signal_handlers import register_signal_handlers as \
     ddhldap_register_signal_handlers
 
@@ -59,6 +59,11 @@ urlpatterns = [url(r'^grappelli/', include("grappelli.urls")),
                url(r'^autocomplete/',
                    AutoCompleteView.as_view(),
                    name='pbw_autocomplete'),
+               # http://db.pbw.kcl.ac.uk/jsp/person.jsp?personKey=106762 →
+               url(r"^jsp/.*$",
+                   pbw2011_static_proxy
+                   ),
+
 
                ]
 

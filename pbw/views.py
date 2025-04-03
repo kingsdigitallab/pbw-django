@@ -1,17 +1,23 @@
 # New faceted search for main PBW browse
 # Elliott Hall 16/8/2016
 # facet('name').facet('letter').
+from itertools import permutations
+
 import django.views.generic
-import haystack.generic_views
+import urllib3
+import requests
+import mimetypes
+
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from haystack.generic_views import FacetedSearchView
 from haystack.query import SearchQuerySet
-from haystack.views import SearchView
+from requests import request
+from requests.packages import target
 
 from .forms import PBWFacetedSearchForm
 from .models import (Person, Factoid, Factoidperson, Boulloterion, Seal,
@@ -408,3 +414,30 @@ class SealsListView(ListView):
                 bibkey=self.request.GET.get('bibliography_id'))
 
         return context
+
+def pbw2011_static_proxy(request):
+    person_param = request.GET.get('personKey', '0' )
+    url = ''
+    try:
+        person_key = int(person_param)
+    except ValueError:
+        person_key = 0
+    if person_key > 0:
+        host = request.headers.get('Host',"localhost")
+        url = request.scheme + "://" + host + "/pbw2011/jsp/person_"+str(person_key)+".html"
+    #     url += "?" + request.META["QUERY_STRING"]
+    if len(url) > 0:
+        try:
+            http = urllib3.PoolManager()
+            proxied_request = http.request("GET", url)
+            status_code = proxied_request.status
+            if "content-type" in proxied_request.headers:
+                mimetype = proxied_request.headers["content-type"]
+            else:
+                mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(url)
+            content = proxied_request.data.decode("utf-8")
+        except urllib3.exceptions.HTTPError as e:
+            return HttpResponse(e.msg, status=e.code, content_type="text/plain")
+        else:
+            return HttpResponse(content, status=status_code, content_type=mimetype)
+    HttpResponse('bad url', status=404, content_type="text/plain")
