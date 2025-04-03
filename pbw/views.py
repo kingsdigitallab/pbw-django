@@ -7,6 +7,7 @@ import django.views.generic
 import urllib3
 import requests
 import mimetypes
+from django.views.generic.base import RedirectView
 
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
@@ -415,29 +416,17 @@ class SealsListView(ListView):
 
         return context
 
-def pbw2011_static_proxy(request):
-    person_param = request.GET.get('personKey', '0' )
-    url = ''
-    try:
-        person_key = int(person_param)
-    except ValueError:
-        person_key = 0
-    if person_key > 0:
-        host = request.headers.get('Host',"localhost")
-        url = request.scheme + "://" + host + "/pbw2011/jsp/person_"+str(person_key)+".html"
-    #     url += "?" + request.META["QUERY_STRING"]
-    if len(url) > 0:
+class Pbw2011PersonRedirectView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        request = self.request
+        person_param = request.GET.get('personKey', '0')
+        url = ''
         try:
-            http = urllib3.PoolManager()
-            proxied_request = http.request("GET", url)
-            status_code = proxied_request.status
-            if "content-type" in proxied_request.headers:
-                mimetype = proxied_request.headers["content-type"]
-            else:
-                mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(url)
-            content = proxied_request.data.decode("utf-8")
-        except urllib3.exceptions.HTTPError as e:
-            return HttpResponse(e.msg, status=e.code, content_type="text/plain")
-        else:
-            return HttpResponse(content, status=status_code, content_type=mimetype)
-    HttpResponse('bad url', status=404, content_type="text/plain")
+            person_key = int(person_param)
+        except ValueError:
+            person_key = 0
+        host = request.headers.get('Host', "localhost")
+        url = request.scheme + "://" + host + "/pbw2011/jsp/person_" + str(
+            person_key) + ".html"
+        return url
