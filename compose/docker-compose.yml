@@ -30,6 +30,7 @@ services:
 
   db:
     image: mysql:5
+    platform: linux/amd64
     container_name: pbw_db
     volumes:
       - ../volumes/local_mysql_data:/var/lib/mysql
@@ -48,8 +49,11 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.10.1
+    platform: linux/amd64
     env_file:
       - .env
+    volumes:
+      - ../volumes/elasticsearch/data:/usr/share/elasticsearch/data
     expose:
       - "9200"
       - "9300"
