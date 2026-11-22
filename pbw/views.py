@@ -63,6 +63,15 @@ class PBWFacetedSearchView(FacetedSearchView):
     def get_context_data(self, **kwargs):  # noqa
         context = super(
             PBWFacetedSearchView, self).get_context_data(**kwargs)
+
+        # Elasticsearch terms aggregations return buckets ordered by
+        # count (descending); sort the facet options alphabetically
+        # for display, as Solr's facet.sort=index used to do.
+        # Note that HS 3.2.1 doesn't seem able to ask ES to sort alphabetically.
+        # https://django-haystack.readthedocs.io/en/v3.2.1/faceting.html#configuring-facet-behaviour
+        for facet_terms in context['facets']['fields'].values():
+            facet_terms.sort(key=lambda term: term[0].lower())        
+
         context['querydict'] = self.request.GET
 
         if self.request.GET.getlist('selected_facets'):
