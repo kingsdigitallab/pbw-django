@@ -32,6 +32,11 @@ services:
     image: mysql:5
     platform: linux/amd64
     container_name: pbw_db
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    mem_limit: 2g
     volumes:
       - ../volumes/local_mysql_data:/var/lib/mysql
     restart: unless-stopped
